@@ -35,6 +35,25 @@ Simply choose a template, fill in as much (or as little) info as you want, and t
 
 When you're happy with your result, you can download the resume as a PDF, TeX, or JSON document. The JSON output is compatible with [JSONResume](https://jsonresume.org).
 
+## Running in Docker
+
+### Development
+For development, it may be easier to run only the server component in docker, running the client locally.  To do this, build the docker image in `app/server/`:
+```
+docker build --tag resumake-server:wip app/server
+```
+Once it's built, you can run it with
+```
+docker run -p 3001:3001 resumake-server:wip
+```
+Add a `-d` to run it as a daemon, if you prefer.  The server will be on port 3001, which is being forwarded to localhost.
+
+To run the client, first install the dependencies with `npm run build:client`.  Then start a development server for the client with
+```
+npm run start:client
+```
+The client is automatically set up to connect to port 3001 for the server, so everything should just work.
+
 ## Contributing
 Contributions are very welcome, and I am always happy to help out first-timers contributors with any questions you may have. You can check out the [contributing.md](./contributing.md) for an in-depth guide on how to get started on working on the app.
 
