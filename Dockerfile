@@ -4,7 +4,7 @@ WORKDIR /resumake-client
 
 COPY ./app/client ./
 
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 
@@ -14,7 +14,7 @@ WORKDIR /resumake-server
 
 COPY ./app/server ./
 
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 
