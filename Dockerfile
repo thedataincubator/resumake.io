@@ -20,6 +20,9 @@ RUN npm run build
 
 FROM node:14.1.0-buster
 
+# Install nginx
+RUN apt-get update && apt-get install -y nginx
+
 # Install tinytex, from https://tex.stackexchange.com/a/493882
 WORKDIR /var/local
 RUN wget -qO- "https://yihui.name/gh/tinytex/tools/install-unx.sh" | sh
