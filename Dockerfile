@@ -32,11 +32,12 @@ RUN tlmgr install \
     textpos hyphenat microtype moderncv epstopdf-pkg parskip tabu changepage babel-english sectsty isodate \
     substr xltxtra realscripts koma-script
 
-# TODO: install nginx and configure to serve static client bundle and server api endpoints
-
 COPY --from=client-builder /resumake-client/dist /resumake-client-bundle
 COPY --from=server-builder /resumake-server /resumake-server
 
+COPY nginx.conf /etc/nginx/nginx.conf
+
 WORKDIR /resumake-server
 
+# TODO: startup script for nginx and node
 ENTRYPOINT '/bin/bash'
