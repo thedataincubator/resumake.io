@@ -39,5 +39,8 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /resumake-server
 
-# TODO: startup script for nginx and node
-ENTRYPOINT '/bin/bash'
+COPY docker-entrypoint.sh .
+
+# TODO: GAE logging
+
+ENTRYPOINT ["/bin/bash", "./docker-entrypoint.sh"]
