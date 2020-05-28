@@ -76,7 +76,7 @@ class Form extends Component<Props> {
     const { sections, location, setProgress } = this.props
 
     if (
-      !location.pathname.startsWith('/generator/') ||
+      !location.pathname.startsWith('/resumake/generator/') ||
       location.pathname.includes('mobile')
     ) {
       return
@@ -98,17 +98,17 @@ class Form extends Component<Props> {
           <Switch>
             <Route
               exact
-              path="/generator"
-              render={() => <Redirect to="/generator/templates" />}
+              path="/resumake/generator"
+              render={() => <Redirect to="/resumake/generator/templates" />}
             />
-            <Route exact path="/generator/templates" component={Templates} />
-            <Route exact path="/generator/profile" component={Profile} />
-            <Route exact path="/generator/education" component={Education} />
-            <Route exact path="/generator/work" component={Work} />
-            <Route exact path="/generator/skills" component={Skills} />
-            <Route exact path="/generator/projects" component={Projects} />
-            <Route exact path="/generator/awards" component={Awards} />
-            <Route exact path="/generator/mobile-preview" component={Preview} />
+            <Route exact path="/resumake/generator/templates" component={Templates} />
+            <Route exact path="/resumake/generator/profile" component={Profile} />
+            <Route exact path="/resumake/generator/education" component={Education} />
+            <Route exact path="/resumake/generator/work" component={Work} />
+            <Route exact path="/resumake/generator/skills" component={Skills} />
+            <Route exact path="/resumake/generator/projects" component={Projects} />
+            <Route exact path="/resumake/generator/awards" component={Awards} />
+            <Route exact path="/resumake/generator/mobile-preview" component={Preview} />
             <Route path="*" render={() => <h1 style={{ margin: 0 }}>404</h1>} />
           </Switch>
         </ScrollToTop>

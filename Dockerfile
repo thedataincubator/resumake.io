@@ -32,7 +32,7 @@ RUN tlmgr install \
     textpos hyphenat microtype moderncv epstopdf-pkg parskip tabu changepage babel-english sectsty isodate \
     substr xltxtra realscripts koma-script
 
-COPY --from=client-builder /resumake-client/dist /resumake-client-bundle
+COPY --from=client-builder /resumake-client/dist /resumake-client-bundle/resumake
 COPY --from=server-builder /resumake-server /resumake-server
 
 COPY nginx.conf /etc/nginx/nginx.conf

@@ -81,7 +81,7 @@ const SortableItem = SortableElement(({ value }) => {
   return (
     <Item>
       <DragHandle disabled={value === 'templates' || value === 'profile'} />
-      <NavItem to={`/generator/${value}`}>{titleCase(value)}</NavItem>
+      <NavItem to={`/resumake/generator/${value}`}>{titleCase(value)}</NavItem>
     </Item>
   )
 })
