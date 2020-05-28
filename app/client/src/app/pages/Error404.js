@@ -80,6 +80,7 @@ const Button = PrimaryButton.extend`
 const LinkButton = Button.withComponent('a')
 
 function Error404() {
+  // TODO: replace hard-coded resumake.io references with index.html location.
   return (
     <Wrapper>
       <ErrorHeading>404</ErrorHeading>
