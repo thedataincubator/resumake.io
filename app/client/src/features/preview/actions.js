@@ -66,7 +66,7 @@ function generateResume(resumeData: FormValuesWithSectionOrder): AsyncAction {
     }
 
     try {
-      const response = await fetch('/api/generate/resume', request)
+      const response = await fetch('/resumake/api/generate/resume', request)
       const blob = await response.blob()
       const url = URL.createObjectURL(blob)
 
@@ -119,7 +119,7 @@ function downloadSource(): AsyncAction {
       credentials: 'same-origin'
     }
 
-    const res = await fetch('/api/generate/source', req)
+    const res = await fetch('/resumake/api/generate/source', req)
     const blob = await res.blob()
 
     if (!res.ok) {
