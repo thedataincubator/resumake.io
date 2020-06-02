@@ -26,8 +26,9 @@ const config = {
       disableDotRule: true
     },
     proxy: {
-      '/api/**': {
+      '/resumake/api/**': {
         target: 'http://localhost:3001',
+        pathRewrite: {'^/resumake' : ''},
         secure: false
       }
     }
