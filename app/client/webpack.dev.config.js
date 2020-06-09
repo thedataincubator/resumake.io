@@ -27,8 +27,20 @@ const config = {
     },
     proxy: {
       '/resumake/api/**': {
+        // Proxy api requests to the server running on port 3001.
         target: 'http://localhost:3001',
         pathRewrite: {'^/resumake' : ''},
+        secure: false
+      },
+      '/fellows/**': {
+        // Proxy main website requests to locally running website GAE app.
+        // NOTE: our development setup is _greatly_ simplified by the fact that the cookies are shared
+        // across the domain, regardless of port numbers.
+        // See: https://stackoverflow.com/a/16328399
+        // If that wasn't the case, we would have to add {credentials: 'include'} in our fetch calls when
+        // in development environment. Moreover, we would also have to add Flask-Cors to our server, allowing
+        // credentialeed requests to localhost:3000 origin.
+        target: 'http://localhost:8080',
         secure: false
       }
     }
