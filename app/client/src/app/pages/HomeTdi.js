@@ -18,6 +18,7 @@ import { clearState } from '../actions'
 import { clearPreview } from '../../features/preview/actions'
 import { hasPrevSession } from '../selectors'
 import { colors } from '../../common/theme'
+import { match } from 'react-router-dom'
 import type { State } from '../types'
 
 const Wrapper = styled.div`
@@ -243,6 +244,16 @@ type Props = {
 }
 
 class Home extends Component<Props> {
+
+  componentDidMount() {
+    const { match } = this.props
+    if (match.params.fellowKeyUrlsafe) {
+      alert(`With a fellow key: ${match.params.fellowKeyUrlsafe}`)
+    } else {
+      alert('Without a fellow key.')
+    }
+  }
+
   toastId: *
 
   onFileUpload = async (e: SyntheticInputEvent<*>) => {
