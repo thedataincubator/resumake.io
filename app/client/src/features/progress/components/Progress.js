@@ -116,7 +116,7 @@ function Progress({
     <Wrapper>
       <SectionButton
         type="button"
-        onClick={() => history.push(`/generator/${prev}`)}
+        onClick={() => history.push(`/resumake/generator/${prev}`)}
         disabled={curr === sections[0]}
       >
         ← Prev
@@ -126,7 +126,7 @@ function Progress({
         type="submit"
         form="resume-form"
         onClick={() =>
-          history.push(`/generator/${inPreview ? curr : 'mobile-preview'}`)
+          history.push(`/resumake/generator/${inPreview ? curr : 'mobile-preview'}`)
         }
         hideOnDesktop
       >
@@ -134,7 +134,7 @@ function Progress({
       </MobileButton>
       <SectionButton
         type="button"
-        onClick={() => history.push(`/generator/${next}`)}
+        onClick={() => history.push(`/resumake/generator/${next}`)}
         disabled={curr === sections[sections.length - 1]}
       >
         Next →

@@ -1,0 +1,14 @@
+runtime: custom
+env: flex
+
+service: resumake
+
+liveness_check:
+    path: "/"
+    check_interval_sec: 300
+
+readiness_check:
+    # TODO: maybe add a dummy "/api/health" endpoint that exercises
+    # PDF generation to check the functionality.
+    path: "/"
+    check_interval_sec: 300

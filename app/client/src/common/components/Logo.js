@@ -31,7 +31,7 @@ type Props = {
 function Logo({ big }: Props) {
   return (
     <Text big={big}>
-      <StyledLink to="/">
+      <StyledLink to="/resumake/">
         resu<Accent>make</Accent>
       </StyledLink>
     </Text>

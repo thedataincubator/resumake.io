@@ -12,7 +12,7 @@ module.exports = {
   output: {
     filename: 'static/bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
+    publicPath: '/resumake/'
   },
 
   devtool: 'source-map',

@@ -1,6 +1,0 @@
-.git
-.github
-Dockerfile
-*.md
-node_modules
-npm-debug.log

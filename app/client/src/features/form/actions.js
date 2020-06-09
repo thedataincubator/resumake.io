@@ -42,7 +42,7 @@ function uploadJSON(file: File): AsyncAction {
     }
 
     try {
-      const response = await fetch('/api/upload', request)
+      const response = await fetch('/resumake/api/upload', request)
       if (response.ok) {
         const json = await response.json()
         dispatch(uploadJSONSuccess(json))

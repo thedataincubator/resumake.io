@@ -249,7 +249,7 @@ class Home extends Component<Props> {
     const { jsonUpload, history } = this.props
 
     if (jsonUpload.status === 'success') {
-      history.push('/generator')
+      history.push('/resumake/generator')
     } else if (jsonUpload.status === 'failure') {
       toast.error(jsonUpload.errMessage, { position: toast.POSITION.TOP_LEFT })
     }
@@ -283,11 +283,11 @@ class Home extends Component<Props> {
         <Main>
           <LeftSection>
             <Logo big />
-            <PrimaryButton to="/generator" onClick={this.clearState}>
+            <PrimaryButton to="/resumake/generator" onClick={this.clearState}>
               Make New Resume
             </PrimaryButton>
             {hasPrevSession && (
-              <Button to="/generator" onClick={clearPreview}>
+              <Button to="/resumake/generator" onClick={clearPreview}>
                 Continue Session
               </Button>
             )}
@@ -323,7 +323,7 @@ class Home extends Component<Props> {
         <Footer>
           <Copyright>© 2018 Saad Quadri</Copyright>
           <Links>
-            <Link to="/about">About</Link>
+            <Link to="/resumake/about">About</Link>
             <a href="https://github.com/saadq/resumake">Source</a>
             <a href="https://github.com/saadq/resumake/issues">Issues</a>
             <a href="mailto:saad@saadq.com">Contact</a>

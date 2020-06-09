@@ -78,9 +78,9 @@ function App() {
   return (
     <ScrollToTop>
       <Switch>
-        <Route exact path="/" component={LoadableHome} />
-        <Route path="/generator" component={LoadableGenerator} />
-        <Route path="/about" component={LoadableAbout} />
+        <Route exact path="/resumake/" component={LoadableHome} />
+        <Route path="/resumake/generator" component={LoadableGenerator} />
+        <Route path="/resumake/about" component={LoadableAbout} />
         <Route path="*" component={LoadableError404} />
       </Switch>
     </ScrollToTop>
