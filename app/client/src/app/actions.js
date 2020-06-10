@@ -13,7 +13,7 @@ function clearState(): Action {
 // ********************************************
 // start - TDI actions
 
-function initializeFellowJsonresume(fellowKeyUrlsafe: ?string): AsyncAction {
+function initializeFellowData(fellowKeyUrlsafe: ?string): AsyncAction {
   return async (dispatch, getState) => {
     // TODO: redux-ize below action and integrate into the application
     const { fetch } = window
@@ -33,4 +33,4 @@ function initializeFellowJsonresume(fellowKeyUrlsafe: ?string): AsyncAction {
 // ********************************************
 // end - TDI actions
 
-export { clearState, initializeFellowJsonresume }
+export { clearState, initializeFellowData }

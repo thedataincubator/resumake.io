@@ -16,7 +16,7 @@ import { Bars, Logo, RoundButton, Icon } from '../../common/components'
 import { uploadFileAndGenerateResume } from '../../features/form/actions'
 import { clearState } from '../actions'
 import { clearPreview } from '../../features/preview/actions'
-import { initializeFellowJsonresume } from '../actions'
+import { initializeFellowData } from '../actions'
 import { hasPrevSession } from '../selectors'
 import { colors } from '../../common/theme'
 import { match } from 'react-router-dom'
@@ -242,21 +242,21 @@ type Props = {
   clearPreview: () => void,
   uploadFileAndGenerateResume: (file: File) => Promise<void>,
   history: RouterHistory,
-  initializeFellowJsonresume: *
+  initializeFellowData: *
 }
 
 class Home extends Component<Props> {
 
   componentDidMount() {
     const {
-      initializeFellowJsonresume,
+      initializeFellowData,
       match: {
         params: { 
           fellowKeyUrlsafe
         }
       } 
     } = this.props
-    initializeFellowJsonresume(fellowKeyUrlsafe)
+    initializeFellowData(fellowKeyUrlsafe)
   }
 
   toastId: *
@@ -367,7 +367,7 @@ const mapActions = {
   clearState,
   clearPreview,
   uploadFileAndGenerateResume,
-  initializeFellowJsonresume
+  initializeFellowData: initializeFellowData
 }
 
 export default withRouter(connect(mapState, mapActions)(Home))
