@@ -48,30 +48,6 @@ function Project({ keywords, index, addKeyword, removeKeyword }: Props) {
         label="Link to Project"
         placeholder="http://piperchat.com"
       />
-      <Label>Tools Used</Label>
-      {keywords.map((_, i) => (
-        <div key={i}>
-          <MiniInput
-            name={`projects[${index}].keywords[${i}]`}
-            placeholder="Java"
-            component="input"
-          />
-          {i === keywords.length - 1 && (
-            <ButtonRow>
-              <RoundButton inverted onClick={() => addKeyword(index)}>
-                <Icon type="add" />
-              </RoundButton>
-              <RoundButton
-                inverted
-                disabled={keywords.length === 1}
-                onClick={() => removeKeyword(index)}
-              >
-                <Icon type="remove" />
-              </RoundButton>
-            </ButtonRow>
-          )}
-        </div>
-      ))}
     </div>
   )
 }

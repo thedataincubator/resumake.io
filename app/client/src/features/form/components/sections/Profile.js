@@ -15,9 +15,9 @@ function Profile() {
         placeholder="John Smith"
       />
       <LabeledInput
-        name="basics.email"
-        label="Email"
-        placeholder="johnsmith@gmail.com"
+        name="basics.location.address"
+        label="Location"
+        placeholder="New York, NY"
       />
       <LabeledInput
         name="basics.phone"
@@ -25,14 +25,14 @@ function Profile() {
         placeholder="(555) 123-4567"
       />
       <LabeledInput
-        name="basics.location.address"
-        label="Location"
-        placeholder="New York, NY"
+        name="basics.email"
+        label="Email"
+        placeholder="john.smith@mg.thedataincubator.com"
       />
       <LabeledInput
         name="basics.website"
         label="Link"
-        placeholder="mycoolportfolio.com/myname"
+        placeholder="github.com/myname"
       />
     </Section>
   )

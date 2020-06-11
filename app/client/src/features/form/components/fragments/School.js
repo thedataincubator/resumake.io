@@ -20,11 +20,6 @@ function School({ index }: Props) {
         placeholder="Stanford University"
       />
       <LabeledInput
-        name={`education[${index}].location`}
-        label="School Location"
-        placeholder="Stanford, CA"
-      />
-      <LabeledInput
         name={`education[${index}].studyType`}
         label="Degree"
         placeholder="BS"
@@ -35,18 +30,8 @@ function School({ index }: Props) {
         placeholder="Computer Science"
       />
       <LabeledInput
-        name={`education[${index}].gpa`}
-        label="GPA"
-        placeholder="3.6"
-      />
-      <LabeledInput
-        name={`education[${index}].startDate`}
-        label="Start Date"
-        placeholder="Sep 2015"
-      />
-      <LabeledInput
         name={`education[${index}].endDate`}
-        label="End Date"
+        label="Completion Date"
         placeholder="Jun 2019"
       />
     </div>

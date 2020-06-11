@@ -50,11 +50,6 @@ function Job({ highlights, index, addHighlight, removeHighlight }: Props) {
         placeholder="Software Engineer"
       />
       <LabeledInput
-        name={`work[${index}].location`}
-        label="Job Location"
-        placeholder="Mountain View, CA"
-      />
-      <LabeledInput
         name={`work[${index}].startDate`}
         label="Start Date"
         placeholder="May 2015"
@@ -62,7 +57,7 @@ function Job({ highlights, index, addHighlight, removeHighlight }: Props) {
       <LabeledInput
         name={`work[${index}].endDate`}
         label="End Date"
-        placeholder="May 2017 / Present / Etc."
+        placeholder="May 2017 / Present"
       />
       <Label>Job Responsibilities</Label>
       {highlights.map((highlight, i) => (
