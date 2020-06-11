@@ -71,10 +71,9 @@ function shouldFetchFellowData(tdiState) {
 
 export function fetchIfNeededAndResetFormToSavedState(): AsyncAction {
   return async (dispatch, getState) => {
-    const tdiState = getState().tdi
-    if (shouldFetchFellowData(tdiState)) {
+    if (shouldFetchFellowData(getState().tdi)) {
       await dispatch(fetchFellowData())
     }
-    dispatch(resetFormToFellowData(tdiState.fellowData))
+    dispatch(resetFormToFellowData(getState().tdi.fellowData))
   }
 }
