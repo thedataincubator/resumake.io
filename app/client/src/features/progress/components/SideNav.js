@@ -83,7 +83,7 @@ class SideNav extends Component<Props> {
     saveFellowData({ ...formValues, sections })
   }
 
-  handleFetchFellowDataClick = () => {
+  handleResetFormToSavedState = () => {
     const { fetchFellowData } = this.props
     fetchFellowData()
   }
@@ -110,8 +110,8 @@ class SideNav extends Component<Props> {
             Save
           </TmpButton>
           <br />
-          <TmpButton onClick={this.handleFetchFellowDataClick}>
-            Load Saved
+          <TmpButton onClick={this.handleResetFormToSavedState}>
+            Reset to Saved Values
           </TmpButton>
         </Nav>
       </Aside>
