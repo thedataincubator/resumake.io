@@ -4,9 +4,15 @@
 
 import type { Action } from '../../app/types'
 
-function tdi(state = {}, action) {
+// TODO: not typeizing yet
+
+const initialState = {
+  fellowData: null
+}
+
+function tdi(state = initialState, action) {
   switch (action.type) {
-    case 'FETCH_FELLOW_DATA_SUCCESS':
+    case 'UPDATE_FELLOW_DATA':
       return {
         ...state,
         fellowData: action.fellowData

@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import SortableList from './SortableList'
 import { PrimaryButton, TmpButton } from '../../../common/components'
 import { setSectionOrder, setProgress } from '../actions'
-import { fetchFellowData, saveFellowData } from '../../tdi/actions'
+import { fetchIfNeededAndResetFormToSavedState, saveFellowData } from '../../tdi/actions'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
@@ -48,7 +48,7 @@ type Props = {
     currSection: Section
   ) => void,
   setProgress: (newSectionOrder: Array<Section>, currSection: Section) => void,
-  fetchFellowData: *,
+  fetchIfNeededAndResetFormToSavedState: *,
   saveFellowData: *
 }
 
@@ -84,8 +84,8 @@ class SideNav extends Component<Props> {
   }
 
   handleResetFormToSavedState = () => {
-    const { fetchFellowData } = this.props
-    fetchFellowData()
+    const { fetchIfNeededAndResetFormToSavedState } = this.props
+    fetchIfNeededAndResetFormToSavedState()
   }
 
   render() {
@@ -129,7 +129,7 @@ function mapState(state: State) {
 const mapActions = {
   setSectionOrder,
   setProgress,
-  fetchFellowData,
+  fetchIfNeededAndResetFormToSavedState,
   saveFellowData
 }
 

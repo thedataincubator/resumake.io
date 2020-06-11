@@ -5,7 +5,14 @@
 import type { Action, AsyncAction } from '../../app/types'
 import { FormValuesWithSectionOrder } from '../form/types'
 
-function fetchFellowData(): AsyncAction {
+function updateSavedFellowData(fellowData): Action {
+  return {
+    type: 'UPDATE_FELLOW_DATA',
+    fellowData
+  }
+}
+
+export function fetchFellowData(): AsyncAction {
   return async (dispatch, getState) => {
     // TODO: redux-ize below action and integrate into the application
     // NOTE: fellowKeyUrlsafe will come from the state, in case of admins
@@ -16,16 +23,16 @@ function fetchFellowData(): AsyncAction {
       const jsonresumeFetchUrl = fellowKeyUrlsafe ? jsonresumeFetchBaseUrl + '/' + fellowKeyUrlsafe : jsonresumeFetchBaseUrl
       const response = await fetch(jsonresumeFetchUrl)
       const fellowData = await response.json()
-      alert(`Fetched fellow data: ${JSON.stringify(fellowData)}`)
-    //   dispatch(fetchFellowDataSuccess(fellowData))
+      dispatch(updateSavedFellowData(fellowData))
     } catch (err) {
+      // TODO: error handling!
       alert('errored out')
       console.log(err)
     }
   }
 }
 
-function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAction {
+export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAction {
   return async (dispatch, getState) => {
     const fellowKeyUrlsafe = undefined
     const { fetch } = window
@@ -46,4 +53,28 @@ function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAction {
   }
 }
 
-export { fetchFellowData, saveFellowData }
+function resetFormToFellowData(fellowData): Action {
+  // I'm very explicit in naming this reducer, since the form
+  // is usually managed by redux-form.
+  return {
+    type: 'RESET_FORM_VALUES_MANUALLY',
+    formValues: fellowData
+  }
+}
+
+function shouldFetchFellowData(tdiState) {
+  if (tdiState.fellowData) {
+    return false
+  }
+  return true
+}
+
+export function fetchIfNeededAndResetFormToSavedState(): AsyncAction {
+  return async (dispatch, getState) => {
+    const tdiState = getState().tdi
+    if (shouldFetchFellowData(tdiState)) {
+      await dispatch(fetchFellowData())
+    }
+    dispatch(resetFormToFellowData(tdiState.fellowData))
+  }
+}
