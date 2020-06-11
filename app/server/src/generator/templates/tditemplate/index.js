@@ -13,19 +13,17 @@ const generator: Generator = {
     }
 
     const { name = '', email, phone, location = {}, website } = basics
-    const info = [email, phone, location.address, website].filter(Boolean)
+    const info = [location.address, phone, email, website].filter(Boolean)
 
     return stripIndent`
-      \\begin{center}
       % Personal
       % -----------------------------------------------------
-      {\\fontsize{\\sizeone}{\\sizeone}\\fontspec[Path = fonts/,LetterSpace=15]{Montserrat-Regular} ${name.toUpperCase()}}
-      ${name && info.length > 1 ? '\\\\' : ''}
-      \\vspace{2mm}
-      {\\fontsize{1em}{1em}\\fontspec[Path = fonts/]{Montserrat-Light} ${info.join(
-        ' -- '
-      )}}
-      \\end{center}
+      \\textcolor{tdi}{\\fontsize{\\sizemast}{\\sizemast}\\selectfont ${name}}
+      \\\\
+      \\vspace{-0.74em}
+      \\textcolor{tdi}{\\hrule height 1pt}
+      \\vspace{0.74em}
+      ${info.join(' | ')}
     `
   },
 
@@ -38,7 +36,8 @@ const generator: Generator = {
       % Chapter: Education
       % ------------------
 
-      \\chap{${heading ? heading.toUpperCase() : 'EDUCATION'}}{
+      \\chap{${heading || 'Education'}}{
+        \\begin{nobullets}
 
       ${education.map(school => {
         const {
@@ -51,7 +50,7 @@ const generator: Generator = {
           endDate = ''
         } = school
 
-        const degreeLine = [studyType, area].filter(Boolean).join(' ')
+        const degreeLine = [studyType, area].filter(Boolean).join(' in ')
         let dateRange = ''
 
         if (startDate && endDate) {
@@ -67,17 +66,9 @@ const generator: Generator = {
               {${institution}}
               {${dateRange}}
               {${degreeLine}}
-              {${location}}
-              {${
-                gpa
-                  ? `\\begin{newitemize}
-                  \\item ${gpa ? `GPA: ${gpa}` : ''}
-                \\end{newitemize}`
-                  : ''
-              }
-          }
         `
       })}
+      \\end{nobullets}
       }
     `
   },
@@ -90,7 +81,7 @@ const generator: Generator = {
     return source`
       % Chapter: Work Experience
       % ------------------------
-      \\chap{${heading ? heading.toUpperCase() : 'EXPERIENCE'}}{
+      \\chap{${heading || 'Experience'}}{
 
       ${work.map(job => {
         const {
@@ -143,24 +134,24 @@ const generator: Generator = {
       % Chapter: Skills
       % ------------------------
 
-      \\chap{${heading ? heading.toUpperCase() : 'SKILLS'}}{
-      \\begin{newitemize}
+      \\chap{${heading || 'Technical Skills'}}{
+      \\begin{nobullets}
         ${skills.map(skill => {
           const { name = '', keywords = [] } = skill
 
           let item = ''
 
           if (name) {
-            item += `${name}: `
+            item += `\\textbf{\\MakeUppercase{${name}:}} `
           }
 
           if (keywords.length > 0) {
-            item += keywords.join(', ')
+            item += keywords.join(' | ')
           }
 
           return `\\item ${item}`
         })}
-      \\end{newitemize}
+      \\end{nobullets}
       }
     `
   },
@@ -174,7 +165,7 @@ const generator: Generator = {
       % Chapter: Projects
       % ------------------------
 
-      \\chap{${heading ? heading.toUpperCase() : 'PROJECTS'}}{
+      \\chap{${heading || 'Projects'}}{
 
         ${projects.map(project => {
           const {
@@ -199,39 +190,13 @@ const generator: Generator = {
       }
     `
   },
-
-  awardsSection(awards, heading) {
-    if (!awards) {
-      return ''
-    }
-
-    return source`
-      % Chapter: Awards
-      % ------------------------
-
-      \\chap{${heading ? heading.toUpperCase() : 'AWARDS'}}{
-
-        ${awards.map(award => {
-          const { title = '', summary = '', awarder = '', date = '' } = award
-
-          return stripIndent`
-            \\award
-              {${title}}
-              {${date}}
-              {${summary}}
-              {${awarder}}
-          `
-        })}
-      }
-    `
-  }
 }
 
 function tditemplate(values: SanitizedValues) {
   const { headings = {} } = values
 
   return stripIndent`
-    \\documentclass[10pt]{article}
+    \\documentclass[11pt]{article}
     \\usepackage[english]{babel}
     \\input{config/minimal-resume-config}
     \\begin{document}
@@ -255,9 +220,6 @@ function tditemplate(values: SanitizedValues) {
 
           case 'projects':
             return generator.projectsSection(values.projects, headings.projects)
-
-          case 'awards':
-            return generator.awardsSection(values.awards, headings.awards)
 
           default:
             return ''

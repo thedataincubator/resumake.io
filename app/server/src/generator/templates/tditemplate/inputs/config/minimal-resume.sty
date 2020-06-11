@@ -1,23 +1,26 @@
 \ProvidesPackage{config/minimal-resume}
 
 % margin
-\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage[top=0.5in, bottom=0.5in, left=0.5in, right=0.5in]{geometry}
 
 % minimal custom packages
 \usepackage[T1]{fontenc}
 \usepackage{fontspec}
 \usepackage[babel=true]{microtype}
-\usepackage[fontsize=10.75pt]{scrextend}
+\usepackage[fontsize=11pt]{scrextend}
 \usepackage{enumitem}
+\usepackage{xcolor}
 
 \defaultfontfeatures{Ligatures=TeX}
 
 % font families
-\newfontfamily{\montserratfont}[Path=fonts/,BoldFont=Montserrat-Bold]{Montserrat-Regular}
-\newfontfamily{\crimsonfont}[Path=fonts/,ItalicFont=CrimsonText-Italic]{CrimsonText-Regular}
+\newfontfamily{\caladeafont}[Path=fonts/,BoldFont=Caladea-Bold]{Caladea-Regular}
 
 % main font for the document
-\setmainfont[Path=fonts/, ItalicFont=CrimsonText-Italic]{CrimsonText-Regular}
+\setmainfont[Path=fonts/,BoldFont=Caladea-Bold]{Caladea-Regular}
+
+% set teal color
+\definecolor{tdi}{HTML}{2A7B88}
 
 % font sizes
 \newcommand{\sizeone}{1.618em}
@@ -27,76 +30,46 @@
 \newcommand{\sizefive}{0.382em}
 \newcommand{\sizesix}{0.236em}
 
-% line spaces
-\newcommand{\linespaceone}{1}
+\newcommand{\sizemast}{2.297em}  % 2**1.2
+\newcommand{\sizehead}{1.320em}  % 2**0.4
 
+\setlength{\parindent}{0pt}
+
+% line spaces
 \newenvironment{newitemize}
   {\itemize[nolistsep,topsep=\sizefive,itemsep=\sizefive,labelsep=\sizefour,leftmargin=*]}
   {\enditemize}
 
-\newcommand{\personal}[3]{
-  \begin{center}
-    % name
-    {
-      \fontsize{\sizeone}{\sizeone}\fontspec[Path = fonts/,LetterSpace=15]{Montserrat-Regular}#1
-    }\\
-    % address
-    \vspace{\sizethree}
-    {
-      \fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/,LetterSpace= 10]{Montserrat-Light}#2
-    }\\
-    % contact
-    \vspace{\sizefive}
-    {
-      \fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{Montserrat-Light}#3
-    }
-  \end{center}
-}
+\newenvironment{nobullets}
+  {\itemize[nolistsep,topsep=\sizefive,itemsep=\sizefive,labelsep=0pt,leftmargin=0pt,label={}]}
+  {\enditemize}
+
 
 \newcommand{\chap}[2]{
   \vspace{\sizethree}
-  \raggedright
-  {\hrule height 0.5pt}
-  \vspace{\sizefive}
-  \begin{addmargin}[\sizefive]{\sizefive}{
-  {
-  \fontsize{\sizefour}{\sizefour}\fontspec[Path = fonts/,LetterSpace=10]{Montserrat-Bold}
-  \textbf{#1}
-  }
-  \vspace{\sizefour}
+  \textcolor{tdi}{\fontsize{\sizehead}{\sizehead}\selectfont \textbf{#1}}
   {#2}
-  }
-  \end{addmargin}
+
 }
 
-\newcommand{\subchap}[3]{
-  \vspace{\sizefive}
-  {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{CrimsonText-SemiBold} #1} \hfill {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{CrimsonText-Regular} #2}
-  {#3}
-  \vspace{\sizefive}
-}
-
-\newcommand{\school}[5]{
-  \vspace{\sizefive}
-  {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{CrimsonText-SemiBold} #1} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #2}
-
-  {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #3}\hfill{\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular}#4}\\#5
-  \vspace{\sizefive}
+\newcommand{\school}[3]{
+  \item \textbf{#3 | #1 | #2}
 }
 
 \newcommand{\job}[5]{
   \vspace{\sizefive}
-  {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{CrimsonText-SemiBold} #1} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #2}
+  \textbf{\MakeUppercase{#1}} \hfill \textbf{#2}
 
-  {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #3} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #4}
+  \textbf{#3} \hfill {} % Skip location (#4)
   {#5}
   \vspace{\sizefive}
 }
 
 \newcommand{\project}[4]{
-  \vspace{\sizefive}
-  {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{CrimsonText-SemiBold} #1} {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #2} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #3}
-  \\#4
+  \vspace{\sizefive} % Skip tools #2
+  \textbf{\MakeUppercase{#1}} \hfill #3
+
+  {#4}
   \vspace{\sizefive}
 }
 
