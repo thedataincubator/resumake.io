@@ -12,11 +12,10 @@ const initialState = {
   next: 'profile',
   sections: [
     'profile',
+    'skills',
     'education',
     'work',
-    'skills',
-    'projects',
-    'awards'
+    'projects'
   ]
 }
 

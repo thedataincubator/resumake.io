@@ -106,7 +106,6 @@ class Form extends Component<Props> {
             <Route exact path="/resumake/generator/work" component={Work} />
             <Route exact path="/resumake/generator/skills" component={Skills} />
             <Route exact path="/resumake/generator/projects" component={Projects} />
-            <Route exact path="/resumake/generator/awards" component={Awards} />
             <Route exact path="/resumake/generator/mobile-preview" component={Preview} />
             <Route path="*" render={() => <h1 style={{ margin: 0 }}>404</h1>} />
           </Switch>
