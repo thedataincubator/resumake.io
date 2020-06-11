@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import SortableList from './SortableList'
 import { PrimaryButton, TmpButton } from '../../../common/components'
 import { setSectionOrder, setProgress } from '../actions'
-import { fetchFellowData } from '../../tdi/actions'
+import { fetchFellowData, saveFellowData } from '../../tdi/actions'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
@@ -48,7 +48,8 @@ type Props = {
     currSection: Section
   ) => void,
   setProgress: (newSectionOrder: Array<Section>, currSection: Section) => void,
-  fetchFellowData: *
+  fetchFellowData: *,
+  saveFellowData: *
 }
 
 class SideNav extends Component<Props> {
@@ -78,9 +79,8 @@ class SideNav extends Component<Props> {
     // stored in redux store is abstracted away by redux-form library.)
     // Without the help of handleSubmit, I'll need to map formValues to props
     // myself (see mapState.formValues) and use them here.
-    const { sections, formValues } = this.props
-    console.log(sections, formValues);
-    // TODO
+    const { sections, formValues, saveFellowData } = this.props
+    saveFellowData({ ...formValues, sections })
   }
 
   handleFetchFellowDataClick = () => {
@@ -129,7 +129,8 @@ function mapState(state: State) {
 const mapActions = {
   setSectionOrder,
   setProgress,
-  fetchFellowData
+  fetchFellowData,
+  saveFellowData
 }
 
 const ConnectedSideNav = connect(mapState, mapActions)(SideNav)
