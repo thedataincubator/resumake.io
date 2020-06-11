@@ -11,7 +11,6 @@ const initialState = {
   curr: 'templates',
   next: 'profile',
   sections: [
-    'templates',
     'profile',
     'education',
     'work',

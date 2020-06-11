@@ -99,9 +99,8 @@ class Form extends Component<Props> {
             <Route
               exact
               path="/resumake/generator"
-              render={() => <Redirect to="/resumake/generator/templates" />}
+              render={() => <Redirect to="/resumake/generator/profile" />}
             />
-            <Route exact path="/resumake/generator/templates" component={Templates} />
             <Route exact path="/resumake/generator/profile" component={Profile} />
             <Route exact path="/resumake/generator/education" component={Education} />
             <Route exact path="/resumake/generator/work" component={Work} />
