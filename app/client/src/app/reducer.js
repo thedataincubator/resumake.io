@@ -6,12 +6,14 @@ import { combineReducers } from 'redux'
 import form from '../features/form/reducer'
 import progress from '../features/progress/reducer'
 import preview from '../features/preview/reducer'
+import tdi from '../features/tdi/reducer'
 import type { State, Action } from './types'
 
 const appReducer = combineReducers({
   form,
   progress,
-  preview
+  preview,
+  tdi
 })
 
 function rootReducer(state?: State, action: Action) {

@@ -8,8 +8,9 @@ import { connect } from 'react-redux'
 import { arrayMove } from 'react-sortable-hoc'
 import styled from 'styled-components'
 import SortableList from './SortableList'
-import { PrimaryButton } from '../../../common/components'
+import { PrimaryButton, TmpButton } from '../../../common/components'
 import { setSectionOrder, setProgress } from '../actions'
+import { fetchFellowData } from '../../tdi/actions'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
@@ -46,7 +47,8 @@ type Props = {
     newSectionOrder: Array<Section>,
     currSection: Section
   ) => void,
-  setProgress: (newSectionOrder: Array<Section>, currSection: Section) => void
+  setProgress: (newSectionOrder: Array<Section>, currSection: Section) => void,
+  fetchFellowData: *
 }
 
 class SideNav extends Component<Props> {
@@ -69,6 +71,23 @@ class SideNav extends Component<Props> {
     document.body && document.body.classList.toggle('grabbing')
   }
 
+  handleSaveFellowDataClick = () => {
+    // The ConnectedForm component is taken care of by redux-form library.
+    // In this method I'm simulating redux-form's handleSubmit function, which
+    // provides the form with actual form values. (Note that the form state that is
+    // stored in redux store is abstracted away by redux-form library.)
+    // Without the help of handleSubmit, I'll need to map formValues to props
+    // myself (see mapState.formValues) and use them here.
+    const { sections, formValues } = this.props
+    console.log(sections, formValues);
+    // TODO
+  }
+
+  handleFetchFellowDataClick = () => {
+    const { fetchFellowData } = this.props
+    fetchFellowData()
+  }
+
   render() {
     const { sections } = this.props
 
@@ -84,8 +103,16 @@ class SideNav extends Component<Props> {
             onSortEnd={this.onSortEnd}
           />
           <PrimaryButton type="submit" form="resume-form">
-            Make
+            Update Preview
           </PrimaryButton>
+          <br />
+          <TmpButton onClick={this.handleSaveFellowDataClick}>
+            Save
+          </TmpButton>
+          <br />
+          <TmpButton onClick={this.handleFetchFellowDataClick}>
+            Load Saved
+          </TmpButton>
         </Nav>
       </Aside>
     )
@@ -94,13 +121,15 @@ class SideNav extends Component<Props> {
 
 function mapState(state: State) {
   return {
-    sections: state.progress.sections
+    sections: state.progress.sections,
+    formValues: state.form.resume.values
   }
 }
 
 const mapActions = {
   setSectionOrder,
-  setProgress
+  setProgress,
+  fetchFellowData
 }
 
 const ConnectedSideNav = connect(mapState, mapActions)(SideNav)
