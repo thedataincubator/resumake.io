@@ -10,5 +10,6 @@ import RoundButton from './RoundButton'
 import ScrollToTop from './ScrollToTop'
 import Loader, { Bars } from './Loader'
 import Logo from './Logo'
+import Row from './Row'
 
-export { Button, PrimaryButton, RoundButton, Divider, Icon, ScrollToTop, Loader, Logo, Bars }
+export { Button, PrimaryButton, RoundButton, Divider, Icon, ScrollToTop, Loader, Logo, Bars, Row }

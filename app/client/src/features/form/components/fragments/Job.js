@@ -4,13 +4,9 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { Divider, RoundButton, Icon } from '../../../../common/components'
+import { Divider, RoundButton, Icon, Row } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
 
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
 
 const ButtonRow = styled.div`
   display: inline-flex;
