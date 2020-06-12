@@ -2,6 +2,7 @@
  * @flow
  */
 
+import { reset } from 'redux-form'
 import type { Action, AsyncAction } from '../../app/types'
 import { FormValuesWithSectionOrder } from '../form/types'
 
@@ -74,6 +75,7 @@ export function fetchIfNeededAndResetFormToSavedState(): AsyncAction {
     if (shouldFetchFellowData(getState().tdi)) {
       await dispatch(fetchFellowData())
     }
-    dispatch(resetFormToFellowData(getState().tdi.fellowData))
+    // dispatch(resetFormToFellowData(getState().tdi.fellowData))
+    dispatch(reset('resume'))
   }
 }
