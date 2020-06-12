@@ -16,7 +16,6 @@ import { Bars, Logo, RoundButton, Icon } from '../../common/components'
 import { uploadFileAndGenerateResume } from '../../features/form/actions'
 import { clearState } from '../actions'
 import { clearPreview } from '../../features/preview/actions'
-import { initializeFellowData } from '../actions'
 import { hasPrevSession } from '../selectors'
 import { colors } from '../../common/theme'
 import { match } from 'react-router-dom'
@@ -241,23 +240,10 @@ type Props = {
   clearState: () => void,
   clearPreview: () => void,
   uploadFileAndGenerateResume: (file: File) => Promise<void>,
-  history: RouterHistory,
-  initializeFellowData: *
+  history: RouterHistory
 }
 
 class Home extends Component<Props> {
-
-  componentDidMount() {
-    const {
-      initializeFellowData,
-      match: {
-        params: { 
-          fellowKeyUrlsafe
-        }
-      } 
-    } = this.props
-    initializeFellowData(fellowKeyUrlsafe)
-  }
 
   toastId: *
 
@@ -333,11 +319,7 @@ class Home extends Component<Props> {
             </ImportRow>
           </LeftSection>
           <RightSection>
-            <ResumePreview>
-              <Image src={images[0]} />
-              <Image src={images[1]} />
-              <Image src={images[2]} />
-            </ResumePreview>
+            <h1>Instructions go here</h1>
           </RightSection>
         </Main>
         <Footer>
@@ -366,8 +348,7 @@ function mapState(state: State) {
 const mapActions = {
   clearState,
   clearPreview,
-  uploadFileAndGenerateResume,
-  initializeFellowData: initializeFellowData
+  uploadFileAndGenerateResume
 }
 
 export default withRouter(connect(mapState, mapActions)(Home))
