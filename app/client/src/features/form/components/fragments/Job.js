@@ -62,19 +62,18 @@ function Job({ highlights, index, addHighlight, removeHighlight }: Props) {
       <Label>Job Responsibilities</Label>
       {highlights.map((highlight, i) => (
         <Row key={i}>
-          <MiniInput
+          <Input
             type="text"
             name={`work[${index}].highlights[${i}]`}
             placeholder="Did cool stuff at company"
             component="textarea"
             rows="4"
           />
-          <ButtonRow hidden={i !== highlights.length - 1}>
+          <ButtonRow>
             <RoundButton
               inverted
-              disabled={i !== highlights.length - 1}
               type="button"
-              onClick={() => addHighlight(index)}
+              onClick={() => addHighlight(index, i)}
             >
               <Icon type="add" />
             </RoundButton>
@@ -82,7 +81,7 @@ function Job({ highlights, index, addHighlight, removeHighlight }: Props) {
               inverted
               disabled={highlights.length === 1}
               type="button"
-              onClick={() => removeHighlight(index)}
+              onClick={() => removeHighlight(index, i)}
             >
               <Icon type="remove" />
             </RoundButton>

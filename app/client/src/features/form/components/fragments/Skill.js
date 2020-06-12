@@ -46,25 +46,23 @@ function Skill({ keywords, index, addKeyword, removeKeyword }: Props) {
             placeholder="Java"
             component="input"
           />
-          {i === keywords.length - 1 && (
-            <ButtonRow>
-              <RoundButton
-                inverted
-                type="button"
-                onClick={() => addKeyword(index)}
-              >
-                <Icon type="add" />
-              </RoundButton>
-              <RoundButton
-                inverted
-                type="button"
-                disabled={keywords.length === 1}
-                onClick={() => removeKeyword(index)}
-              >
-                <Icon type="remove" />
-              </RoundButton>
-            </ButtonRow>
-          )}
+          <ButtonRow>
+            <RoundButton
+              inverted
+              type="button"
+              onClick={() => addKeyword(index, i)}
+            >
+              <Icon type="add" />
+            </RoundButton>
+            <RoundButton
+              inverted
+              type="button"
+              disabled={keywords.length === 1}
+              onClick={() => removeKeyword(index, i)}
+            >
+              <Icon type="remove" />
+            </RoundButton>
+          </ButtonRow>
         </div>
       ))}
     </div>

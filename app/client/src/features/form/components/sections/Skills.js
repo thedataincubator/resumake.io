@@ -21,8 +21,8 @@ type Props = {
   skills: $PropertyType<FormValues, 'skills'>,
   addSkill: () => void,
   removeSkill: () => void,
-  addSkillKeyword: (index: number) => void,
-  removeSkillKeyword: (index: number) => void
+  addSkillKeyword: (index: number, i: number) => void,
+  removeSkillKeyword: (index: number, i: number) => void
 }
 
 function Skills({

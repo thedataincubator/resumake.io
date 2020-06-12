@@ -96,17 +96,19 @@ function removeJob(): Action {
   }
 }
 
-function addJobHighlight(index: number): Action {
+function addJobHighlight(index: number, i: number): Action {
   return {
     type: 'ADD_JOB_HIGHLIGHT',
-    index
+    index,
+    i
   }
 }
 
-function removeJobHighlight(index: number): Action {
+function removeJobHighlight(index: number, i: number): Action {
   return {
     type: 'REMOVE_JOB_HIGHLIGHT',
-    index
+    index,
+    i
   }
 }
 
@@ -122,17 +124,19 @@ function removeSkill(): Action {
   }
 }
 
-function addSkillKeyword(index: number): Action {
+function addSkillKeyword(index: number, i: number): Action {
   return {
     type: 'ADD_SKILL_KEYWORD',
-    index
+    index,
+    i
   }
 }
 
-function removeSkillKeyword(index: number): Action {
+function removeSkillKeyword(index: number, i: number): Action {
   return {
     type: 'REMOVE_SKILL_KEYWORD',
-    index
+    index,
+    i
   }
 }
 

@@ -175,7 +175,9 @@ function form(state: FormState = initialState, action: Action): FormState {
             ...state.values.work.slice(0, action.index),
             {
               ...state.values.work[action.index],
-              highlights: [...state.values.work[action.index].highlights, '']
+              highlights: [...state.values.work[action.index].highlights.slice(0, action.i + 1),
+                           '',
+                           ...state.values.work[action.index].highlights.slice(action.i + 1)]
             },
             ...state.values.work.slice(action.index + 1)
           ]
@@ -200,10 +202,8 @@ function form(state: FormState = initialState, action: Action): FormState {
             ...state.values.work.slice(0, action.index),
             {
               ...state.values.work[action.index],
-              highlights: state.values.work[action.index].highlights.slice(
-                0,
-                -1
-              )
+              highlights: [...state.values.work[action.index].highlights.slice(0, action.i),
+                           ...state.values.work[action.index].highlights.slice(action.i + 1)]
             },
             ...state.values.work.slice(action.index + 1)
           ]
@@ -249,7 +249,9 @@ function form(state: FormState = initialState, action: Action): FormState {
             ...state.values.skills.slice(0, action.index),
             {
               ...state.values.skills[action.index],
-              keywords: [...state.values.skills[action.index].keywords, '']
+              keywords: [...state.values.skills[action.index].keywords.slice(0, action.i + 1),
+                         '',
+                         ...state.values.skills[action.index].keywords.slice(action.i + 1)]
             },
             ...state.values.skills.slice(action.index + 1)
           ]
@@ -274,7 +276,8 @@ function form(state: FormState = initialState, action: Action): FormState {
             ...state.values.skills.slice(0, action.index),
             {
               ...state.values.skills[action.index],
-              keywords: state.values.skills[action.index].keywords.slice(0, -1)
+              keywords: [...state.values.skills[action.index].keywords.slice(0, action.i),
+                         ...state.values.skills[action.index].keywords.slice(action.i + 1)]
             },
             ...state.values.skills.slice(action.index + 1)
           ]

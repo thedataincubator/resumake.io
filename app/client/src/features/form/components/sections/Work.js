@@ -23,8 +23,8 @@ type Props = {
   jobHighlights: Array<number>,
   addJob: () => void,
   removeJob: () => void,
-  addJobHighlight: (index: number) => void,
-  removeJobHighlight: (index: number) => void
+  addJobHighlight: (index: number, i: number) => void,
+  removeJobHighlight: (index: number, i: number) => void
 }
 
 function Work({
