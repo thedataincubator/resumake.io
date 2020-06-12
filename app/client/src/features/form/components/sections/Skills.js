@@ -21,7 +21,7 @@ import type { State } from '../../../../app/types'
 type Props = {
   skills: $PropertyType<FormValues, 'skills'>,
   addSkill: () => void,
-  removeSkill: () => void,
+  removeSkill: (index: number) => void,
   swapSkills: (index: number) => void,
   addSkillKeyword: (index: number, i: number) => void,
   removeSkillKeyword: (index: number, i: number) => void
@@ -48,6 +48,8 @@ function Skills({
           key={i}
           index={i}
           keywords={skill.keywords}
+          canRemove={skills.length > 1}
+          removeSkill={removeSkill}
           swapSkills={swapSkills}
           addKeyword={addSkillKeyword}
           removeKeyword={removeSkillKeyword}
@@ -55,13 +57,6 @@ function Skills({
       ))}
       <Button onClick={addSkill} type="button">
         Add Skill
-      </Button>
-      <Button
-        onClick={removeSkill}
-        disabled={skills.length === 1}
-        type="button"
-      >
-        Remove Skill
       </Button>
     </Section>
   )

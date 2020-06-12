@@ -235,7 +235,8 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          skills: state.values.skills.slice(0, -1)
+          skills: [...state.values.skills.slice(0, action.index),
+                   ...state.values.skills.slice(action.index + 1)]
         }
       }
     }

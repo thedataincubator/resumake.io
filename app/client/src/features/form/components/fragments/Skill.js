@@ -4,7 +4,7 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { Divider, RoundButton, Icon } from '../../../../common/components'
+import { Button, Divider, RoundButton, Icon, Row } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
 
 const ButtonRow = styled.div`
@@ -25,12 +25,14 @@ const MiniInput = Input.extend`
 type Props = {
   keywords: Array<?string>,
   index: number,
+  canRemove: boolean,
+  removeSkill: (index: number) => void,
   swapSkills: (index: number) => void,
   addKeyword: (index: number, i: number) => void,
   removeKeyword: (index: number, i: number) => void
 }
 
-function Skill({ keywords, index, swapSkills, addKeyword, removeKeyword }: Props) {
+function Skill({ keywords, index, canRemove, removeSkill, swapSkills, addKeyword, removeKeyword }: Props) {
   return (
     <div>
       {index > 0
@@ -40,11 +42,20 @@ function Skill({ keywords, index, swapSkills, addKeyword, removeKeyword }: Props
             onClick={() => swapSkills(index)}
           />
         : null}
-      <LabeledInput
-        name={`skills[${index}].name`}
-        label="Skill Name"
-        placeholder="Programming Languages"
-      />
+      <Row>
+        <LabeledInput
+          name={`skills[${index}].name`}
+          label="Skill Name"
+          placeholder="Programming Languages"
+        />
+        <Button
+          onClick={() => removeSkill(index)}
+          disabled={!canRemove}
+          type="button"
+        >
+          Remove Skill
+        </Button>
+      </Row>
       <Label>Skill Details</Label>
       {keywords.map((keyword, i) => (
         <div key={i}>

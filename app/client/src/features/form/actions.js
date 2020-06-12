@@ -118,9 +118,10 @@ function addSkill(): Action {
   }
 }
 
-function removeSkill(): Action {
+function removeSkill(index: number): Action {
   return {
-    type: 'REMOVE_SKILL'
+    type: 'REMOVE_SKILL',
+    index
   }
 }
 
