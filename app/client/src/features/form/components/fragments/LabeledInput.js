@@ -69,10 +69,11 @@ type Props = {
   label: string,
   name: string,
   placeholder: string,
-  type?: string
+  type?: string,
+  component?: string
 }
 
-function LabeledInput({ label, name, placeholder, type = 'text' }: Props) {
+function LabeledInput({ label, name, placeholder, type = 'text', component = 'input' }: Props) {
   return (
     <div>
       <Label>{label}</Label>
@@ -80,7 +81,8 @@ function LabeledInput({ label, name, placeholder, type = 'text' }: Props) {
         type={type}
         name={name}
         placeholder={placeholder}
-        component="input"
+        component={component}
+        rows="6"
       />
     </div>
   )

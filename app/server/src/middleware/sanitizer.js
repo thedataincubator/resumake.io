@@ -26,7 +26,7 @@ function sanitize(obj: any = {}) {
     return obj
       .map(val => {
         if (val && typeof val === 'object') return sanitize(val)
-        if (typeof val === 'string') return sanitizeLatex(trim(val))
+        if (typeof val === 'string') return sanitizeLatex(val.trim())
         return val
       })
       .filter(val => !isEmpty(val))
@@ -45,7 +45,7 @@ function sanitize(obj: any = {}) {
         copy[key] = sanitized
       }
     } else if (typeof val === 'string') {
-      copy[key] = sanitizeLatex(trim(val))
+      copy[key] = sanitizeLatex(val.trim())
     } else if (val != null) {
       copy[key] = val
     }

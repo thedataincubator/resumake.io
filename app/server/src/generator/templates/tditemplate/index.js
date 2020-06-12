@@ -175,16 +175,35 @@ const generator: Generator = {
             url = ''
           } = project
 
-          const descriptionWithNewline = description
-            ? `${description}\\\\`
-            : description
+          let desc = ''
+          let inlist = false
+          for (const line of description.split('\n')) {
+            if (line.startsWith('-')) {
+              if (!inlist) {
+                desc += '\\begin{newitemize}\n'
+                inlist = true
+              }
+              desc += `\\item ${line.slice(1)}\n`
+            } else {
+              if (inlist) {
+                desc += '\\end{newitemize}\n'
+                inlist = false
+              }
+              desc += `${line}\n`
+            }
+          }
+          if (inlist)
+            desc += '\\end{newitemize}\\vspace{-\\sizefive}\n'
+            // Both new itemize and project add space at end; this undoes one
+          else if (desc)
+            desc += '\n'  // Make sure next thing starts as new para
 
           return stripIndent`
             \\project
               {${name}}
               {${keywords.join(', ')}}
               {${url}}
-              {${descriptionWithNewline}}
+              {${desc}}
           `
         })}
       }

@@ -39,14 +39,15 @@ function Project({ keywords, index, addKeyword, removeKeyword }: Props) {
         placeholder="Piper Chat"
       />
       <LabeledInput
-        name={`projects[${index}].description`}
-        label="Project Description"
-        placeholder="A video chat app with great picture quality."
-      />
-      <LabeledInput
         name={`projects[${index}].url`}
         label="Link to Project"
-        placeholder="http://piperchat.com"
+        placeholder="piperchat.com"
+      />
+      <LabeledInput
+        name={`projects[${index}].description`}
+        label="Project Description"
+        placeholder="A video chat app with great picture quality.&#10;.&#10;Two newlines to start new paragraph&#10;- Bulleted list&#10;- with dashes"
+        component="textarea"
       />
     </div>
   )
