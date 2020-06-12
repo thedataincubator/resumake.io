@@ -98,17 +98,6 @@ function form(state: FormState = initialState, action: Action): FormState {
       }
     }
 
-    case 'RESET_FORM_VALUES_MANUALLY': {
-      // A copy of above UPLOAD_JSON_SUCCESS reducer
-      return {
-        ...state,
-        values: {
-          ...state.values,
-          ...action.formValues
-        }
-      }
-    }
-
     case 'UPLOAD_JSON_FAILURE': {
       return {
         ...state,

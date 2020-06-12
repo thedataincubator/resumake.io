@@ -73,12 +73,6 @@ class SideNav extends Component<Props> {
   }
 
   handleSaveFellowDataClick = () => {
-    // The ConnectedForm component is taken care of by redux-form library.
-    // In this method I'm simulating redux-form's handleSubmit function, which
-    // provides the form with actual form values. (Note that the form state that is
-    // stored in redux store is abstracted away by redux-form library.)
-    // Without the help of handleSubmit, I'll need to map formValues to props
-    // myself (see mapState.formValues) and use them here.
     const { sections, formValues, saveFellowData } = this.props
     saveFellowData({ ...formValues, sections })
   }

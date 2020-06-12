@@ -54,15 +54,6 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
   }
 }
 
-function resetFormToFellowData(fellowData): Action {
-  // I'm very explicit in naming this reducer, since the form
-  // is usually managed by redux-form.
-  return {
-    type: 'RESET_FORM_VALUES_MANUALLY',
-    formValues: fellowData
-  }
-}
-
 function shouldFetchFellowData(tdiState) {
   if (tdiState.fellowData) {
     return false
@@ -75,7 +66,6 @@ export function fetchIfNeededAndResetFormToSavedState(): AsyncAction {
     if (shouldFetchFellowData(getState().tdi)) {
       await dispatch(fetchFellowData())
     }
-    // dispatch(resetFormToFellowData(getState().tdi.fellowData))
     dispatch(reset('resume'))
   }
 }
