@@ -6,6 +6,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Button, Divider, RoundButton, Icon, Row } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
+import { SortableElement, SortableContainer} from 'react-sortable-hoc'
+import { DragHandle } from '../../../progress/components/SortableList'
 
 const ButtonRow = styled.div`
   margin-left: 15px;
@@ -22,6 +24,55 @@ const MiniInput = Input.extend`
   }
 `
 
+const SortableSkill = SortableElement(({ keywordIndex, skillIndex, addKeyword, removeKeyword, canRemove }) => {
+  return (
+    <div>
+      <DragHandle />
+      <MiniInput
+        name={`skills[${skillIndex}].keywords[${keywordIndex}]`}
+        placeholder="Java"
+        component="input"
+      />
+      <ButtonRow>
+        <RoundButton
+          inverted
+          type="button"
+          onClick={() => addKeyword(skillIndex, keywordIndex)}
+        >
+          <Icon type="add" />
+        </RoundButton>
+        <RoundButton
+              inverted
+              type="button"
+              disabled={!canRemove}
+              onClick={() => removeKeyword(skillIndex, keywordIndex)}
+            >
+              <Icon type="remove" />
+            </RoundButton>
+      </ButtonRow>
+    </div>
+  )
+})
+
+const SortableSkills = SortableContainer(({items, skillIndex, addKeyword, removeKeyword, canRemove}) => {
+  return (
+    <div>
+      {items.map((value, index) => (
+        <SortableSkill
+          key={`item-${index}`}
+          index={index}
+          keywordIndex={index}
+          value={value}
+          skillIndex={skillIndex}
+          addKeyword={addKeyword}
+          removeKeyword={removeKeyword}
+          canRemove={canRemove}
+        />
+      ))}
+    </div>
+  )
+})
+
 type Props = {
   keywords: Array<?string>,
   index: number,
@@ -29,10 +80,11 @@ type Props = {
   removeSkill: (index: number) => void,
   swapSkills: (index: number) => void,
   addKeyword: (index: number, i: number) => void,
-  removeKeyword: (index: number, i: number) => void
+  removeKeyword: (index: number, i: number) => void,
+  reorderSkillKeywords: (index: number, oldIndex: number, newIndex: number) => void
 }
 
-function Skill({ keywords, index, canRemove, removeSkill, swapSkills, addKeyword, removeKeyword }: Props) {
+function Skill({ keywords, index, canRemove, removeSkill, swapSkills, addKeyword, removeKeyword, reorderSkillKeywords }: Props) {
   return (
     <div>
       {index > 0
@@ -57,32 +109,21 @@ function Skill({ keywords, index, canRemove, removeSkill, swapSkills, addKeyword
         </Button>
       </Row>
       <Label>Skill Details</Label>
-      {keywords.map((keyword, i) => (
-        <div key={i}>
-          <MiniInput
-            name={`skills[${index}].keywords[${i}]`}
-            placeholder="Java"
-            component="input"
-          />
-          <ButtonRow>
-            <RoundButton
-              inverted
-              type="button"
-              onClick={() => addKeyword(index, i)}
-            >
-              <Icon type="add" />
-            </RoundButton>
-            <RoundButton
-              inverted
-              type="button"
-              disabled={keywords.length === 1}
-              onClick={() => removeKeyword(index, i)}
-            >
-              <Icon type="remove" />
-            </RoundButton>
-          </ButtonRow>
-        </div>
-      ))}
+      <SortableSkills
+        useDragHandle
+        lockToContainerEdges
+        lockAxis="y"
+        items={keywords}
+        addKeyword={addKeyword}
+        removeKeyword={removeKeyword}
+        skillIndex={index}
+        canRemove={keywords.length > 1}
+        onSortStart={() => document.body.classList.toggle('grabbing')}
+        onSortEnd={({ oldIndex, newIndex }) => {
+                    reorderSkillKeywords(index, oldIndex, newIndex)
+                    document.body.classList.toggle('grabbing')
+                  }}
+      />
     </div>
   )
 }

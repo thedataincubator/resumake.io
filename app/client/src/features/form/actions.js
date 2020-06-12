@@ -148,6 +148,15 @@ function removeSkillKeyword(index: number, i: number): Action {
   }
 }
 
+function reorderSkillKeywords(index: number, oldIndex: number, newIndex: number): Action {
+  return {
+    type: 'REORDER_SKILL_KEYWORDS',
+    index,
+    oldIndex,
+    newIndex
+  }
+}
+
 function addProject(): Action {
   return {
     type: 'ADD_PROJECT'
@@ -203,6 +212,7 @@ export {
   swapSkills,
   addSkillKeyword,
   removeSkillKeyword,
+  reorderSkillKeywords,
   addProject,
   removeProject,
   addProjectKeyword,

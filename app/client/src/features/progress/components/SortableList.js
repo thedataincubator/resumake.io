@@ -101,4 +101,5 @@ const SortableList = SortableContainer(({ items }) => {
   )
 })
 
+export { DragHandle }
 export default SortableList

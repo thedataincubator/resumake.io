@@ -13,7 +13,8 @@ import {
   removeSkill,
   swapSkills,
   addSkillKeyword,
-  removeSkillKeyword
+  removeSkillKeyword,
+  reorderSkillKeywords
 } from '../../actions'
 import type { FormValues } from '../../types'
 import type { State } from '../../../../app/types'
@@ -24,7 +25,8 @@ type Props = {
   removeSkill: (index: number) => void,
   swapSkills: (index: number) => void,
   addSkillKeyword: (index: number, i: number) => void,
-  removeSkillKeyword: (index: number, i: number) => void
+  removeSkillKeyword: (index: number, i: number) => void,
+  reorderSkillKeywords: (index: number, oldIndex: number, newIndex: number) => void
 }
 
 function Skills({
@@ -33,7 +35,8 @@ function Skills({
   removeSkill,
   swapSkills,
   addSkillKeyword,
-  removeSkillKeyword
+  removeSkillKeyword,
+  reorderSkillKeywords
 }: Props) {
   return (
     <Section heading="Your Skills">
@@ -53,6 +56,7 @@ function Skills({
           swapSkills={swapSkills}
           addKeyword={addSkillKeyword}
           removeKeyword={removeSkillKeyword}
+          reorderSkillKeywords={reorderSkillKeywords}
         />
       ))}
       <Button onClick={addSkill} type="button">
@@ -73,7 +77,8 @@ const mapActions = {
   removeSkill,
   swapSkills,
   addSkillKeyword,
-  removeSkillKeyword
+  removeSkillKeyword,
+  reorderSkillKeywords
 }
 
 export default connect(mapState, mapActions)(Skills)

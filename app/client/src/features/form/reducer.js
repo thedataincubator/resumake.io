@@ -3,6 +3,7 @@
  */
 
 import { reducer } from 'redux-form'
+import { arrayMove } from 'react-sortable-hoc'
 import type { FormState } from './types'
 import type { Action } from '../../app/types'
 
@@ -292,6 +293,24 @@ function form(state: FormState = initialState, action: Action): FormState {
               ...state.values.skills[action.index],
               keywords: [...state.values.skills[action.index].keywords.slice(0, action.i),
                          ...state.values.skills[action.index].keywords.slice(action.i + 1)]
+            },
+            ...state.values.skills.slice(action.index + 1)
+          ]
+        }
+      }
+    }
+
+    case 'REORDER_SKILL_KEYWORDS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          skills: [
+            ...state.values.skills.slice(0, action.index),
+            {
+              ...state.values.skills[action.index],
+              keywords: arrayMove(state.values.skills[action.index].keywords,
+                                  action.oldIndex, action.newIndex)
             },
             ...state.values.skills.slice(action.index + 1)
           ]
