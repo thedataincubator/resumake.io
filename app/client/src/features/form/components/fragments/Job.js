@@ -66,7 +66,8 @@ function Job({ highlights, index, addHighlight, removeHighlight }: Props) {
             type="text"
             name={`work[${index}].highlights[${i}]`}
             placeholder="Did cool stuff at company"
-            component="input"
+            component="textarea"
+            rows="4"
           />
           <ButtonRow hidden={i !== highlights.length - 1}>
             <RoundButton
