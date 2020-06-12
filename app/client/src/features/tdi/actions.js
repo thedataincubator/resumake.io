@@ -13,7 +13,7 @@ function updateSavedFellowData(fellowData): Action {
   }
 }
 
-export function fetchFellowData(): AsyncAction {
+function fetchFellowData(): AsyncAction {
   return async (dispatch, getState) => {
     // TODO: redux-ize below action and integrate into the application
     // NOTE: fellowKeyUrlsafe will come from the state, in case of admins
@@ -46,7 +46,7 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
     }
     try {
       await fetch('/fellows/update_resume_json', request)
-      // TODO
+      dispatch(updateSavedFellowData(resumeData))
     } catch (err) {
       alert('errored out')
       console.log(err)

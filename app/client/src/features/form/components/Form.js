@@ -132,7 +132,8 @@ const mapActions = {
 
 const ReduxForm = reduxForm({
   form: 'resume',
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  enableReinitialize: true
 })(Form)
 
 const ConnectedForm = connect(mapState, mapActions)(ReduxForm)
