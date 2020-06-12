@@ -11,6 +11,7 @@ import { Skill } from '..'
 import {
   addSkill,
   removeSkill,
+  swapSkills,
   addSkillKeyword,
   removeSkillKeyword
 } from '../../actions'
@@ -21,6 +22,7 @@ type Props = {
   skills: $PropertyType<FormValues, 'skills'>,
   addSkill: () => void,
   removeSkill: () => void,
+  swapSkills: (index: number) => void,
   addSkillKeyword: (index: number, i: number) => void,
   removeSkillKeyword: (index: number, i: number) => void
 }
@@ -29,6 +31,7 @@ function Skills({
   skills,
   addSkill,
   removeSkill,
+  swapSkills,
   addSkillKeyword,
   removeSkillKeyword
 }: Props) {
@@ -45,6 +48,7 @@ function Skills({
           key={i}
           index={i}
           keywords={skill.keywords}
+          swapSkills={swapSkills}
           addKeyword={addSkillKeyword}
           removeKeyword={removeSkillKeyword}
         />
@@ -72,6 +76,7 @@ function mapState(state: State) {
 const mapActions = {
   addSkill,
   removeSkill,
+  swapSkills,
   addSkillKeyword,
   removeSkillKeyword
 }

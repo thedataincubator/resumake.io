@@ -13,6 +13,7 @@ const Divider = styled.hr`
   border: none;
   background: ${colors.primary};
   opacity: 0.75;
+  ${props => props.swap && `cursor: ns-resize;`}
 
   @media screen and (max-width: 850px) {
     width: 100%;

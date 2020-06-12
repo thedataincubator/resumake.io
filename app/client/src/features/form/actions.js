@@ -124,6 +124,13 @@ function removeSkill(): Action {
   }
 }
 
+function swapSkills(index: number): Action {
+  return {
+    type: 'SWAP_SKILLS',
+    index
+  }
+}
+
 function addSkillKeyword(index: number, i: number): Action {
   return {
     type: 'ADD_SKILL_KEYWORD',
@@ -192,6 +199,7 @@ export {
   removeJobHighlight,
   addSkill,
   removeSkill,
+  swapSkills,
   addSkillKeyword,
   removeSkillKeyword,
   addProject,

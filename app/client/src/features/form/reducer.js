@@ -240,6 +240,19 @@ function form(state: FormState = initialState, action: Action): FormState {
       }
     }
 
+    case 'SWAP_SKILLS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          skills: [...state.values.skills.slice(0, action.index - 1),
+                   state.values.skills[action.index],
+                   state.values.skills[action.index - 1],
+                   ...state.values.skills.slice(action.index + 1)]
+        }
+      }
+    }
+
     case 'ADD_SKILL_KEYWORD': {
       return {
         ...state,

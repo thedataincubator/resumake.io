@@ -25,14 +25,21 @@ const MiniInput = Input.extend`
 type Props = {
   keywords: Array<?string>,
   index: number,
-  addKeyword: (index: number) => void,
-  removeKeyword: (index: number) => void
+  swapSkills: (index: number) => void,
+  addKeyword: (index: number, i: number) => void,
+  removeKeyword: (index: number, i: number) => void
 }
 
-function Skill({ keywords, index, addKeyword, removeKeyword }: Props) {
+function Skill({ keywords, index, swapSkills, addKeyword, removeKeyword }: Props) {
   return (
     <div>
-      {index > 0 ? <Divider /> : null}
+      {index > 0
+        ? <Divider
+            title="Swap positions"
+            swap
+            onClick={() => swapSkills(index)}
+          />
+        : null}
       <LabeledInput
         name={`skills[${index}].name`}
         label="Skill Name"
