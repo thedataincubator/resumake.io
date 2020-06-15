@@ -7,6 +7,7 @@ import { lighten, darken, rgba } from 'polished'
 import { colors } from '../theme'
 
 const TmpButton = styled.button`
+  display: block;
   /* TODO */
 `
 

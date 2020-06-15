@@ -3,6 +3,7 @@
  */
 
 import React, { Component } from 'react'
+import { darken } from 'polished'
 import { withRouter, type Location } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { arrayMove } from 'react-sortable-hoc'
@@ -10,7 +11,7 @@ import styled from 'styled-components'
 import SortableList from './SortableList'
 import { PrimaryButton, TmpButton } from '../../../common/components'
 import { setSectionOrder, setProgress } from '../actions'
-import { fetchIfNeededAndResetFormToSavedState, saveFellowData } from '../../tdi/actions'
+import { fetchIfNeededAndResetFormToSavedState, saveFellowData, uploadPdf } from '../../tdi/actions'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
@@ -38,6 +39,18 @@ const Nav = styled.nav`
   justify-content: center;
   position: relative;
   top: 25px;
+`
+
+const TdiButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+  padding: 10px;
+  border-style: solid;
+  border-radius: 15px;
+  border: 3px solid ${colors.borders};
 `
 
 type Props = {
@@ -77,9 +90,14 @@ class SideNav extends Component<Props> {
     saveFellowData({ ...formValues, sections })
   }
 
-  handleResetFormToSavedState = () => {
+  handleResetFormToSavedStateClick = () => {
     const { fetchIfNeededAndResetFormToSavedState } = this.props
     fetchIfNeededAndResetFormToSavedState()
+  }
+
+  handleUploadPdfClick = () => {
+    const { uploadPdf } = this.props
+    uploadPdf()
   }
 
   render() {
@@ -100,13 +118,17 @@ class SideNav extends Component<Props> {
             Update Preview
           </PrimaryButton>
           <br />
-          <TmpButton onClick={this.handleSaveFellowDataClick}>
-            Save
-          </TmpButton>
-          <br />
-          <TmpButton onClick={this.handleResetFormToSavedState}>
-            Reset to Saved Values
-          </TmpButton>
+          <TdiButtonContainer>
+            <TmpButton style={{ margin: '10px' }} onClick={ this.handleSaveFellowDataClick }>
+              Save
+            </TmpButton>
+            <TmpButton style={{ margin: '10px' }} onClick={ this.handleResetFormToSavedStateClick }>
+              Reset to Saved Values
+            </TmpButton>
+            <TmpButton style={{ margin: '10px' }} onClick={ this.handleUploadPdfClick }>
+              Upload PDF from Saved Values
+            </TmpButton>
+          </TdiButtonContainer>
         </Nav>
       </Aside>
     )
@@ -124,7 +146,8 @@ const mapActions = {
   setSectionOrder,
   setProgress,
   fetchIfNeededAndResetFormToSavedState,
-  saveFellowData
+  saveFellowData,
+  uploadPdf
 }
 
 const ConnectedSideNav = connect(mapState, mapActions)(SideNav)

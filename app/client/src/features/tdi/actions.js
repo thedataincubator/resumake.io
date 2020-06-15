@@ -2,6 +2,7 @@
  * @flow
  */
 
+import { isEqual } from 'lodash'
 import { reset } from 'redux-form'
 import type { Action, AsyncAction } from '../../app/types'
 import { FormValuesWithSectionOrder } from '../form/types'
@@ -67,5 +68,52 @@ export function fetchIfNeededAndResetFormToSavedState(): AsyncAction {
       await dispatch(fetchFellowData())
     }
     dispatch(reset('resume'))
+  }
+}
+
+export function uploadPdf(): AsyncAction {
+  return async (dispatch, getState) => {
+
+    const { 
+      data: {
+        json: previewData
+      },
+      resume: {
+        url: blobUrl
+      }
+    } = getState().preview
+    const {
+      fellowData: tdiFellowData
+    } = getState().tdi
+
+    // Previewed resume data should be same as what's saved.
+    if (isEqual(previewData, tdiFellowData)) {
+
+      // TODO: dialog before upload would not hurt.
+
+      const { fetch } = window
+
+      const blob = await fetch(blobUrl).then(res => res.blob())
+
+      const data = new FormData()
+      data.append('resume', blob, 'resume.pdf')
+
+      const request = {
+        method: 'POST',
+        body: data
+      }
+
+      try {
+        const response = await fetch('/fellows/update_resume', request)
+        console.log(response);
+      } catch (err) {
+        alert('errored out')
+        console.log(err)
+      }
+
+    } else {
+      alert('Preview data does not match saved data. Reset values, re-render and make sure the resume looks good.')
+    }
+    
   }
 }
