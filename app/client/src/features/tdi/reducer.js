@@ -8,7 +8,8 @@ import type { Action } from '../../app/types'
 // TODO: not typeizing yet
 
 const initialState = {
-  fellowData: null
+  fellowData: null,
+  fellowKeyUrlsafe: undefined
 }
 
 function tdi(state = initialState, action) {
@@ -20,6 +21,12 @@ function tdi(state = initialState, action) {
           ...formInitialState.values,
           ...action.fellowData
         }
+      }
+
+    case 'STORE_FELLOW_KEY':
+      return {
+        ...state,
+        fellowKeyUrlsafe: action.fellowKeyUrlsafe
       }
 
     default:

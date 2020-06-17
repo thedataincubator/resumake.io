@@ -6,6 +6,7 @@ import { isEqual } from 'lodash'
 import { reset } from 'redux-form'
 import type { Action, AsyncAction } from '../../app/types'
 import { FormValuesWithSectionOrder } from '../form/types'
+import { clearState } from '../../app/actions'
 
 function updateSavedFellowData(fellowData): Action {
   return {
@@ -14,15 +15,38 @@ function updateSavedFellowData(fellowData): Action {
   }
 }
 
+function storeFellowKeyUrlsafe(fellowKeyUrlsafe: string): Action {
+  return {
+    type: 'STORE_FELLOW_KEY',
+    fellowKeyUrlsafe
+  }
+}
+
 function fetchFellowData(): AsyncAction {
   return async (dispatch, getState) => {
-    // TODO: redux-ize below action and integrate into the application
-    // NOTE: fellowKeyUrlsafe will come from the state, in case of admins
-    const fellowKeyUrlsafe = undefined // 'aghkZXZ-Tm9uZXITCxIGRmVsbG93GICAgICAgIELDA'
+    const { fetch } = window
+    try {
+      const jsonresumeFetchUrl = '/fellows/fetch_resume_json'
+      const response = await fetch(jsonresumeFetchUrl)
+      const fellowData = await response.json()
+      dispatch(updateSavedFellowData(fellowData))
+    } catch (err) {
+      // TODO: error handling!
+      alert('errored out')
+      console.log(err)
+    }
+  }
+}
+
+// NOTE: I'd rather duplicate fetchFellowData while a strong similarity becomes
+// apparent. I'm mainly trying to keep some headroom for diverging error-handling
+// in case of admins.
+function fetchFellowDataWithKey(fellowKeyUrlsafe: string): AsyncAction {
+  return async (dispatch, getState) => {
     const { fetch } = window
     try {
       const jsonresumeFetchBaseUrl = '/fellows/fetch_resume_json'
-      const jsonresumeFetchUrl = fellowKeyUrlsafe ? jsonresumeFetchBaseUrl + '/' + fellowKeyUrlsafe : jsonresumeFetchBaseUrl
+      const jsonresumeFetchUrl = jsonresumeFetchBaseUrl + '/' + fellowKeyUrlsafe
       const response = await fetch(jsonresumeFetchUrl)
       const fellowData = await response.json()
       dispatch(updateSavedFellowData(fellowData))
@@ -36,7 +60,8 @@ function fetchFellowData(): AsyncAction {
 
 export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAction {
   return async (dispatch, getState) => {
-    const fellowKeyUrlsafe = undefined
+    // Inconsistent with the fact that I'm using separate fetch action for when the key is available...
+    const fellowKeyUrlsafe = getState().tdi.fellowKeyUrlsafe
     const { fetch } = window
     const request = {
       method: 'POST',
@@ -46,7 +71,8 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
       body: JSON.stringify(resumeData)
     }
     try {
-      await fetch('/fellows/update_resume_json', request)
+      const updateFellowDataUrl = fellowKeyUrlsafe ? '/fellows/update_resume_json/' + fellowKeyUrlsafe : '/fellows/update_resume_json'
+      await fetch(updateFellowDataUrl, request)
       dispatch(updateSavedFellowData(resumeData))
     } catch (err) {
       alert('errored out')
@@ -105,7 +131,6 @@ export function uploadPdf(): AsyncAction {
 
       try {
         const response = await fetch('/fellows/update_resume', request)
-        console.log(response);
       } catch (err) {
         alert('errored out')
         console.log(err)
@@ -115,5 +140,20 @@ export function uploadPdf(): AsyncAction {
       alert('Preview data does not match saved data. Reset values, re-render and make sure the resume looks good.')
     }
     
+  }
+}
+
+export function initializeApplication(history: RouterHistory, fellowKeyUrlsafe: ?string): AsyncAction {
+  return async (dispatch, getState) => {
+    if (!fellowKeyUrlsafe) { // Not an admin.
+      return
+    }
+    // Admin
+    alert(`Application will reset and the resume data for the Fellow with id ${fellowKeyUrlsafe} will be loaded`)
+    dispatch(clearState())
+    await dispatch(fetchFellowDataWithKey(fellowKeyUrlsafe))
+    dispatch(storeFellowKeyUrlsafe(fellowKeyUrlsafe))
+    dispatch(reset('resume'))
+    history.push('/resumake/generator')
   }
 }

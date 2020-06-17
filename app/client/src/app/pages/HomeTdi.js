@@ -16,6 +16,7 @@ import { Bars, Logo, RoundButton, Icon } from '../../common/components'
 import { uploadFileAndGenerateResume } from '../../features/form/actions'
 import { clearState } from '../actions'
 import { clearPreview } from '../../features/preview/actions'
+import { initializeApplication } from '../../features/tdi/actions'
 import { hasPrevSession } from '../selectors'
 import { colors } from '../../common/theme'
 import { match } from 'react-router-dom'
@@ -240,6 +241,7 @@ type Props = {
   clearState: () => void,
   clearPreview: () => void,
   uploadFileAndGenerateResume: (file: File) => Promise<void>,
+  initializeApplication: (history: RouterHistory, fellowKeyUrlsafe: ?string) => Promise<void>,
   history: RouterHistory
 }
 
@@ -264,6 +266,19 @@ class Home extends Component<Props> {
   clearState = () => {
     this.props.clearState()
     window.localStorage.clear()
+  }
+
+  componentDidMount = () => {
+    const {
+      initializeApplication,
+      match: {
+        params: {
+          fellowKeyUrlsafe
+        }
+      },
+      history
+    } = this.props
+    initializeApplication(history, fellowKeyUrlsafe)
   }
 
   render() {
@@ -348,7 +363,8 @@ function mapState(state: State) {
 const mapActions = {
   clearState,
   clearPreview,
-  uploadFileAndGenerateResume
+  uploadFileAndGenerateResume,
+  initializeApplication
 }
 
 export default withRouter(connect(mapState, mapActions)(Home))
