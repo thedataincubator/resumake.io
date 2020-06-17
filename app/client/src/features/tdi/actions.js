@@ -100,6 +100,8 @@ export function fetchIfNeededAndResetFormToSavedState(): AsyncAction {
 export function publishPDF(): AsyncAction {
   return async (dispatch, getState) => {
 
+    const fellowKeyUrlsafe = getState().tdi.fellowKeyUrlsafe
+
     const { 
       data: {
         json: previewData
@@ -134,7 +136,9 @@ export function publishPDF(): AsyncAction {
       }
 
       try {
-        const response = await fetch('/fellows/update_resume', request)
+        const publishPDFBaseUrl = '/fellows/update_resume'
+        const publishPDFUrl = fellowKeyUrlsafe ? publishPDFBaseUrl + '/' + fellowKeyUrlsafe : publishPDFBaseUrl
+        const response = await fetch(publishPDFUrl, request)
         if (!response.ok) {
           const responseData = await response.json()
           alert(responseData.errors.join('\n'))
