@@ -97,7 +97,7 @@ export function fetchIfNeededAndResetFormToSavedState(): AsyncAction {
   }
 }
 
-export function uploadPdf(): AsyncAction {
+export function publishPDF(): AsyncAction {
   return async (dispatch, getState) => {
 
     const { 
@@ -115,8 +115,12 @@ export function uploadPdf(): AsyncAction {
     // Previewed resume data should be same as what's saved.
     if (isEqual(previewData, tdiFellowData)) {
 
-      // TODO: dialog before upload would not hurt.
+      const { confirm } = window
 
+      if (!confirm('The displayed resume will be published on the Resume Book')) {
+        return
+      }
+      
       const { fetch } = window
 
       const blob = await fetch(blobUrl).then(res => res.blob())
@@ -131,13 +135,16 @@ export function uploadPdf(): AsyncAction {
 
       try {
         const response = await fetch('/fellows/update_resume', request)
+        if (!response.ok) {
+          const responseData = await response.json()
+          alert(responseData.errors.join('\n'))
+        }
       } catch (err) {
-        alert('errored out')
-        console.log(err)
+        alert(err.message)
       }
 
     } else {
-      alert('Preview data does not match saved data. Reset values, re-render and make sure the resume looks good.')
+      alert('Preview data does not match saved values. Reset values, re-render and make sure the resume looks good before publishing.')
     }
     
   }

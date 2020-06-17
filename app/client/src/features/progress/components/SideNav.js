@@ -11,7 +11,7 @@ import styled from 'styled-components'
 import SortableList from './SortableList'
 import { PrimaryButton, TmpButton } from '../../../common/components'
 import { setSectionOrder, setProgress } from '../actions'
-import { fetchIfNeededAndResetFormToSavedState, saveFellowData, uploadPdf } from '../../tdi/actions'
+import { fetchIfNeededAndResetFormToSavedState, saveFellowData, publishPDF } from '../../tdi/actions'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
@@ -96,8 +96,8 @@ class SideNav extends Component<Props> {
   }
 
   handleUploadPdfClick = () => {
-    const { uploadPdf } = this.props
-    uploadPdf()
+    const { publishPDF } = this.props
+    publishPDF()
   }
 
   render() {
@@ -147,7 +147,7 @@ const mapActions = {
   setProgress,
   fetchIfNeededAndResetFormToSavedState,
   saveFellowData,
-  uploadPdf
+  publishPDF
 }
 
 const ConnectedSideNav = connect(mapState, mapActions)(SideNav)
