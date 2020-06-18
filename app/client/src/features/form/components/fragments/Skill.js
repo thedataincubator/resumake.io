@@ -4,9 +4,9 @@
 
 import React from 'react'
 import styled from 'styled-components'
+import { SortableElement, SortableContainer} from 'react-sortable-hoc'
 import { Button, RoundButton, Icon, Row, Swap } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
-import { SortableElement, SortableContainer} from 'react-sortable-hoc'
 import { DragHandle } from '../../../progress/components/SortableList'
 
 const ButtonRow = styled.div`

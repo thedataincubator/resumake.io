@@ -13,7 +13,8 @@ import {
   removeJob,
   swapJobs,
   addJobHighlight,
-  removeJobHighlight
+  removeJobHighlight,
+  reorderJobHighlights
 } from '../../actions'
 import type { FormValues } from '../../types'
 import type { State } from '../../../../app/types'
@@ -35,7 +36,8 @@ function Work({
   removeJob,
   swapJobs,
   addJobHighlight,
-  removeJobHighlight
+  removeJobHighlight,
+  reorderJobHighlights
 }: Props) {
   return (
     <Section heading="Your Work Experience">
@@ -55,6 +57,7 @@ function Work({
           swapJobs={swapJobs}
           addHighlight={addJobHighlight}
           removeHighlight={removeJobHighlight}
+          reorderJobHighlights={reorderJobHighlights}
         />
       ))}
       <Button onClick={addJob} type="button">
@@ -75,7 +78,8 @@ const mapActions = {
   removeJob,
   swapJobs,
   addJobHighlight,
-  removeJobHighlight
+  removeJobHighlight,
+  reorderJobHighlights
 }
 
 export default connect(mapState, mapActions)(Work)

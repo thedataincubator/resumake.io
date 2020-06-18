@@ -128,6 +128,15 @@ function removeJobHighlight(index: number, i: number): Action {
   }
 }
 
+function reorderJobHighlights(index: number, oldIndex: number, newIndex: number): Action {
+  return {
+    type: 'REORDER_JOB_HIGHLIGHTS',
+    index,
+    oldIndex,
+    newIndex
+  }
+}
+
 function addSkill(): Action {
   return {
     type: 'ADD_SKILL'
@@ -233,6 +242,7 @@ export {
   swapJobs,
   addJobHighlight,
   removeJobHighlight,
+  reorderJobHighlights,
   addSkill,
   removeSkill,
   swapSkills,

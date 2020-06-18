@@ -240,6 +240,24 @@ function form(state: FormState = initialState, action: Action): FormState {
       }
     }
 
+    case 'REORDER_JOB_HIGHLIGHTS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          work: [
+            ...state.values.work.slice(0, action.index),
+            {
+              ...state.values.work[action.index],
+              highlights: arrayMove(state.values.work[action.index].highlights,
+                                  action.oldIndex, action.newIndex)
+            },
+            ...state.values.work.slice(action.index + 1)
+          ]
+        }
+      }
+    }
+
     case 'ADD_SKILL': {
       return {
         ...state,
