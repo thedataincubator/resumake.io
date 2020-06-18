@@ -135,6 +135,7 @@ export function publishPDF(): AsyncAction {
 export function initializeApplication(fellowKeyUrlsafe: ?string, history: RouterHistory): AsyncAction {
   return async (dispatch, getState) => {
     if (!fellowKeyUrlsafe) { // Not an admin. Just fetch the data.
+      history.push('/resumake/generator')
       // I load fellow data only when the generator page is loaded. Otherwise, redux-form will pick
       // up our data when initializing the form instead of the json which was just uploaded.
       // (Yes, our integration with redux-form is tighter than the authors!)
