@@ -82,7 +82,7 @@ export function publishPDF(): AsyncAction {
     const state = getState()
     const fellowKeyUrlsafe = state.tdi.fellowKeyUrlsafe
 
-    const { 
+    const {
       data: {
         json: previewData
       },
@@ -102,7 +102,7 @@ export function publishPDF(): AsyncAction {
       if (!confirm('The displayed resume will be published on the Resume Book')) {
         return
       }
-      
+
       const { fetch } = window
 
       const blob = await fetch(blobUrl).then(res => res.blob())
@@ -130,7 +130,7 @@ export function publishPDF(): AsyncAction {
     } else {
       alert('Preview data does not match saved values. Reset values, re-render and make sure the resume looks good before publishing.')
     }
-    
+
   }
 }
 
