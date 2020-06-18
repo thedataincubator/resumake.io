@@ -118,7 +118,8 @@ class Form extends Component<Props> {
 function mapState(state: State) {
   return {
     sections: state.progress.sections,
-    progress: state.progress.progress
+    progress: state.progress.progress,
+    initialValues: state.tdi.fellowData
   }
 }
 
@@ -127,9 +128,12 @@ const mapActions = {
   setProgress
 }
 
-const ConnectedForm = connect(mapState, mapActions)(Form)
-
-export default reduxForm({
+const ReduxForm = reduxForm({
   form: 'resume',
-  destroyOnUnmount: false
-})(ConnectedForm)
+  destroyOnUnmount: false,
+  enableReinitialize: true
+})(Form)
+
+const ConnectedForm = connect(mapState, mapActions)(ReduxForm)
+
+export default (ConnectedForm)

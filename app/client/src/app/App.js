@@ -59,6 +59,11 @@ const LoadableHome = Loadable({
   loading: Loader
 })
 
+const LoadableHomeTdi = Loadable({
+  loader: () => import('./pages/HomeTdi'),
+  loading: Loader
+})
+
 const LoadableGenerator = Loadable({
   loader: () => import('./pages/Generator'),
   loading: Loader
@@ -78,9 +83,10 @@ function App() {
   return (
     <ScrollToTop>
       <Switch>
-        <Route exact path="/resumake/" component={LoadableHome} />
+        <Route exact path="/resumake/" component={LoadableHomeTdi} />
         <Route path="/resumake/generator" component={LoadableGenerator} />
         <Route path="/resumake/about" component={LoadableAbout} />
+        <Route exact path="/resumake/:fellowKeyUrlsafe" component={LoadableHomeTdi} />
         <Route path="*" component={LoadableError404} />
       </Switch>
     </ScrollToTop>

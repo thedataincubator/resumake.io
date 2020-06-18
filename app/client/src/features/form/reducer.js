@@ -472,7 +472,11 @@ function form(state: FormState = initialState, action: Action): FormState {
     }
 
     default:
-      return state
+      // NOTE: jsonUpload is stored next to redux-form state and it gets wiped
+      // out when we reset the form. (redux-form assumes ownership of its state and does
+      // whatever it deems necessary to its state - rightfully so.)
+      // Therefore, I'm manually merging redux-state's offered state to initialState...
+      return {...initialState, ...state}
   }
 }
 
