@@ -12,6 +12,7 @@ import SortableList from './SortableList'
 import { PrimaryButton } from '../../../common/components'
 import { setSectionOrder, setProgress } from '../actions'
 import { fetchIfNeededAndResetFormToSavedState, saveFellowData, publishPDF } from '../../tdi/actions'
+import { previewMatchesFellowData } from '../../tdi/selectors'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
@@ -112,7 +113,8 @@ type Props = {
   ) => void,
   setProgress: (newSectionOrder: Array<Section>, currSection: Section) => void,
   fetchIfNeededAndResetFormToSavedState: *,
-  saveFellowData: *
+  saveFellowData: *,
+  disablePublish: boolean
 }
 
 class SideNav extends Component<Props> {
@@ -151,7 +153,7 @@ class SideNav extends Component<Props> {
   }
 
   render() {
-    const { sections } = this.props
+    const { sections, disablePublish } = this.props
 
     return (
       <Aside>
@@ -181,7 +183,7 @@ class SideNav extends Component<Props> {
           <RButton onClick={ this.handleSaveFellowDataClick }>
             Save Data to Profile
           </RButton>
-          <RFButton onClick={ this.handleUploadPdfClick }>
+          <RFButton disabled={disablePublish} onClick={ this.handleUploadPdfClick }>
             Publish
           </RFButton>
         </Nav>
@@ -193,7 +195,8 @@ class SideNav extends Component<Props> {
 function mapState(state: State) {
   return {
     sections: state.progress.sections,
-    formValues: state.form.resume.values
+    formValues: state.form.resume.values,
+    disablePublish: !previewMatchesFellowData(state)
   }
 }
 
