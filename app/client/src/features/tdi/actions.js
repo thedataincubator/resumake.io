@@ -69,9 +69,7 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
 
 export function fetchIfNeededAndResetFormToSavedState(): AsyncAction {
   return async (dispatch, getState) => {
-    if (hasNoFellowData(getState())) {
-      await dispatch(fetchFellowData())
-    }
+    await dispatch(fetchFellowData(getState().tdi.fellowKeyUrlsafe))
     dispatch(reset('resume'))
   }
 }
