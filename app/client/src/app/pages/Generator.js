@@ -23,7 +23,7 @@ const Content = styled.main`
   margin-top: ${sizes.header};
   margin-left: ${sizes.sideNav};
   width: calc(100% - ${sizes.sideNav});
-  height: calc(100% - ${sizes.header} - ${sizes.footer} - 2px);
+  height: calc(100% - ${sizes.header} - 1px);
 
   @media screen and (max-width: 850px) {
     width: 100%;
@@ -77,9 +77,6 @@ function Generator({ location }: Props) {
         <Form location={location} />
         <LoadablePreview hideOnMobile />
       </Content>
-      <Footer>
-        <Progress />
-      </Footer>
     </Layout>
   )
 }
