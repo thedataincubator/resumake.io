@@ -11,6 +11,7 @@ import { Project } from '..'
 import {
   addProject,
   removeProject,
+  swapProjects,
   addProjectKeyword,
   removeProjectKeyword
 } from '../../actions'
@@ -20,7 +21,8 @@ import type { State } from '../../../../app/types'
 type Props = {
   projects: $PropertyType<FormValues, 'projects'>,
   addProject: () => void,
-  removeProject: () => void,
+  removeProject: (index: number) => void,
+  swapProjects: (index: number) => void,
   addProjectKeyword: (index: number) => void,
   removeProjectKeyword: (index: number) => void
 }
@@ -29,6 +31,7 @@ function Projects({
   projects,
   addProject,
   removeProject,
+  swapProjects,
   addProjectKeyword,
   removeProjectKeyword
 }: Props) {
@@ -45,6 +48,9 @@ function Projects({
           key={i}
           index={i}
           keywords={project.keywords}
+          canRemove={projects.length > 1}
+          removeProject={removeProject}
+          swapProjects={swapProjects}
           addKeyword={addProjectKeyword}
           removeKeyword={removeProjectKeyword}
         />
@@ -52,13 +58,6 @@ function Projects({
       <div>
         <Button onClick={addProject} type="button">
           Add Project
-        </Button>
-        <Button
-          onClick={removeProject}
-          disabled={projects.length === 1}
-          type="button"
-        >
-          Remove Project
         </Button>
       </div>
     </Section>
@@ -74,6 +73,7 @@ function mapState(state: State) {
 const mapActions = {
   addProject,
   removeProject,
+  swapProjects,
   addProjectKeyword,
   removeProjectKeyword
 }

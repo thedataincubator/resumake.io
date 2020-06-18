@@ -4,7 +4,7 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { Divider, RoundButton, Icon } from '../../../../common/components'
+import { Row, Swap, Button } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
 
 const ButtonRow = styled.div`
@@ -25,19 +25,33 @@ const MiniInput = Input.extend`
 type Props = {
   keywords: Array<?string>,
   index: number,
+  canRemove: boolean,
+  removeProject: (index: number) => void,
+  swapProjects: (index: number) => void,
   addKeyword: (index: number) => void,
   removeKeyword: (index: number) => void
 }
 
-function Project({ keywords, index, addKeyword, removeKeyword }: Props) {
+function Project({ keywords, index, canRemove, removeProject, swapProjects, addKeyword, removeKeyword }: Props) {
   return (
     <div>
-      {index > 0 ? <Divider /> : null}
-      <LabeledInput
-        name={`projects[${index}].name`}
-        label="Project Name"
-        placeholder="Piper Chat"
-      />
+      {index > 0
+        ? <Swap onClick={() => swapProjects(index)} />
+        : null}
+      <Row>
+        <LabeledInput
+          name={`projects[${index}].name`}
+          label="Project Name"
+          placeholder="Piper Chat"
+        />
+        <Button
+          onClick={() => removeProject(index)}
+          disabled={!canRemove}
+          type="button"
+        >
+          Remove Project
+        </Button>
+      </Row>
       <LabeledInput
         name={`projects[${index}].url`}
         label="Link to Project"

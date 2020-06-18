@@ -365,7 +365,21 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          projects: state.values.projects.slice(0, -1)
+          projects: [...state.values.projects.slice(0, action.index),
+                     ...state.values.projects.slice(action.index + 1)]
+        }
+      }
+    }
+
+    case 'SWAP_PROJECTS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          projects: [...state.values.projects.slice(0, action.index - 1),
+                     state.values.projects[action.index],
+                     state.values.projects[action.index - 1],
+                     ...state.values.projects.slice(action.index + 1)]
         }
       }
     }

@@ -179,9 +179,17 @@ function addProject(): Action {
   }
 }
 
-function removeProject(): Action {
+function removeProject(index: number): Action {
   return {
-    type: 'REMOVE_PROJECT'
+    type: 'REMOVE_PROJECT',
+    index
+  }
+}
+
+function swapProjects(index: number): Action {
+  return {
+    type: 'SWAP_PROJECTS',
+    index
   }
 }
 
@@ -233,6 +241,7 @@ export {
   reorderSkillKeywords,
   addProject,
   removeProject,
+  swapProjects,
   addProjectKeyword,
   removeProjectKeyword,
   addAward,
