@@ -3,6 +3,7 @@
  */
 
 import React, { Component } from 'react'
+import ReactTooltip from 'react-tooltip'
 import { lighten, darken, rgba } from 'polished'
 import { withRouter, type Location } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -127,7 +128,7 @@ class SideNav extends Component<Props> {
     const newSectionOrder = arrayMove(sections, oldIndex, newIndex)
     const currSection: Section = (location.pathname.slice(11): any)
 
-    setSectionOrder(newSectionOrder, currSection)
+      setSectionOrder(newSectionOrder, currSection)
     setProgress(newSectionOrder, currSection)
     this.toggleGrabCursor()
   }
@@ -169,23 +170,41 @@ class SideNav extends Component<Props> {
           <PrimaryButton type="submit" form="resume-form">
             Preview
           </PrimaryButton>
-          <hr style={{ height: '1px',
-                        color: colors.borders,
-                        width: '80%',
-                        margin: '30px'
-                    }} />
+          <hr style={{
+            height: '1px',
+            color: colors.borders,
+            width: '175px', // Matching buttons Resume Book buttons.
+            maxWidth: '100%',
+            margin: '30px'
+          }} />
           <Heading>
             Resume Book
           </Heading>
-          <RButton onClick={ this.handleResetFormToSavedStateClick }>
+          <RButton onClick={this.handleResetFormToSavedStateClick}>
             Load Data from Profile
           </RButton>
-          <RButton onClick={ this.handleSaveFellowDataClick }>
+          <RButton onClick={this.handleSaveFellowDataClick}>
             Save Data to Profile
           </RButton>
-          <RFButton disabled={disablePublish} onClick={ this.handleUploadPdfClick }>
-            Publish
-          </RFButton>
+          {/* NOTE: disabled button avoids the tooltip without the wrapping spans. */}
+          {/* See: https://github.com/wwayne/react-tooltip/issues/304 */}
+          <span
+            style={{ marginTop: '15px' }} // Aligning the tooltip
+            data-tip="Preview is not in sync with profile data."
+            data-tip-disable={!disablePublish}>
+            <RFButton style={{ marginTop: '0px' }} disabled={disablePublish} onClick={this.handleUploadPdfClick}>
+              Publish
+            </RFButton>
+          </span>
+          <ReactTooltip type="info" effect="solid" />
+          {
+            disablePublish
+              ? <div style={{ margin: '0 30px', padding: '10px 0', width: '175px', maxWidth: '100%' }}>
+                <p>Preview is not in sync with profile data.</p>
+                <p>Please load data from profile and update the preview.</p>
+              </div>
+              : null
+          }
         </Nav>
       </Aside>
     )
