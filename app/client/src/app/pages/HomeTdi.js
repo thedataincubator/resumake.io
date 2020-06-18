@@ -232,6 +232,7 @@ const ctx = require.context('../../features/form/assets/img', true)
 const images = ctx.keys().map(ctx)
 
 type Props = {
+  adminPath: ?Boolean,
   hasPrevSession: boolean,
   resumeStatus: string,
   jsonUpload: {
@@ -270,15 +271,16 @@ class Home extends Component<Props> {
 
   componentDidMount = () => {
     const {
-      initializeApplication,
+      adminPath, // Unused, but we could build admin-aware initialization off of this flag
       match: {
         params: {
           fellowKeyUrlsafe
         }
       },
-      history
+      history,
+      initializeApplication
     } = this.props
-    initializeApplication(history, fellowKeyUrlsafe)
+    initializeApplication(fellowKeyUrlsafe, history)
   }
 
   render() {
@@ -303,7 +305,6 @@ class Home extends Component<Props> {
         <ToastContainer />
         <Main>
           <LeftSection>
-            <h1>Tdi version, One Two One Two</h1>
             <PrimaryButton to="/resumake/generator" onClick={this.clearState}>
               Make New Resume
             </PrimaryButton>

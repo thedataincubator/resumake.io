@@ -2,6 +2,7 @@
  * @flow
  */
 
+import { hasPrevSession } from '../../app/selectors'
 import { isEqual } from 'lodash'
 import { reset } from 'redux-form'
 import type { Action, AsyncAction } from '../../app/types'
@@ -22,38 +23,23 @@ function storeFellowKeyUrlsafe(fellowKeyUrlsafe: string): Action {
   }
 }
 
-function fetchFellowData(): AsyncAction {
+function fetchFellowData(fellowKeyUrlsafe: ?string): AsyncAction {
   return async (dispatch, getState) => {
+    const state = getState()
     const { fetch } = window
     try {
-      const jsonresumeFetchUrl = '/fellows/fetch_resume_json'
-      const response = await fetch(jsonresumeFetchUrl)
-      const fellowData = await response.json()
+      const fellowDataFetchBaseUrl = '/fellows/fetch_resume_json'
+      const fellowDataFetchUrl = fellowKeyUrlsafe ? fellowDataFetchBaseUrl + '/' + fellowKeyUrlsafe : fellowDataFetchBaseUrl
+      const response = await fetch(fellowDataFetchUrl)
+      const responseData = await response.json()
+      if (!response.ok) {
+        alert(responseData.errors.join('\n'))
+        return
+      }
+      const fellowData = responseData
       dispatch(updateSavedFellowData(fellowData))
     } catch (err) {
-      // TODO: error handling!
-      alert('errored out')
-      console.log(err)
-    }
-  }
-}
-
-// NOTE: I'd rather duplicate fetchFellowData while a strong similarity becomes
-// apparent. I'm mainly trying to keep some headroom for diverging error-handling
-// in case of admins.
-function fetchFellowDataWithKey(fellowKeyUrlsafe: string): AsyncAction {
-  return async (dispatch, getState) => {
-    const { fetch } = window
-    try {
-      const jsonresumeFetchBaseUrl = '/fellows/fetch_resume_json'
-      const jsonresumeFetchUrl = jsonresumeFetchBaseUrl + '/' + fellowKeyUrlsafe
-      const response = await fetch(jsonresumeFetchUrl)
-      const fellowData = await response.json()
-      dispatch(updateSavedFellowData(fellowData))
-    } catch (err) {
-      // TODO: error handling!
-      alert('errored out')
-      console.log(err)
+      alert(err.message)
     }
   }
 }
@@ -154,17 +140,17 @@ export function publishPDF(): AsyncAction {
   }
 }
 
-export function initializeApplication(history: RouterHistory, fellowKeyUrlsafe: ?string): AsyncAction {
+export function initializeApplication(fellowKeyUrlsafe: ?string, history: RouterHistory): AsyncAction {
   return async (dispatch, getState) => {
     if (!fellowKeyUrlsafe) { // Not an admin.
       return
     }
-    // Admin
     alert(`Application will reset and the resume data for the Fellow with id ${fellowKeyUrlsafe} will be loaded`)
     dispatch(clearState())
-    await dispatch(fetchFellowDataWithKey(fellowKeyUrlsafe))
-    dispatch(storeFellowKeyUrlsafe(fellowKeyUrlsafe))
-    dispatch(reset('resume'))
+    await dispatch(fetchFellowData(fellowKeyUrlsafe))
+    if (shouldFetchFellowData()) { // Hacky way of checking whether fetching was successful
+      return
+    }
     history.push('/resumake/generator')
   }
 }

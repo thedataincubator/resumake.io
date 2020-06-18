@@ -84,9 +84,9 @@ function App() {
     <ScrollToTop>
       <Switch>
         <Route exact path="/resumake/" component={LoadableHomeTdi} />
+        <Route exact path="/resumake/admin/:fellowKeyUrlsafe" render={routeProps => (<LoadableHomeTdi adminPath={true} />)} />
         <Route path="/resumake/generator" component={LoadableGenerator} />
         <Route path="/resumake/about" component={LoadableAbout} />
-        <Route exact path="/resumake/:fellowKeyUrlsafe" component={LoadableHomeTdi} />
         <Route path="*" component={LoadableError404} />
       </Switch>
     </ScrollToTop>
