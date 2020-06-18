@@ -7,7 +7,7 @@ import type { Action } from '../../app/types'
 
 // TODO: not typeizing yet
 
-const initialState = {
+export const initialState = {
   fellowData: null,
   fellowKeyUrlsafe: undefined
 }

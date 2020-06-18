@@ -20,6 +20,8 @@ import Preview from '../../preview/components'
 import { ScrollToTop } from '../../../common/components'
 import { generateResume } from '../../preview/actions'
 import { setProgress } from '../../progress/actions'
+import { fetchIfNeededAndResetFormToSavedState } from '../../tdi/actions'
+import { mayResetFormToFellowData } from '../../tdi/selectors'
 import { colors } from '../../../common/theme'
 import type { FormValues } from '../types'
 import type { State } from '../../../app/types'
@@ -43,7 +45,8 @@ type Props = {
   location: Location,
   handleSubmit: *,
   setProgress: (sections: Array<Section>, curr: Section) => void,
-  generateResume: (payload: FormValues) => Promise<void>
+  generateResume: (payload: FormValues) => Promise<void>,
+  mayResetFormToFellowData: *
 }
 
 class Form extends Component<Props> {
@@ -57,6 +60,14 @@ class Form extends Component<Props> {
 
   shouldComponentUpdate(prevProps) {
     return prevProps.location.pathname !== this.props.location.pathname
+  }
+
+  componentDidMount() {
+    const { mayResetFormToFellowData, fetchIfNeededAndResetFormToSavedState } = this.props
+    if (mayResetFormToFellowData) {
+      // mayResetFormToFellowData implies that "IfNeeded" part is satisfied.
+      fetchIfNeededAndResetFormToSavedState()
+    }
   }
 
   componentDidUpdate() {
@@ -119,13 +130,15 @@ function mapState(state: State) {
   return {
     sections: state.progress.sections,
     progress: state.progress.progress,
-    initialValues: state.tdi.fellowData
+    initialValues: state.tdi.fellowData,
+    mayResetFormToFellowData: mayResetFormToFellowData(state)
   }
 }
 
 const mapActions = {
   generateResume,
-  setProgress
+  setProgress,
+  fetchIfNeededAndResetFormToSavedState
 }
 
 const ReduxForm = reduxForm({
