@@ -4,7 +4,7 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { Divider, RoundButton, Icon, Row } from '../../../../common/components'
+import { RoundButton, Icon, Row, Swap, Button } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
 
 
@@ -27,19 +27,33 @@ const MiniInput = Input.extend`
 type Props = {
   highlights: Array<?string>,
   index: number,
+  canRemove: boolean,
+  removeJob: (index: number) => void,
+  swapJobs: (index: number) => void,
   addHighlight: (index: number) => void,
   removeHighlight: (index: number) => void
 }
 
-function Job({ highlights, index, addHighlight, removeHighlight }: Props) {
+function Job({ highlights, index, canRemove, removeJob, swapJobs,  addHighlight, removeHighlight }: Props) {
   return (
     <div>
-      {index > 0 ? <Divider /> : null}
-      <LabeledInput
-        name={`work[${index}].company`}
-        label="Company Name"
-        placeholder="Google"
-      />
+      {index > 0
+        ? <Swap onClick={() => swapJobs(index) } />
+        : null}
+      <Row>
+        <LabeledInput
+          name={`work[${index}].company`}
+          label="Company Name"
+          placeholder="Google"
+        />
+        <Button
+          onClick={() => removeJob(index)}
+          disabled={!canRemove}
+          type="button"
+        >
+          Remove Job
+        </Button>
+      </Row>
       <LabeledInput
         name={`work[${index}].position`}
         label="Job Title"

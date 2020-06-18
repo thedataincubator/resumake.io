@@ -98,9 +98,17 @@ function addJob(): Action {
   }
 }
 
-function removeJob(): Action {
+function removeJob(index: number): Action {
   return {
-    type: 'REMOVE_JOB'
+    type: 'REMOVE_JOB',
+    index
+  }
+}
+
+function swapJobs(index: number): Action {
+  return {
+    type: 'SWAP_JOBS',
+    index
   }
 }
 
@@ -214,6 +222,7 @@ export {
   swapSchools,
   addJob,
   removeJob,
+  swapJobs,
   addJobHighlight,
   removeJobHighlight,
   addSkill,

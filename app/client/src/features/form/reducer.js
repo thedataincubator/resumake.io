@@ -176,7 +176,21 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          work: state.values.work.slice(0, -1)
+          work: [...state.values.work.slice(0, action.index),
+                 ...state.values.work.slice(action.index + 1)]
+        }
+      }
+    }
+
+    case 'SWAP_JOBS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          work: [...state.values.work.slice(0, action.index - 1),
+                 state.values.work[action.index],
+                 state.values.work[action.index - 1],
+                 ...state.values.work.slice(action.index + 1)]
         }
       }
     }

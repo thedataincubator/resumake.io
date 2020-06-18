@@ -11,6 +11,7 @@ import { Job } from '..'
 import {
   addJob,
   removeJob,
+  swapJobs,
   addJobHighlight,
   removeJobHighlight
 } from '../../actions'
@@ -22,7 +23,8 @@ type Props = {
   jobCount: number,
   jobHighlights: Array<number>,
   addJob: () => void,
-  removeJob: () => void,
+  removeJob: (index: number) => void,
+  swapJobs: (index: number) => void,
   addJobHighlight: (index: number, i: number) => void,
   removeJobHighlight: (index: number, i: number) => void
 }
@@ -31,6 +33,7 @@ function Work({
   work,
   addJob,
   removeJob,
+  swapJobs,
   addJobHighlight,
   removeJobHighlight
 }: Props) {
@@ -47,15 +50,15 @@ function Work({
           key={i}
           index={i}
           highlights={job.highlights}
+          canRemove={work.length > 1}
+          removeJob={removeJob}
+          swapJobs={swapJobs}
           addHighlight={addJobHighlight}
           removeHighlight={removeJobHighlight}
         />
       ))}
       <Button onClick={addJob} type="button">
         Add Job
-      </Button>
-      <Button onClick={removeJob} disabled={work.length === 1} type="button">
-        Remove Job
       </Button>
     </Section>
   )
@@ -70,6 +73,7 @@ function mapState(state: State) {
 const mapActions = {
   addJob,
   removeJob,
+  swapJobs,
   addJobHighlight,
   removeJobHighlight
 }
