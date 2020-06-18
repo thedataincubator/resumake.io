@@ -13,7 +13,7 @@ import SortableList from './SortableList'
 import { PrimaryButton } from '../../../common/components'
 import { setSectionOrder, setProgress } from '../actions'
 import { fetchIfNeededAndResetFormToSavedState, saveFellowData, publishPDF } from '../../tdi/actions'
-import { previewMatchesFellowData } from '../../tdi/selectors'
+import { previewMatchesFormData } from '../../tdi/selectors'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
@@ -191,21 +191,13 @@ class SideNav extends Component<Props> {
             {/* See: https://github.com/wwayne/react-tooltip/issues/304 */}
             <span
               style={{ marginTop: '15px' }} // Aligning the tooltip
-              data-tip="Preview is not in sync with profile data."
+              data-tip="Preview must be updated before publishing."
               data-tip-disable={!disablePublish}>
               <RFButton style={{ marginTop: '0px' }} disabled={disablePublish} onClick={this.handleUploadPdfClick}>
-                Publish
+                Save and Publish
               </RFButton>
             </span>
             <ReactTooltip type="info" effect="solid" />
-            {
-              disablePublish
-                ? <div style={{ margin: '0 30px', padding: '10px 0', width: '175px', maxWidth: '100%' }}>
-                  <p>Preview is not in sync with profile data.</p>
-                  <p>To publish the resume, please load data from the profile and update the preview.</p>
-                </div>
-                : null
-            }
           </Nav>
         </div>
       </Aside>
@@ -217,7 +209,7 @@ function mapState(state: State) {
   return {
     sections: state.progress.sections,
     formValues: state.form.resume.values,
-    disablePublish: !previewMatchesFellowData(state)
+    disablePublish: !previewMatchesFormData(state)
   }
 }
 

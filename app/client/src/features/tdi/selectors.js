@@ -15,6 +15,10 @@ export function previewMatchesFellowData(state: State): boolean {
   return isEqual(state.preview.data.json, state.tdi.fellowData)
 }
 
+export function previewMatchesFormData(state: State): boolean {
+  return isEqual(state.preview.data.json, state.form.resume.values)
+}
+
 export function mayResetFormToFellowData(state: State): boolean {
   // Empty session and empty fellow data
   if (hasPrevSession(state)) return false

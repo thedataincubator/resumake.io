@@ -60,9 +60,11 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
       const updateFellowDataUrl = fellowKeyUrlsafe ? '/fellows/update_resume_json/' + fellowKeyUrlsafe : '/fellows/update_resume_json'
       await fetch(updateFellowDataUrl, request)
       dispatch(updateSavedFellowData(resumeData))
+      return true
     } catch (err) {
       alert('errored out')
       console.log(err)
+      return false
     }
   }
 }
@@ -92,15 +94,18 @@ export function publishPDF(): AsyncAction {
       fellowData: tdiFellowData
     } = state.tdi
 
-    // Previewed resume data should be same as what's saved.
-    if (previewMatchesFellowData(state)) { //
+    const { confirm } = window
+    if (!confirm('The displayed resume will be published on the Resume Book')) {
+      return
+    }
 
-      const { confirm } = window
+    let saved = true
+    // Save the resume data that's currently displayed
+    if (!previewMatchesFellowData(state)) { //
+      saved = await dispatch(saveFellowData(state.form.resume.values))
+    }
 
-      if (!confirm('The displayed resume will be published on the Resume Book')) {
-        return
-      }
-
+    if (saved) {
       const { fetch } = window
 
       const blob = await fetch(blobUrl).then(res => res.blob())
@@ -124,9 +129,6 @@ export function publishPDF(): AsyncAction {
       } catch (err) {
         alert(err.message)
       }
-
-    } else {
-      alert('Preview data does not match saved values. Reset values, re-render and make sure the resume looks good before publishing.')
     }
 
   }
