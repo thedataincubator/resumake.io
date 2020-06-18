@@ -5,7 +5,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { SortableElement, SortableContainer } from 'react-sortable-hoc'
-import { RoundButton, Icon, Row, Swap, Button } from '../../../../common/components'
+import { RoundButton, Icon, Row, Swap, MarginlessButton } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
 import { DragHandle } from '../../../progress/components/SortableList'
 
@@ -92,13 +92,13 @@ function Job({ highlights, index, canRemove, removeJob, swapJobs,  addHighlight,
           label="Company Name"
           placeholder="Google"
         />
-        <Button
+        <MarginlessButton
           onClick={() => removeJob(index)}
           disabled={!canRemove}
           type="button"
         >
           Remove Job
-        </Button>
+        </MarginlessButton>
       </Row>
       <LabeledInput
         name={`work[${index}].position`}

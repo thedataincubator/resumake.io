@@ -3,7 +3,7 @@
  */
 
 import React from 'react'
-import { Swap, Button, Row } from '../../../../common/components'
+import { Swap, MarginlessButton, Row } from '../../../../common/components'
 import LabeledInput from './LabeledInput'
 
 type Props = {
@@ -25,13 +25,13 @@ function School({ index, canRemove, removeSchool, swapSchools }: Props) {
           label="School Name"
           placeholder="Stanford University"
         />
-        <Button
+        <MarginlessButton
           onClick={() => removeSchool(index)}
           disabled={!canRemove}
           type="button"
         >
           Remove School
-        </Button>
+        </MarginlessButton>
       </Row>
       <LabeledInput
         name={`education[${index}].studyType`}

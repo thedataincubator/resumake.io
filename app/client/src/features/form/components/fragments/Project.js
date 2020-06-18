@@ -4,7 +4,7 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { Row, Swap, Button } from '../../../../common/components'
+import { Row, Swap, MarginlessButton } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
 
 const ButtonRow = styled.div`
@@ -44,13 +44,13 @@ function Project({ keywords, index, canRemove, removeProject, swapProjects, addK
           label="Project Name"
           placeholder="Piper Chat"
         />
-        <Button
+        <MarginlessButton
           onClick={() => removeProject(index)}
           disabled={!canRemove}
           type="button"
         >
           Remove Project
-        </Button>
+        </MarginlessButton>
       </Row>
       <LabeledInput
         name={`projects[${index}].url`}

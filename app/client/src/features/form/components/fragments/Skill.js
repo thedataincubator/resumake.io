@@ -5,7 +5,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { SortableElement, SortableContainer} from 'react-sortable-hoc'
-import { Button, RoundButton, Icon, Row, Swap } from '../../../../common/components'
+import { MarginlessButton, RoundButton, Icon, Row, Swap } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
 import { DragHandle } from '../../../progress/components/SortableList'
 
@@ -98,13 +98,13 @@ function Skill({ keywords, index, canRemove, removeSkill, swapSkills, addKeyword
           label="Skill Name"
           placeholder="Programming Languages"
         />
-        <Button
+        <MarginlessButton
           onClick={() => removeSkill(index)}
           disabled={!canRemove}
           type="button"
         >
           Remove Skill
-        </Button>
+        </MarginlessButton>
       </Row>
       <Label>Skill Details</Label>
       <SortableSkills

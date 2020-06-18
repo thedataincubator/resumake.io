@@ -62,4 +62,10 @@ const Button = styled.button`
   }
 `
 
+const MarginlessButton = Button.extend`
+  margin-top: 0;
+  margin-right: 0;
+`
+
+export { Button, MarginlessButton }
 export default Button
