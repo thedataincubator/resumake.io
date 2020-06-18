@@ -3,18 +3,19 @@
  */
 
 import React, { Component } from 'react'
-import { darken } from 'polished'
+import { lighten, darken, rgba } from 'polished'
 import { withRouter, type Location } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { arrayMove } from 'react-sortable-hoc'
 import styled from 'styled-components'
 import SortableList from './SortableList'
-import { PrimaryButton, TmpButton } from '../../../common/components'
+import { PrimaryButton } from '../../../common/components'
 import { setSectionOrder, setProgress } from '../actions'
 import { fetchIfNeededAndResetFormToSavedState, saveFellowData, publishPDF } from '../../tdi/actions'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
+import { Heading } from '../../../features/form/components/sections/Section'
 
 const Aside = styled.aside`
   position: fixed;
@@ -41,16 +42,59 @@ const Nav = styled.nav`
   top: 25px;
 `
 
-const TdiButtonContainer = styled.div`
+const RButton = styled.button`
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  margin: 20px;
-  padding: 10px;
-  border-style: solid;
-  border-radius: 15px;
-  border: 3px solid ${colors.borders};
+  align-items: center;
+  font-size: 0.85em;
+  text-align: center;
+  text-decoration: none;
+  width: 175px;
+  max-width: 100%;
+  height: 45px;
+  margin-top: 15px;
+  background: transparent;
+  color: white;
+  border-radius: 100px;
+  border: 1px solid ${darken(0.1, colors.primary)};
+  box-shadow: 0 0 0 0 ${rgba(colors.primary, 0.7)};
+  transition: all 0.4s ease;
+
+  &:hover {
+    background: linear-gradient(
+      40deg,
+      ${darken(0.5, colors.primary)},
+      ${darken(0.3, colors.primary)}
+    );
+    animation: none;
+    cursor: pointer;
+  }
+
+  &:active {
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06), 0 2px 40px rgba(0, 0, 0, 0.16);
+    border-color: ${lighten(0.15, colors.primary)};
+    color: ${lighten(0.15, colors.primary)};
+  }
+
+  &:focus {
+    outline: none;
+  }
+`
+
+const RFButton = RButton.extend`
+  background: linear-gradient(
+    40deg,
+    ${darken(0.3, colors.primary)},
+    ${colors.primary}
+  );
+
+  &:hover {
+    background: linear-gradient(
+      40deg,
+      ${darken(0.4, colors.primary)},
+      ${colors.primary}
+    );
+  }
 `
 
 type Props = {
@@ -115,20 +159,25 @@ class SideNav extends Component<Props> {
             onSortEnd={this.onSortEnd}
           />
           <PrimaryButton type="submit" form="resume-form">
-            Update Preview
+            Preview
           </PrimaryButton>
-          <br />
-          <TdiButtonContainer>
-            <TmpButton style={{ margin: '10px' }} onClick={ this.handleSaveFellowDataClick }>
-              Save
-            </TmpButton>
-            <TmpButton style={{ margin: '10px' }} onClick={ this.handleResetFormToSavedStateClick }>
-              Reset to Saved Values
-            </TmpButton>
-            <TmpButton style={{ margin: '10px' }} onClick={ this.handleUploadPdfClick }>
-              Upload PDF from Saved Values
-            </TmpButton>
-          </TdiButtonContainer>
+          <hr style={{ height: '1px',
+                        color: colors.borders,
+                        width: '80%',
+                        margin: '30px'
+                    }} />
+          <Heading>
+            Resume Book
+          </Heading>
+          <RButton onClick={ this.handleResetFormToSavedStateClick }>
+            Load Data from Profile
+          </RButton>
+          <RButton onClick={ this.handleSaveFellowDataClick }>
+            Save Data to Profile
+          </RButton>
+          <RFButton onClick={ this.handleUploadPdfClick }>
+            Publish
+          </RFButton>
         </Nav>
       </Aside>
     )
