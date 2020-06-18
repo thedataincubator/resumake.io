@@ -138,7 +138,21 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          education: state.values.education.slice(0, -1)
+          education: [...state.values.education.slice(0, action.index),
+                      ...state.values.education.slice(action.index + 1)]
+        }
+      }
+    }
+
+    case 'SWAP_SCHOOLS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          education: [...state.values.education.slice(0, action.index - 1),
+                      state.values.education[action.index],
+                      state.values.education[action.index - 1],
+                      ...state.values.education.slice(action.index + 1)]
         }
       }
     }

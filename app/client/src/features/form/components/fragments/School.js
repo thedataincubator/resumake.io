@@ -3,22 +3,36 @@
  */
 
 import React from 'react'
-import { Divider } from '../../../../common/components'
+import { Swap, Button, Row } from '../../../../common/components'
 import LabeledInput from './LabeledInput'
 
 type Props = {
-  index: number
+  index: number,
+  canRemove: boolean,
+  removeSchool: (index: number) => void,
+  swapSchools: (index: number) => void
 }
 
-function School({ index }: Props) {
+function School({ index, canRemove, removeSchool, swapSchools }: Props) {
   return (
     <div>
-      {index > 0 ? <Divider /> : null}
-      <LabeledInput
-        name={`education[${index}].institution`}
-        label="School Name"
-        placeholder="Stanford University"
-      />
+      {index > 0
+        ? <Swap onClick={() => swapSchools(index)} />
+        : null}
+      <Row>
+        <LabeledInput
+          name={`education[${index}].institution`}
+          label="School Name"
+          placeholder="Stanford University"
+        />
+        <Button
+          onClick={() => removeSchool(index)}
+          disabled={!canRemove}
+          type="button"
+        >
+          Remove School
+        </Button>
+      </Row>
       <LabeledInput
         name={`education[${index}].studyType`}
         label="Degree"

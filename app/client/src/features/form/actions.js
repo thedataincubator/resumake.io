@@ -78,9 +78,17 @@ function addSchool(): Action {
   }
 }
 
-function removeSchool(): Action {
+function removeSchool(index: number): Action {
   return {
-    type: 'REMOVE_SCHOOL'
+    type: 'REMOVE_SCHOOL',
+    index
+  }
+}
+
+function swapSchools(index: number): Action {
+  return {
+    type: 'SWAP_SCHOOLS',
+    index
   }
 }
 
@@ -203,6 +211,7 @@ export {
   selectTemplate,
   addSchool,
   removeSchool,
+  swapSchools,
   addJob,
   removeJob,
   addJobHighlight,
