@@ -158,54 +158,56 @@ class SideNav extends Component<Props> {
 
     return (
       <Aside>
-        <Nav>
-          <SortableList
-            useDragHandle
-            lockToContainerEdges
-            lockAxis="y"
-            items={sections}
-            onSortStart={this.onSortStart}
-            onSortEnd={this.onSortEnd}
-          />
-          <PrimaryButton type="submit" form="resume-form">
-            Preview
-          </PrimaryButton>
-          <hr style={{
-            height: '1px',
-            color: colors.borders,
-            width: '175px', // Matching buttons Resume Book buttons.
-            maxWidth: '100%',
-            margin: '30px'
-          }} />
-          <Heading>
-            Resume Book
-          </Heading>
-          <RButton onClick={this.handleResetFormToSavedStateClick}>
-            Load Data from Profile
-          </RButton>
-          <RButton onClick={this.handleSaveFellowDataClick}>
-            Save Data to Profile
-          </RButton>
-          {/* NOTE: disabled button avoids the tooltip without the wrapping spans. */}
-          {/* See: https://github.com/wwayne/react-tooltip/issues/304 */}
-          <span
-            style={{ marginTop: '15px' }} // Aligning the tooltip
-            data-tip="Preview is not in sync with profile data."
-            data-tip-disable={!disablePublish}>
-            <RFButton style={{ marginTop: '0px' }} disabled={disablePublish} onClick={this.handleUploadPdfClick}>
-              Publish
-            </RFButton>
-          </span>
-          <ReactTooltip type="info" effect="solid" />
-          {
-            disablePublish
-              ? <div style={{ margin: '0 30px', padding: '10px 0', width: '175px', maxWidth: '100%' }}>
-                <p>Preview is not in sync with profile data.</p>
-                <p>To publish the resume, please load data from the profile and update the preview.</p>
-              </div>
-              : null
-          }
-        </Nav>
+        <div style={{overflow: "auto", "min-height": "100%"}}>
+          <Nav>
+            <SortableList
+              useDragHandle
+              lockToContainerEdges
+              lockAxis="y"
+              items={sections}
+              onSortStart={this.onSortStart}
+              onSortEnd={this.onSortEnd}
+            />
+            <PrimaryButton type="submit" form="resume-form">
+              Preview
+            </PrimaryButton>
+            <hr style={{
+              height: '1px',
+              color: colors.borders,
+              width: '175px', // Matching buttons Resume Book buttons.
+              maxWidth: '100%',
+              margin: '30px'
+            }} />
+            <Heading>
+              Resume Book
+            </Heading>
+            <RButton onClick={this.handleResetFormToSavedStateClick}>
+              Load Data from Profile
+            </RButton>
+            <RButton onClick={this.handleSaveFellowDataClick}>
+              Save Data to Profile
+            </RButton>
+            {/* NOTE: disabled button avoids the tooltip without the wrapping spans. */}
+            {/* See: https://github.com/wwayne/react-tooltip/issues/304 */}
+            <span
+              style={{ marginTop: '15px' }} // Aligning the tooltip
+              data-tip="Preview is not in sync with profile data."
+              data-tip-disable={!disablePublish}>
+              <RFButton style={{ marginTop: '0px' }} disabled={disablePublish} onClick={this.handleUploadPdfClick}>
+                Publish
+              </RFButton>
+            </span>
+            <ReactTooltip type="info" effect="solid" />
+            {
+              disablePublish
+                ? <div style={{ margin: '0 30px', padding: '10px 0', width: '175px', maxWidth: '100%' }}>
+                  <p>Preview is not in sync with profile data.</p>
+                  <p>To publish the resume, please load data from the profile and update the preview.</p>
+                </div>
+                : null
+            }
+          </Nav>
+        </div>
       </Aside>
     )
   }
