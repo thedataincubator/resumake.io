@@ -60,7 +60,13 @@ const RButton = styled.button`
   box-shadow: 0 0 0 0 ${rgba(colors.primary, 0.7)};
   transition: all 0.4s ease;
 
-  &:hover {
+  &:disabled {
+    background: grey;
+    color: ${darken(0.4, 'grey')};
+    border: 1px solid white;
+  }
+
+  &:hover:enabled {
     background: linear-gradient(
       40deg,
       ${darken(0.5, colors.primary)},
@@ -88,7 +94,7 @@ const RFButton = RButton.extend`
     ${colors.primary}
   );
 
-  &:hover {
+  &:hover:enabled {
     background: linear-gradient(
       40deg,
       ${darken(0.4, colors.primary)},
