@@ -7,7 +7,7 @@ import type { State } from '../../app/types'
 import { hasPrevSession } from '../../app/selectors'
 import { initialState } from './reducer'
 
-function hasNoFellowData(state: State): boolean {
+export function hasNoFellowData(state: State): boolean {
   return isEqual(initialState.fellowData, state.tdi.fellowData)
 }
 

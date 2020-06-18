@@ -3,6 +3,7 @@
  */
 
 import { hasPrevSession } from '../../app/selectors'
+import { previewMatchesFellowData, hasNoFellowData } from './selectors'
 import { isEqual } from 'lodash'
 import { reset } from 'redux-form'
 import type { Action, AsyncAction } from '../../app/types'
@@ -46,7 +47,6 @@ function fetchFellowData(fellowKeyUrlsafe: ?string): AsyncAction {
 
 export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAction {
   return async (dispatch, getState) => {
-    // Inconsistent with the fact that I'm using separate fetch action for when the key is available...
     const fellowKeyUrlsafe = getState().tdi.fellowKeyUrlsafe
     const { fetch } = window
     const request = {
@@ -67,16 +67,9 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
   }
 }
 
-function shouldFetchFellowData(tdiState) {
-  if (tdiState.fellowData) {
-    return false
-  }
-  return true
-}
-
 export function fetchIfNeededAndResetFormToSavedState(): AsyncAction {
   return async (dispatch, getState) => {
-    if (shouldFetchFellowData(getState().tdi)) {
+    if (hasNoFellowData(getState())) {
       await dispatch(fetchFellowData())
     }
     dispatch(reset('resume'))
@@ -86,7 +79,8 @@ export function fetchIfNeededAndResetFormToSavedState(): AsyncAction {
 export function publishPDF(): AsyncAction {
   return async (dispatch, getState) => {
 
-    const fellowKeyUrlsafe = getState().tdi.fellowKeyUrlsafe
+    const state = getState()
+    const fellowKeyUrlsafe = state.tdi.fellowKeyUrlsafe
 
     const { 
       data: {
@@ -95,13 +89,13 @@ export function publishPDF(): AsyncAction {
       resume: {
         url: blobUrl
       }
-    } = getState().preview
+    } = state.preview
     const {
       fellowData: tdiFellowData
-    } = getState().tdi
+    } = state.tdi
 
     // Previewed resume data should be same as what's saved.
-    if (isEqual(previewData, tdiFellowData)) {
+    if (previewMatchesFellowData(state)) { //
 
       const { confirm } = window
 
@@ -152,11 +146,10 @@ export function initializeApplication(fellowKeyUrlsafe: ?string, history: Router
     alert(`Application will reset and the resume data for the Fellow with id ${fellowKeyUrlsafe} will be loaded`)
     dispatch(clearState())
     await dispatch(fetchFellowData(fellowKeyUrlsafe))
-    if (shouldFetchFellowData()) {
-      // Hacky way of checking whether the fetch was successful;
-      // Usually, people set response status flags.
+    if (hasNoFellowData(getState())) {
       return
     }
+    dispatch(storeFellowKeyUrlsafe(fellowKeyUrlsafe))
     history.push('/resumake/generator')
   }
 }
