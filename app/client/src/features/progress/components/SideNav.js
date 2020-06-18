@@ -201,7 +201,7 @@ class SideNav extends Component<Props> {
             disablePublish
               ? <div style={{ margin: '0 30px', padding: '10px 0', width: '175px', maxWidth: '100%' }}>
                 <p>Preview is not in sync with profile data.</p>
-                <p>Please load data from profile and update the preview.</p>
+                <p>To publish the resume, please load data from the profile and update the preview.</p>
               </div>
               : null
           }
