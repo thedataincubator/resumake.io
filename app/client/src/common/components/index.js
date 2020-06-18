@@ -2,7 +2,7 @@
  * @flow
  */
 
-import Divider from './Divider'
+import { Divider, Swap } from './Divider'
 import Icon from './Icon'
 import Button from './Button'
 import PrimaryButton from './PrimaryButton'
@@ -12,4 +12,4 @@ import Loader, { Bars } from './Loader'
 import Logo from './Logo'
 import Row from './Row'
 
-export { Button, PrimaryButton, RoundButton, Divider, Icon, ScrollToTop, Loader, Logo, Bars, Row }
+export { Button, PrimaryButton, RoundButton, Divider, Swap, Icon, ScrollToTop, Loader, Logo, Bars, Row }

@@ -4,7 +4,7 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Divider, RoundButton, Icon, Row } from '../../../../common/components'
+import { Button, RoundButton, Icon, Row, Swap } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
 import { SortableElement, SortableContainer} from 'react-sortable-hoc'
 import { DragHandle } from '../../../progress/components/SortableList'
@@ -88,9 +88,7 @@ function Skill({ keywords, index, canRemove, removeSkill, swapSkills, addKeyword
   return (
     <div>
       {index > 0
-        ? <Divider
-            title="Swap positions"
-            swap
+        ? <Swap
             onClick={() => swapSkills(index)}
           />
         : null}
