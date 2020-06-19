@@ -61,12 +61,9 @@ const generator: Generator = {
           dateRange = endDate
         }
 
-        return stripIndent`
-            \\school
-              {${institution}}
-              {${dateRange}}
-              {${degreeLine}}
-        `
+        const schoolItems = [degreeLine, institution, dateRange].filter(Boolean)
+
+        return `\\item \\textbf{${schoolItems.join(' | ')}}`
       })}
       \\end{nobullets}
       }
@@ -104,7 +101,7 @@ const generator: Generator = {
           dateRange = endDate
         }
 
-        if (highlights) {
+        if (highlights.length) {
           dutyLines = source`
             \\begin{newitemize}
               ${highlights.map(duty => `\\item {${duty}}`)}
