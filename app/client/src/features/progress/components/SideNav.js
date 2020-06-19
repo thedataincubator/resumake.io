@@ -18,6 +18,7 @@ import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
 import { Heading } from '../../../features/form/components/sections/Section'
+import { uploadFileAndGenerateResume } from '../../../features/form/actions'
 
 const Aside = styled.aside`
   position: fixed;
@@ -106,6 +107,7 @@ const RFButton = RButton.extend`
 `
 
 const RButtonLink = RButton.withComponent('a')
+const RButtonLabel = RButton.withComponent('label')
 
 const Rule = styled.hr`
   height: 1px;
@@ -161,6 +163,19 @@ class SideNav extends Component<Props> {
   handleUploadPdfClick = () => {
     const { publishPDF } = this.props
     publishPDF()
+  }
+
+  handleFileUpload = async (e) => {
+    const { uploadFileAndGenerateResume } = this.props
+    const file = e.target.files[0]
+
+    await uploadFileAndGenerateResume(file)
+    const { jsonUpload } = this.props
+
+    if (jsonUpload.status !== 'success') {
+      window.alert("Error uploading JSON file")
+      console.log(jsonUpload.errMessage)
+    }
   }
 
   render() {
@@ -219,9 +234,15 @@ class SideNav extends Component<Props> {
                 Download JSON
               </RButton>
             }
-            <RButton>
+            <RButtonLabel htmlFor="import-json">
               Upload JSON
-            </RButton>
+            </RButtonLabel>
+            <input
+              id="import-json"
+              type="file"
+              style={{display: "none"}}
+              onChange={this.handleFileUpload}
+            />
             <ReactTooltip type="info" effect="solid" place="right" />
           </Nav>
         </div>
@@ -235,7 +256,8 @@ function mapState(state: State) {
     sections: state.progress.sections,
     formValues: state.form.resume.values,
     previewUpdated: previewMatchesFormData(state),
-    jsonURL: state.preview.data.url
+    jsonURL: state.preview.data.url,
+    jsonUpload: state.form.resume.jsonUpload
   }
 }
 
@@ -244,7 +266,8 @@ const mapActions = {
   setProgress,
   fetchIfNeededAndResetFormToSavedState,
   saveFellowData,
-  publishPDF
+  publishPDF,
+  uploadFileAndGenerateResume
 }
 
 const ConnectedSideNav = connect(mapState, mapActions)(SideNav)
