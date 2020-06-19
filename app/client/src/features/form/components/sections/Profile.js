@@ -34,6 +34,11 @@ function Profile() {
         label="Link"
         placeholder="github.com/myname"
       />
+      <LabeledInput
+        name="basics.visa"
+        label="Visa Status"
+        placeholder="F1"
+      />
     </Section>
   )
 }

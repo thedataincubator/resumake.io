@@ -35,7 +35,8 @@ describe('preview reducer', () => {
             website: '',
             location: {
               address: ''
-            }
+            },
+            visa: ''
           },
           education: [
             {

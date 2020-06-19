@@ -12,8 +12,8 @@ const generator: Generator = {
       return ''
     }
 
-    const { name = '', email, phone, location = {}, website } = basics
-    const info = [location.address, phone, email, website].filter(Boolean)
+    const { name = '', email, phone, location = {}, website, visa } = basics
+    const info = [location.address, phone, email, website, visa].filter(Boolean)
 
     return stripIndent`
       % Personal

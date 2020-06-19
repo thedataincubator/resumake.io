@@ -25,7 +25,8 @@ const initialState = {
       website: '',
       location: {
         address: ''
-      }
+      },
+      visa: ''
     },
     education: [
       {

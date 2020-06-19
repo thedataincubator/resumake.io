@@ -14,7 +14,8 @@ describe('sanitizer', () => {
         location: {
           address: '            Metuchen,    NJ'
         },
-        website: 'github.com/saadq   '
+        website: 'github.com/saadq   ',
+        visa: ' F1 '
       }
     }
 
@@ -26,7 +27,8 @@ describe('sanitizer', () => {
         location: {
           address: 'Metuchen, NJ'
         },
-        website: 'github.com/saadq'
+        website: 'github.com/saadq',
+        visa: 'F1'
       }
     }
 
