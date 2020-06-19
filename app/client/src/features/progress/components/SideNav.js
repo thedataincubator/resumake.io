@@ -48,7 +48,7 @@ const RButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.85em;
+  font-size: inherit;
   text-align: center;
   text-decoration: none;
   width: 175px;
@@ -63,9 +63,8 @@ const RButton = styled.button`
   transition: all 0.4s ease;
 
   &:disabled {
-    background: grey;
-    color: ${darken(0.4, 'grey')};
-    border: 1px solid white;
+    filter: saturate(0);
+    color: #ccc;
   }
 
   &:hover:enabled {
@@ -154,7 +153,7 @@ class SideNav extends Component<Props> {
   }
 
   render() {
-    const { sections, disablePublish } = this.props
+    const { sections, previewUpdated } = this.props
 
     return (
       <Aside>
@@ -168,9 +167,14 @@ class SideNav extends Component<Props> {
               onSortStart={this.onSortStart}
               onSortEnd={this.onSortEnd}
             />
-            <PrimaryButton type="submit" form="resume-form">
-              Preview
-            </PrimaryButton>
+            <span
+              data-tip="Preview is up to date."
+              data-tip-disable={!previewUpdated}
+            >
+              <RFButton style={{ marginTop: '0' }} type="submit" form="resume-form" disabled={previewUpdated}>
+                Preview
+              </RFButton>
+            </span>
             <hr style={{
               height: '1px',
               color: colors.borders,
@@ -192,12 +196,12 @@ class SideNav extends Component<Props> {
             <span
               style={{ marginTop: '15px' }} // Aligning the tooltip
               data-tip="Preview must be updated before publishing."
-              data-tip-disable={!disablePublish}>
-              <RFButton style={{ marginTop: '0px' }} disabled={disablePublish} onClick={this.handleUploadPdfClick}>
+              data-tip-disable={previewUpdated}>
+              <RFButton style={{ marginTop: '0px' }} disabled={!previewUpdated} onClick={this.handleUploadPdfClick}>
                 Save and Publish
               </RFButton>
             </span>
-            <ReactTooltip type="info" effect="solid" />
+            <ReactTooltip type="info" effect="solid" place="right" />
           </Nav>
         </div>
       </Aside>
@@ -209,7 +213,7 @@ function mapState(state: State) {
   return {
     sections: state.progress.sections,
     formValues: state.form.resume.values,
-    disablePublish: !previewMatchesFormData(state)
+    previewUpdated: previewMatchesFormData(state)
   }
 }
 
