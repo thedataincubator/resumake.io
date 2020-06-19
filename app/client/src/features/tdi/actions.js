@@ -25,9 +25,9 @@ function storeFellowKeyUrlsafe(fellowKeyUrlsafe: string): Action {
   }
 }
 
-function fetchFellowData(fellowKeyUrlsafe: ?string): AsyncAction {
+function fetchFellowData(): AsyncAction {
   return async (dispatch, getState) => {
-    const state = getState()
+    const { fellowKeyUrlsafe } = getState().tdi
     const { fetch } = window
     try {
       const fellowDataFetchBaseUrl = '/fellows/fetch_resume_json'
@@ -141,20 +141,13 @@ export function publishPDF(): AsyncAction {
 
 export function initializeApplication(fellowKeyUrlsafe: ?string, history: RouterHistory): AsyncAction {
   return async (dispatch, getState) => {
-    if (!fellowKeyUrlsafe) { // Not an admin. Just fetch the data.
+    if (!fellowKeyUrlsafe) { // Not an admin.
       history.push('/resumake/generator')
-      // I load fellow data only when the generator page is loaded. Otherwise, redux-form will pick
-      // up our data when initializing the form instead of the json which was just uploaded.
-      // (Yes, our integration with redux-form is tighter than the authors!)
       return
     }
     // In case of admins, we should purge the state first and start from scratch.
-    alert(`Application will reset and the resume data for the Fellow with id ${fellowKeyUrlsafe} will be loaded`)
+    alert(`Resetting the application and loading Fellow ${fellowKeyUrlsafe} data.`)
     dispatch(clearState())
-    await dispatch(fetchFellowData(fellowKeyUrlsafe))
-    if (hasNoFellowData(getState())) {
-      return
-    }
     dispatch(storeFellowKeyUrlsafe(fellowKeyUrlsafe))
     history.push('/resumake/generator')
   }
