@@ -141,14 +141,16 @@ export function publishPDF(): AsyncAction {
 
 export function initializeApplication(fellowKeyUrlsafe: ?string, history: RouterHistory): AsyncAction {
   return async (dispatch, getState) => {
-    if (!fellowKeyUrlsafe) { // Not an admin.
-      history.push('/resumake/generator')
-      return
+    if (fellowKeyUrlsafe) { // An admin.
+      // For admins, we should purge the state and start from scratch when starting to edit
+      // a new/different Fellow resume than the previous one.
+      const { fellowKeyUrlsafe: prevFellowKey } = getState().tdi
+      if (prevFellowKey !== fellowKeyUrlsafe) {
+        alert(`Resetting the application and loading Fellow ${fellowKeyUrlsafe} data.`)
+        dispatch(clearState())
+        dispatch(storeFellowKeyUrlsafe(fellowKeyUrlsafe))
+      }
     }
-    // In case of admins, we should purge the state first and start from scratch.
-    alert(`Resetting the application and loading Fellow ${fellowKeyUrlsafe} data.`)
-    dispatch(clearState())
-    dispatch(storeFellowKeyUrlsafe(fellowKeyUrlsafe))
     history.push('/resumake/generator')
   }
 }
