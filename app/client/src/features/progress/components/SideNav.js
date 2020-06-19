@@ -48,6 +48,7 @@ const RButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: inherit;
   font-size: inherit;
   text-align: center;
   text-decoration: none;
@@ -67,7 +68,7 @@ const RButton = styled.button`
     color: #ccc;
   }
 
-  &:hover:enabled {
+  &:hover:not(:disabled) {
     background: linear-gradient(
       40deg,
       ${darken(0.5, colors.primary)},
@@ -102,6 +103,16 @@ const RFButton = RButton.extend`
       ${colors.primary}
     );
   }
+`
+
+const RButtonLink = RButton.withComponent('a')
+
+const Rule = styled.hr`
+  height: 1px;
+  color: ${colors.borders};
+  width: 175px;
+  max-width: 100%;
+  margin: 30px;
 `
 
 type Props = {
@@ -153,7 +164,7 @@ class SideNav extends Component<Props> {
   }
 
   render() {
-    const { sections, previewUpdated } = this.props
+    const { sections, previewUpdated, jsonURL } = this.props
 
     return (
       <Aside>
@@ -175,13 +186,7 @@ class SideNav extends Component<Props> {
                 Preview
               </RFButton>
             </span>
-            <hr style={{
-              height: '1px',
-              color: colors.borders,
-              width: '175px', // Matching buttons Resume Book buttons.
-              maxWidth: '100%',
-              margin: '30px'
-            }} />
+            <Rule />
             <Heading>
               Resume Book
             </Heading>
@@ -201,6 +206,22 @@ class SideNav extends Component<Props> {
                 Save and Publish
               </RFButton>
             </span>
+            <Rule />
+            <Heading>
+              Local versions
+            </Heading>
+            { previewUpdated ?
+              <RButtonLink href={jsonURL} download="resume.json">
+                Download JSON
+              </RButtonLink>
+            :
+              <RButton disabled data-tip="Update preview to download JSON.">
+                Download JSON
+              </RButton>
+            }
+            <RButton>
+              Upload JSON
+            </RButton>
             <ReactTooltip type="info" effect="solid" place="right" />
           </Nav>
         </div>
@@ -213,7 +234,8 @@ function mapState(state: State) {
   return {
     sections: state.progress.sections,
     formValues: state.form.resume.values,
-    previewUpdated: previewMatchesFormData(state)
+    previewUpdated: previewMatchesFormData(state),
+    jsonURL: state.preview.data.url
   }
 }
 

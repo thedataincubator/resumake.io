@@ -165,9 +165,6 @@ function Toolbar({
         <ToolButton onClick={downloadSource}>
           <Icon type="file_download" /> LaTeX
         </ToolButton>
-        <ToolButton href={jsonURL} download="resume.json">
-          <Icon type="file_download" /> JSON
-        </ToolButton>
       </ButtonGroup>
       <Pagination>
         <PageButton onClick={prevPage}>
