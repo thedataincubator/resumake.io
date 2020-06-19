@@ -32,6 +32,8 @@ const Wrapper = styled.div`
 const Main = styled.main`
   flex: 1;
   display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media screen and (max-width: 50px) {
     flex-direction: column;
@@ -304,50 +306,10 @@ class Home extends Component<Props> {
       <Wrapper>
         <ToastContainer />
         <Main>
-          <LeftSection>
-            <PrimaryButton to="/resumake/generator" onClick={this.clearState}>
-              Make New Resume
-            </PrimaryButton>
-            {hasPrevSession && (
-              <Button to="/resumake/generator" onClick={clearPreview}>
-                Continue Session
-              </Button>
-            )}
-            <ImportRow>
-              <Label htmlFor="import-json">Import JSON</Label>
-              <Input
-                id="import-json"
-                type="file"
-                onChange={this.onFileUpload}
-              />
-              <HelpButton
-                onClick={() => {
-                  if (!toast.isActive(this.toastId)) {
-                    this.toastId = toast.info(
-                      "When you're done working on your resume, you can save it as a JSON which can be imported here to continue progress.",
-                      { position: toast.POSITION.TOP_LEFT }
-                    )
-                  }
-                }}
-              >
-                <Icon size={22} type="help" />
-              </HelpButton>
-            </ImportRow>
-          </LeftSection>
-          <RightSection>
-            <h1>Instructions go here</h1>
-          </RightSection>
+          <span>
+            If you are not redirected in a few seconds, please <Link to="/resumake/generator" style={{ color: colors.primary }}>click here</Link>.
+          </span>
         </Main>
-        <Footer>
-          <Copyright>© 2018 Saad Quadri</Copyright>
-          <Links>
-            <Link to="/resumake/about">About</Link>
-            <a href="https://github.com/saadq/resumake">Source</a>
-            <a href="https://github.com/saadq/resumake/issues">Issues</a>
-            <a href="mailto:saad@saadq.com">Contact</a>
-            <a href="https://www.paypal.me/saadquadri">Donate</a>
-          </Links>
-        </Footer>
       </Wrapper>
     )
   }
