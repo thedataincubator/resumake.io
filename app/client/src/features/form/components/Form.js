@@ -20,7 +20,7 @@ import Preview from '../../preview/components'
 import { ScrollToTop } from '../../../common/components'
 import { generateResume } from '../../preview/actions'
 import { setProgress } from '../../progress/actions'
-import { fetchIfNeededAndResetFormToSavedState } from '../../tdi/actions'
+import { fetchFellowDataAndResetFormToIt } from '../../tdi/actions'
 import { mayResetFormToFellowData } from '../../tdi/selectors'
 import { colors } from '../../../common/theme'
 import type { FormValues } from '../types'
@@ -46,7 +46,9 @@ type Props = {
   handleSubmit: *,
   setProgress: (sections: Array<Section>, curr: Section) => void,
   generateResume: (payload: FormValues) => Promise<void>,
-  mayResetFormToFellowData: *
+  formValues: FormValues,
+  mayResetFormToFellowData: *,
+  fetchFellowDataAndResetFormToIt: *
 }
 
 class Form extends Component<Props> {
@@ -63,10 +65,14 @@ class Form extends Component<Props> {
   }
 
   componentDidMount() {
-    const { mayResetFormToFellowData, fetchIfNeededAndResetFormToSavedState } = this.props
+    const { mayResetFormToFellowData, fetchFellowDataAndResetFormToIt } = this.props
     if (mayResetFormToFellowData) {
       // mayResetFormToFellowData implies that "IfNeeded" part is satisfied.
-      fetchIfNeededAndResetFormToSavedState()
+      fetchFellowDataAndResetFormToIt()
+    } else {
+      // In any case, sync the preview.
+      const { generateResume, formValues, sections } = this.props
+      generateResume({ ...formValues, sections })
     }
   }
 
@@ -128,6 +134,7 @@ class Form extends Component<Props> {
 
 function mapState(state: State) {
   return {
+    formValues: state.form.resume.values,
     sections: state.progress.sections,
     progress: state.progress.progress,
     initialValues: state.tdi.fellowData,
@@ -138,7 +145,7 @@ function mapState(state: State) {
 const mapActions = {
   generateResume,
   setProgress,
-  fetchIfNeededAndResetFormToSavedState
+  fetchFellowDataAndResetFormToIt
 }
 
 const ReduxForm = reduxForm({

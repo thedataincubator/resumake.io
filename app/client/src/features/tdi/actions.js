@@ -9,6 +9,7 @@ import { reset } from 'redux-form'
 import type { Action, AsyncAction } from '../../app/types'
 import { FormValuesWithSectionOrder } from '../form/types'
 import { clearState } from '../../app/actions'
+import { generateResume } from '../../features/preview/actions'
 
 function updateSavedFellowData(fellowData): Action {
   return {
@@ -69,10 +70,14 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
   }
 }
 
-export function fetchIfNeededAndResetFormToSavedState(): AsyncAction {
+export function fetchFellowDataAndResetFormToIt(): AsyncAction {
+  // ResetForm_And_Preview, actually.
   return async (dispatch, getState) => {
-    await dispatch(fetchFellowData(getState().tdi.fellowKeyUrlsafe))
+    const { fellowKeyUrlsafe } = getState().tdi
+    await dispatch(fetchFellowData())
     dispatch(reset('resume'))
+    const { fellowData } = getState().tdi
+    await dispatch(generateResume(fellowData))
   }
 }
 

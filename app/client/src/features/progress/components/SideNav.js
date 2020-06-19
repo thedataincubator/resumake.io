@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import SortableList from './SortableList'
 import { PrimaryButton } from '../../../common/components'
 import { setSectionOrder, setProgress } from '../actions'
-import { fetchIfNeededAndResetFormToSavedState, saveFellowData, publishPDF } from '../../tdi/actions'
+import { fetchFellowDataAndResetFormToIt, saveFellowData, publishPDF } from '../../tdi/actions'
 import { previewMatchesFormData } from '../../tdi/selectors'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
@@ -125,7 +125,7 @@ type Props = {
     currSection: Section
   ) => void,
   setProgress: (newSectionOrder: Array<Section>, currSection: Section) => void,
-  fetchIfNeededAndResetFormToSavedState: *,
+  fetchFellowDataAndResetFormToIt: *,
   saveFellowData: *,
   disablePublish: boolean
 }
@@ -156,8 +156,8 @@ class SideNav extends Component<Props> {
   }
 
   handleResetFormToSavedStateClick = () => {
-    const { fetchIfNeededAndResetFormToSavedState } = this.props
-    fetchIfNeededAndResetFormToSavedState()
+    const { fetchFellowDataAndResetFormToIt } = this.props
+    fetchFellowDataAndResetFormToIt()
   }
 
   handleUploadPdfClick = () => {
@@ -264,7 +264,7 @@ function mapState(state: State) {
 const mapActions = {
   setSectionOrder,
   setProgress,
-  fetchIfNeededAndResetFormToSavedState,
+  fetchFellowDataAndResetFormToIt,
   saveFellowData,
   publishPDF,
   uploadFileAndGenerateResume
