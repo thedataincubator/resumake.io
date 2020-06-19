@@ -69,9 +69,6 @@ type Props = {
 function Generator({ location }: Props) {
   return (
     <Layout>
-      <Header>
-        <Logo />
-      </Header>
       <SideNav />
       <Content>
         <Form location={location} />
