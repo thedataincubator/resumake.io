@@ -5,7 +5,7 @@
 import React, { Component } from 'react'
 import ReactTooltip from 'react-tooltip'
 import { lighten, darken, rgba } from 'polished'
-import { withRouter, type Location } from 'react-router-dom'
+import { Link, withRouter, type Location } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { arrayMove } from 'react-sortable-hoc'
 import styled from 'styled-components'
@@ -42,7 +42,23 @@ const Nav = styled.nav`
   align-items: center;
   justify-content: center;
   position: relative;
-  top: 25px;
+  padding-top: 25px;
+  min-height: 100%;
+`
+
+const About = styled.div`
+  width: 100%;
+  padding: 2em 0 1em 0;
+  text-align: center;
+
+  a {
+    text-decoration: none;
+    color: ${darken(0.25, colors.foreground)};
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `
 
 const RButton = styled.button`
@@ -244,6 +260,8 @@ class SideNav extends Component<Props> {
               onChange={this.handleFileUpload}
             />
             <ReactTooltip type="info" effect="solid" place="right" />
+            <div style={{ flexGrow: 1 }} />
+            <About><Link to="/resumake/about">About</Link></About>
           </Nav>
         </div>
       </Aside>
