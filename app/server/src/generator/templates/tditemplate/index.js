@@ -13,7 +13,7 @@ const generator: Generator = {
     }
 
     const { name = '', email, phone, location = {}, website, visa } = basics
-    const info = [location.address, phone, email, website, visa].filter(Boolean)
+    const info = [location.address, phone, this.href(email, 'mailto:'), this.href(website), visa].filter(Boolean)
 
     return stripIndent`
       % Personal
@@ -199,13 +199,21 @@ const generator: Generator = {
             \\project
               {${name}}
               {${keywords.join(', ')}}
-              {${url}}
+              {${this.href(url)}}
               {${desc}}
           `
         })}
       }
     `
   },
+
+  href(url, protocol='http://') {
+    if (!url)
+      return ''
+    if (url.search('://') > -1)
+      return `\\href{${url}}{${url.replace('//', '/$\\!$/')}}`
+    return `\\href{${protocol}${url}}{${url}}`
+  }
 }
 
 function tditemplate(values: SanitizedValues) {
