@@ -183,7 +183,7 @@ class SideNav extends Component<Props> {
 
     return (
       <Aside>
-        <div style={{overflow: "auto", "min-height": "100%"}}>
+        <div style={{ overflow: "auto", "minHeight": "100%" }}>
           <Nav>
             <SortableList
               useDragHandle
@@ -225,11 +225,11 @@ class SideNav extends Component<Props> {
             <Heading>
               Local versions
             </Heading>
-            { previewUpdated ?
+            {previewUpdated ?
               <RButtonLink href={jsonURL} download="resume.json">
                 Download JSON
               </RButtonLink>
-            :
+              :
               <RButton disabled data-tip="Update preview to download JSON.">
                 Download JSON
               </RButton>
@@ -240,7 +240,7 @@ class SideNav extends Component<Props> {
             <input
               id="import-json"
               type="file"
-              style={{display: "none"}}
+              style={{ display: "none" }}
               onChange={this.handleFileUpload}
             />
             <ReactTooltip type="info" effect="solid" place="right" />

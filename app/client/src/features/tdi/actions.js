@@ -2,6 +2,7 @@
  * @flow
  */
 
+import { toast } from 'react-toastify'
 import { hasPrevSession } from '../../app/selectors'
 import { previewMatchesFellowData, hasNoFellowData } from './selectors'
 import { isEqual } from 'lodash'
@@ -10,6 +11,29 @@ import type { Action, AsyncAction } from '../../app/types'
 import { FormValuesWithSectionOrder } from '../form/types'
 import { clearState } from '../../app/actions'
 import { generateResume } from '../../features/preview/actions'
+
+/**
+ * NOTE: presentation layer (in this case - react toast) should not seep into
+ * state layer.
+ * Ideally, we should write request status flags like e.g. GENERATE_RESUME_REQUEST and GENERATE_RESUME_FAILURE
+ * already do and derive presentation from there.
+ * For now, I'll just sprinkle around some toast calls as a (hopefully) temporary band-aid.
+ */
+const TOAST_INFO_OPTS = {
+  type: 'info',
+  position: toast.POSITION.TOP_RIGHT,
+  hideProgressBar: true,
+  closeButton: false,
+  autoClose: 3000
+}
+const TOAST_ERROR_OPTS = {
+  type: 'error',
+  position: toast.POSITION.TOP_RIGHT,
+  hideProgressBar: true,
+  closeButton: false,
+  autoClose: 3000
+}
+
 
 function updateSavedFellowData(fellowData): Action {
   return {
@@ -35,13 +59,16 @@ function fetchFellowData(): AsyncAction {
       const response = await fetch(fellowDataFetchUrl)
       const responseData = await response.json()
       if (!response.ok) {
-        alert(responseData.errors.join('\n'))
-        return
+        toast(responseData.errors.join('. '), TOAST_ERROR_OPTS)
+        return false
       }
       const fellowData = responseData
+      toast('Data loaded.', TOAST_INFO_OPTS)
       dispatch(updateSavedFellowData(fellowData))
+      return true
     } catch (err) {
-      alert(err.message)
+      toast(err.message, TOAST_ERROR_OPTS)
+      return false
     }
   }
 }
@@ -59,12 +86,17 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
     }
     try {
       const updateFellowDataUrl = fellowKeyUrlsafe ? '/fellows/update_resume_json/' + fellowKeyUrlsafe : '/fellows/update_resume_json'
-      await fetch(updateFellowDataUrl, request)
+      const resp = await fetch(updateFellowDataUrl, request)
+      if (!resp.ok) {
+        const respObj = await resp.json()
+        toast(respObj.errors.join('. '), TOAST_ERROR_OPTS)
+        return false
+      }
       dispatch(updateSavedFellowData(resumeData))
+      toast('Data saved.', TOAST_INFO_OPTS)
       return true
     } catch (err) {
-      alert('errored out')
-      console.log(err)
+      toast(err.message, TOAST_ERROR_OPTS)
       return false
     }
   }
@@ -74,7 +106,10 @@ export function fetchFellowDataAndResetFormToIt(): AsyncAction {
   // ResetForm_And_Preview, actually.
   return async (dispatch, getState) => {
     const { fellowKeyUrlsafe } = getState().tdi
-    await dispatch(fetchFellowData())
+    const success = await dispatch(fetchFellowData())
+    if (!success) {
+      return
+    }
     dispatch(reset('resume'))
     const { fellowData } = getState().tdi
     await dispatch(generateResume(fellowData))
@@ -87,17 +122,8 @@ export function publishPDF(): AsyncAction {
     const state = getState()
     const fellowKeyUrlsafe = state.tdi.fellowKeyUrlsafe
 
-    const {
-      data: {
-        json: previewData
-      },
-      resume: {
-        url: blobUrl
-      }
-    } = state.preview
-    const {
-      fellowData: tdiFellowData
-    } = state.tdi
+    const { resume: { url: blobUrl } } = state.preview
+    const { fellowData: tdiFellowData } = state.tdi
 
     const { confirm } = window
     if (!confirm('The displayed resume will be published on the Resume Book')) {
@@ -129,10 +155,12 @@ export function publishPDF(): AsyncAction {
         const response = await fetch(publishPDFUrl, request)
         if (!response.ok) {
           const responseData = await response.json()
-          alert(responseData.errors.join('\n'))
+          toast(responseData.errors.join('. '), TOAST_ERROR_OPTS)
+          return
         }
+        toast('Resume Published.', TOAST_INFO_OPTS)
       } catch (err) {
-        alert(err.message)
+        toast(err.message, TOAST_ERROR_OPTS)
       }
     }
 

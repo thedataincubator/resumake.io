@@ -4,6 +4,7 @@
 
 import React from 'react'
 import Loadable from 'react-loadable'
+import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import Form from '../../features/form/components'
 import { SideNav, Progress } from '../../features/progress/components'
@@ -69,6 +70,7 @@ type Props = {
 function Generator({ location }: Props) {
   return (
     <Layout>
+      <ToastContainer />
       <SideNav />
       <Content>
         <Form location={location} />
