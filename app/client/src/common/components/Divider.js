@@ -15,7 +15,7 @@ const Divider = styled.hr`
   background: ${colors.primary};
   opacity: 0.75;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 100%;
   }
 `
@@ -35,7 +35,7 @@ const SwapEl = styled.div`
   transition: all 0.4s ease;
   user-select: none;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 100%;
   }
 

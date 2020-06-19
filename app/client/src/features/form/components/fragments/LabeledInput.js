@@ -57,7 +57,7 @@ const Input = styled(Field)`
     }
   }
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     font-size: 16px;
     padding-left: 0;
     padding-right: 0;

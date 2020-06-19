@@ -31,7 +31,7 @@ const Aside = styled.aside`
   align-items: center;
   border-right: 1px solid ${colors.borders};
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     display: none;
   }
 `

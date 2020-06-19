@@ -34,7 +34,7 @@ const StyledForm = styled.form`
   border-right: 1px solid ${colors.borders};
   overflow-y: auto;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 100%;
     border: none;
   }

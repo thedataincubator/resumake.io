@@ -88,7 +88,7 @@ const Color = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 75px;
     height: 75px;
     margin: 2px;
@@ -193,7 +193,7 @@ const FormInput = Input.withComponent('input').extend`
   width: 50%;
   margin-bottom: 25px;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 50%;
   }
 `
@@ -203,7 +203,7 @@ const FormDivider = Divider.extend`
   margin: 0;
   padding: 0;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 50%;
   }
 `

@@ -44,7 +44,7 @@ const Bar = styled.div`
   ${props =>
     props.hideOnMobile &&
     css`
-      @media screen and (max-width: 850px) {
+      @media screen and (max-width: 50px) {
         display: none;
       }
     `};
@@ -76,7 +76,7 @@ const SectionButton = Button.extend`
     background: ${colors.primary};
     color: ${colors.background};
 
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 50px) {
       background: transparent;
       color: ${colors.primary};
     }

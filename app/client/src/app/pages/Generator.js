@@ -26,7 +26,7 @@ const Content = styled.main`
   width: calc(100% - ${sizes.sideNav});
   height: calc(100% - ${sizes.header} - 1px);
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 100%;
     margin-left: 0;
     flex-direction: column;

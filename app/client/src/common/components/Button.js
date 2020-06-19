@@ -31,7 +31,7 @@ const Button = styled.button`
     color: ${colors.background};
     cursor: pointer;
 
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 50px) {
       background: transparent;
       color: ${colors.primary};
     }
