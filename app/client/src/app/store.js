@@ -21,7 +21,25 @@ if (process.env.NODE_ENV === 'development') {
 
 const enhancer = composeWithDevTools(
   applyMiddleware(...middleware),
-  persistState(['form', 'progress'], { key: 'resumake' })
+  persistState(
+    ['form', 'progress', 'tdi'],
+    {
+      key: 'resumake',
+      slicer: (paths) => (state) => {
+        // TODO: too risky and untested! Just a quick (and cool) solution not to persist fellowData.
+        const subset = {}
+        paths.forEach((path) => {
+          if (path !== 'tdi') {
+            subset[path] = state[path]
+          } else {
+            const { fellowData, ...tdiStateRest } = state[path]
+            subset[path] = tdiStateRest
+          }
+        })
+        return subset
+      }
+    }
+  )
 )
 
 const store = createStore(reducer, enhancer)
