@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import Form from '../../features/form/components'
 import { SideNav, Progress } from '../../features/progress/components'
-import { Logo, Loader } from '../../common/components'
+import { Logo, Loader, Bars } from '../../common/components'
 import { colors, sizes } from '../../common/theme'
 import type { Location } from 'react-router-dom'
 
@@ -58,6 +58,22 @@ const Footer = styled.footer`
   border-top: 1px solid ${colors.borders};
 `
 
+const Working = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #444444aa;
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  body.working & {
+    display: flex;
+  }
+`
+
 const LoadablePreview = Loadable({
   loader: () => import('../../features/preview/components'),
   loading: Loader
@@ -76,6 +92,7 @@ function Generator({ location }: Props) {
         <Form location={location} />
         <LoadablePreview hideOnMobile />
       </Content>
+      <Working><Bars /></Working>
     </Layout>
   )
 }

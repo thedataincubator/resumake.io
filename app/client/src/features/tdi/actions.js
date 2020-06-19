@@ -35,6 +35,13 @@ const TOAST_ERROR_OPTS = {
 }
 
 
+function setWorking(working) {
+  if (working)
+    document.body.classList.add('working')
+  else
+    document.body.classList.remove('working')
+}
+
 function updateSavedFellowData(fellowData): Action {
   return {
     type: 'UPDATE_FELLOW_DATA',
@@ -53,6 +60,7 @@ function fetchFellowData(): AsyncAction {
   return async (dispatch, getState) => {
     const { fellowKeyUrlsafe } = getState().tdi
     const { fetch } = window
+    setWorking(true)
     try {
       const fellowDataFetchBaseUrl = '/fellows/fetch_resume_json'
       const fellowDataFetchUrl = fellowKeyUrlsafe ? fellowDataFetchBaseUrl + '/' + fellowKeyUrlsafe : fellowDataFetchBaseUrl
@@ -63,12 +71,14 @@ function fetchFellowData(): AsyncAction {
         return false
       }
       const fellowData = responseData
-      toast('Data loaded.', TOAST_INFO_OPTS)
+      toast('Resume data loaded.', TOAST_INFO_OPTS)
       dispatch(updateSavedFellowData(fellowData))
       return true
     } catch (err) {
       toast(err.message, TOAST_ERROR_OPTS)
       return false
+    } finally {
+      setWorking(false)
     }
   }
 }
@@ -84,6 +94,7 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
       },
       body: JSON.stringify(resumeData)
     }
+    setWorking(true)
     try {
       const updateFellowDataUrl = fellowKeyUrlsafe ? '/fellows/update_resume_json/' + fellowKeyUrlsafe : '/fellows/update_resume_json'
       const resp = await fetch(updateFellowDataUrl, request)
@@ -93,11 +104,13 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
         return false
       }
       dispatch(updateSavedFellowData(resumeData))
-      toast('Data saved.', TOAST_INFO_OPTS)
+      toast('Resume data saved.', TOAST_INFO_OPTS)
       return true
     } catch (err) {
       toast(err.message, TOAST_ERROR_OPTS)
       return false
+    } finally {
+      setWorking(false)
     }
   }
 }
@@ -149,6 +162,7 @@ export function publishPDF(): AsyncAction {
         body: data
       }
 
+      setWorking(true)
       try {
         const publishPDFBaseUrl = '/fellows/update_resume'
         const publishPDFUrl = fellowKeyUrlsafe ? publishPDFBaseUrl + '/' + fellowKeyUrlsafe : publishPDFBaseUrl
@@ -158,9 +172,11 @@ export function publishPDF(): AsyncAction {
           toast(responseData.errors.join('. '), TOAST_ERROR_OPTS)
           return
         }
-        toast('Resume Published.', TOAST_INFO_OPTS)
+        toast('Resume published to resume book.', TOAST_INFO_OPTS)
       } catch (err) {
         toast(err.message, TOAST_ERROR_OPTS)
+      } finally {
+        setWorking(false)
       }
     }
 
