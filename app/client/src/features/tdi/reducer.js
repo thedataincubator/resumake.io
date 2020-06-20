@@ -8,13 +8,16 @@ import type { Action } from '../../app/types'
 
 // TODO: not typeizing yet
 
-export const initialState = {
-  fellowData: null, // NOTE: this is FormValuesWithSectionOrder!
-  fellowKeyUrlsafe: undefined
-}
-
 const initialFormValues = formInitialState.values
 const initialSections = progressInitialState.sections
+
+export const initialState = {
+  fellowData: {
+    ...initialFormValues,
+    sections: initialSections
+  }, // NOTE: this is FormValuesWithSectionOrder!
+  fellowKeyUrlsafe: undefined
+}
 
 function tdi(state = initialState, action) {
   switch (action.type) {
@@ -22,6 +25,7 @@ function tdi(state = initialState, action) {
       return {
         ...state,
         fellowData: {
+          // NOTE: initial form and section values protect us from empty {} server responses.
           ...initialFormValues,
           sections: initialSections,
           ...action.fellowData

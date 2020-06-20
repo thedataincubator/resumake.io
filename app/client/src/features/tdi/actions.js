@@ -4,13 +4,14 @@
 
 import { toast } from 'react-toastify'
 import { hasPrevSession } from '../../app/selectors'
-import { previewMatchesFellowData, hasNoFellowData } from './selectors'
+import { previewMatchesFellowData, hasNoFellowData, sectionOrderFromFellowData } from './selectors'
 import { isEqual } from 'lodash'
 import { reset } from 'redux-form'
 import type { Action, AsyncAction } from '../../app/types'
 import { FormValuesWithSectionOrder } from '../form/types'
 import { clearState } from '../../app/actions'
 import { generateResume } from '../../features/preview/actions'
+import { setSectionOrder } from '../../features/progress/actions'
 
 /**
  * NOTE: presentation layer (in this case - react toast) should not seep into
@@ -124,8 +125,10 @@ export function fetchFellowDataAndResetFormToIt(): AsyncAction {
       return
     }
     dispatch(reset('resume'))
-    const { fellowData } = getState().tdi
-    await dispatch(generateResume(fellowData))
+    const state = getState()
+    // NOTE: we can hard code arbitrary section since we ditched the progress bar anyways.
+    dispatch(setSectionOrder(sectionOrderFromFellowData(state, 'templates')))
+    await dispatch(generateResume(state.tdi.fellowData))
   }
 }
 

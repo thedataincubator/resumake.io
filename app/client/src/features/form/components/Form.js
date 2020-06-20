@@ -21,7 +21,7 @@ import { ScrollToTop } from '../../../common/components'
 import { generateResume } from '../../preview/actions'
 import { setProgress } from '../../progress/actions'
 import { fetchFellowDataAndResetFormToIt } from '../../tdi/actions'
-import { mayResetFormToFellowData } from '../../tdi/selectors'
+import { mayResetFormToFellowData, formValuesFromFellowData } from '../../tdi/selectors'
 import { colors } from '../../../common/theme'
 import type { FormValues } from '../types'
 import type { State } from '../../../app/types'
@@ -137,7 +137,7 @@ function mapState(state: State) {
     formValues: state.form.resume.values,
     sections: state.progress.sections,
     progress: state.progress.progress,
-    initialValues: state.tdi.fellowData,
+    initialValues: formValuesFromFellowData(state),
     mayResetFormToFellowData: mayResetFormToFellowData(state)
   }
 }
