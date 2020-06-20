@@ -140,6 +140,29 @@ describe('form reducer', () => {
     expect(actual).toEqual(expected)
   })
 
+  it('can remove the first school', () => {
+    const state: State = {
+      ...initialState,
+      values: {
+        ...initialState.values,
+        education: [{ institution: 'Rutgers' }, { institution: 'MCC' }]
+      }
+    }
+
+    const action = removeSchool(0)
+
+    const expected: State = {
+      ...initialState,
+      values: {
+        ...state.values,
+        education: [{ institution: 'MCC' }]
+      }
+    }
+
+    const actual = reducer(state, action)
+    expect(actual).toEqual(expected)
+  })
+
   it('can add a job', () => {
     const state: State = {
       ...initialState,
@@ -189,22 +212,48 @@ describe('form reducer', () => {
     expect(actual).toEqual(expected)
   })
 
-  it('can add a job highlight', () => {
+  it('can remove the first job', () => {
     const state: State = {
       ...initialState,
       values: {
         ...initialState.values,
-        work: [{ company: 'Mozilla', highlights: ['Did cool stuff'] }]
+        work: [
+          { company: 'Mozilla', highlights: [''] },
+          { company: 'Codecademy', highlights: [''] }
+        ]
       }
     }
 
-    const action = addJobHighlight(0, 99) // Should just add another highlight.
+    const action = removeJob(0)
 
     const expected: State = {
       ...initialState,
       values: {
         ...state.values,
-        work: [{ company: 'Mozilla', highlights: ['Did cool stuff', ''] }]
+        work: [{ company: 'Codecademy', highlights: [''] }]
+      }
+    }
+
+    const actual = reducer(state, action)
+    expect(actual).toEqual(expected)
+  })
+
+  it('can add a job highlight', () => {
+    const state: State = {
+      ...initialState,
+      values: {
+        ...initialState.values,
+        work: [{ company: 'Mozilla', highlights: ['Did cool stuff', 'etc'] }]
+      }
+    }
+
+    const action = addJobHighlight(0, 0)
+
+    const expected: State = {
+      ...initialState,
+      values: {
+        ...state.values,
+        work: [{ company: 'Mozilla', highlights: ['Did cool stuff', '', 'etc'] }]
       }
     }
 
@@ -236,6 +285,39 @@ describe('form reducer', () => {
           {
             company: 'Mozilla',
             highlights: ['Did cool stuff']
+          }
+        ]
+      }
+    }
+
+    const actual = reducer(state, action)
+    expect(actual).toEqual(expected)
+  })
+
+  it('can remove the first job highlight', () => {
+    const state: State = {
+      ...initialState,
+      values: {
+        ...initialState.values,
+        work: [
+          {
+            company: 'Mozilla',
+            highlights: ['Did cool stuff', 'Did really cool stuff']
+          }
+        ]
+      }
+    }
+
+    const action = removeJobHighlight(0, 0)
+
+    const expected: State = {
+      ...initialState,
+      values: {
+        ...state.values,
+        work: [
+          {
+            company: 'Mozilla',
+            highlights: ['Did really cool stuff']
           }
         ]
       }
@@ -294,6 +376,32 @@ describe('form reducer', () => {
     expect(actual).toEqual(expected)
   })
 
+  it('can remove the first skill', () => {
+    const state: State = {
+      ...initialState,
+      values: {
+        ...initialState.values,
+        skills: [
+          { name: 'Languages', keywords: ['JavaScript', 'Java'] },
+          { name: 'Frameworks', keywords: ['React', 'Redux'] }
+        ]
+      }
+    }
+
+    const action = removeSkill(0)
+
+    const expected: State = {
+      ...initialState,
+      values: {
+        ...state.values,
+        skills: [{ name: 'Frameworks', keywords: ['React', 'Redux'] }]
+      }
+    }
+
+    const actual = reducer(state, action)
+    expect(actual).toEqual(expected)
+  })
+
   it('can add a skill keyword', () => {
     const state: State = {
       ...initialState,
@@ -306,7 +414,36 @@ describe('form reducer', () => {
       }
     }
 
-    const action = addSkillKeyword(1, 99)
+    const action = addSkillKeyword(0, 99)
+
+    const expected: State = {
+      ...initialState,
+      values: {
+        ...state.values,
+        skills: [
+          { name: 'Languages', keywords: ['JavaScript', 'Java', ''] },
+          { name: 'Frameworks', keywords: ['React', 'Redux'] }
+        ]
+      }
+    }
+
+    const actual = reducer(state, action)
+    expect(actual).toEqual(expected)
+  })
+
+  it('can add a skill keyword in the middle', () => {
+    const state: State = {
+      ...initialState,
+      values: {
+        ...initialState.values,
+        skills: [
+          { name: 'Languages', keywords: ['JavaScript', 'Java'] },
+          { name: 'Frameworks', keywords: ['React', 'Redux'] }
+        ]
+      }
+    }
+
+    const action = addSkillKeyword(1, 0)
 
     const expected: State = {
       ...initialState,
@@ -314,7 +451,7 @@ describe('form reducer', () => {
         ...state.values,
         skills: [
           { name: 'Languages', keywords: ['JavaScript', 'Java'] },
-          { name: 'Frameworks', keywords: ['React', 'Redux', ''] }
+          { name: 'Frameworks', keywords: ['React', '', 'Redux'] }
         ]
       }
     }
@@ -344,6 +481,35 @@ describe('form reducer', () => {
         skills: [
           { name: 'Languages', keywords: ['JavaScript'] },
           { name: 'Frameworks', keywords: ['React', 'Redux'] }
+        ]
+      }
+    }
+
+    const actual = reducer(state, action)
+    expect(actual).toEqual(expected)
+  })
+
+  it('can remove a skill keyword from the beginning', () => {
+    const state: State = {
+      ...initialState,
+      values: {
+        ...initialState.values,
+        skills: [
+          { name: 'Languages', keywords: ['JavaScript', 'Java'] },
+          { name: 'Frameworks', keywords: ['React', 'Redux'] }
+        ]
+      }
+    }
+
+    const action = removeSkillKeyword(1, 0)
+
+    const expected: State = {
+      ...initialState,
+      values: {
+        ...state.values,
+        skills: [
+          { name: 'Languages', keywords: ['JavaScript', 'Java'] },
+          { name: 'Frameworks', keywords: ['Redux'] }
         ]
       }
     }
@@ -420,6 +586,46 @@ describe('form reducer', () => {
           {
             name: 'resumake',
             description: 'Awesome resume generator',
+            keywords: ['Node.js', 'Koa', 'React', 'Redux']
+          }
+        ]
+      }
+    }
+
+    const actual = reducer(state, action)
+    expect(actual).toEqual(expected)
+  })
+
+  it('can remove the first project', () => {
+    const state: State = {
+      ...initialState,
+      values: {
+        ...initialState.values,
+        projects: [
+          {
+            name: 'resumake',
+            description: 'Awesome resume generator',
+            keywords: ['Node.js', 'Koa', 'React', 'Redux']
+          },
+          {
+            name: 'zencuber',
+            description: 'Awesome cube timer',
+            keywords: ['Node.js', 'Koa', 'React', 'Redux']
+          }
+        ]
+      }
+    }
+
+    const action = removeProject(0)
+
+    const expected: State = {
+      ...initialState,
+      values: {
+        ...state.values,
+        projects: [
+          {
+            name: 'zencuber',
+            description: 'Awesome cube timer',
             keywords: ['Node.js', 'Koa', 'React', 'Redux']
           }
         ]
