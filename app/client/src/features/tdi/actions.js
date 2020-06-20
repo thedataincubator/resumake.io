@@ -31,7 +31,7 @@ const TOAST_ERROR_OPTS = {
   position: toast.POSITION.TOP_RIGHT,
   hideProgressBar: true,
   closeButton: false,
-  autoClose: 3000
+  autoClose: 5000
 }
 
 
