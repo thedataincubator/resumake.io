@@ -3,14 +3,18 @@
  */
 
 import { initialState as formInitialState } from '../form/reducer'
+import { initialState as progressInitialState } from '../progress/reducer'
 import type { Action } from '../../app/types'
 
 // TODO: not typeizing yet
 
 export const initialState = {
-  fellowData: null,
+  fellowData: null, // NOTE: this is FormValuesWithSectionOrder!
   fellowKeyUrlsafe: undefined
 }
+
+const initialFormValues = formInitialState.values
+const initialSections = progressInitialState.sections
 
 function tdi(state = initialState, action) {
   switch (action.type) {
@@ -18,7 +22,8 @@ function tdi(state = initialState, action) {
       return {
         ...state,
         fellowData: {
-          ...formInitialState.values,
+          ...initialFormValues,
+          sections: initialSections,
           ...action.fellowData
         }
       }
