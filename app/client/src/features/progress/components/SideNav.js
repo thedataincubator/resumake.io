@@ -224,11 +224,16 @@ class SideNav extends Component<Props> {
             <RButton onClick={this.handleResetFormToSavedStateClick}>
               Load Data from Profile
             </RButton>
-            <RButton onClick={this.handleSaveFellowDataClick}>
-              Save Data to Profile
-            </RButton>
             {/* NOTE: disabled button avoids the tooltip without the wrapping spans. */}
             {/* See: https://github.com/wwayne/react-tooltip/issues/304 */}
+            <span
+              style={{ marginTop: '15px' }} // Aligning the tooltip
+              data-tip="Update preview to save data."
+              data-tip-disable={previewUpdated}>
+              <RButton style={{ marginTop: '0px' }} disabled={!previewUpdated} onClick={this.handleSaveFellowDataClick}>
+                Save Data to Profile
+              </RButton>
+            </span>
             <span
               style={{ marginTop: '15px' }} // Aligning the tooltip
               data-tip="Preview must be updated before publishing."
