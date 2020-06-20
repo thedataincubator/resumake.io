@@ -42,10 +42,8 @@ const generator: Generator = {
       ${education.map(school => {
         const {
           institution = '',
-          location = '',
           area = '',
           studyType = '',
-          gpa = '',
           startDate = '',
           endDate = ''
         } = school
@@ -205,6 +203,11 @@ const generator: Generator = {
         })}
       }
     `
+  },
+
+  // Not used, but needed for type checking
+  awardsSection(awards, heading) {
+    return ''
   },
 
   href(url, protocol='http://') {
