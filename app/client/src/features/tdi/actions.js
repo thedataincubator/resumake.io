@@ -3,9 +3,7 @@
  */
 
 import { toast } from 'react-toastify'
-import { hasPrevSession } from '../../app/selectors'
-import { previewMatchesFellowData, hasNoFellowData } from './selectors'
-import { isEqual } from 'lodash'
+import { previewMatchesFellowData } from './selectors'
 import { reset } from 'redux-form'
 import type { Action, AsyncAction } from '../../app/types'
 import { FormValuesWithSectionOrder } from '../form/types'
@@ -118,7 +116,6 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
 export function fetchFellowDataAndResetFormToIt(): AsyncAction {
   // ResetForm_And_Preview, actually.
   return async (dispatch, getState) => {
-    const { fellowKeyUrlsafe } = getState().tdi
     const success = await dispatch(fetchFellowData())
     if (!success) {
       return
@@ -136,7 +133,6 @@ export function publishPDF(): AsyncAction {
     const fellowKeyUrlsafe = state.tdi.fellowKeyUrlsafe
 
     const { resume: { url: blobUrl } } = state.preview
-    const { fellowData: tdiFellowData } = state.tdi
 
     const { confirm } = window
     if (!confirm('The displayed resume will be published on the Resume Book')) {
@@ -154,7 +150,7 @@ export function publishPDF(): AsyncAction {
 
       const blob = await fetch(blobUrl).then(res => res.blob())
 
-      const data = new FormData()
+      const data = new window.FormData()
       data.append('resume', blob, 'resume.pdf')
 
       const request = {
@@ -190,7 +186,7 @@ export function initializeApplication(fellowKeyUrlsafe: ?string, history: Router
       // a new/different Fellow resume than the previous one.
       const { fellowKeyUrlsafe: prevFellowKey } = getState().tdi
       if (prevFellowKey !== fellowKeyUrlsafe) {
-        alert(`Resetting the application and loading Fellow ${fellowKeyUrlsafe} data.`)
+        window.alert(`Resetting the application and loading Fellow ${fellowKeyUrlsafe} data.`)
         dispatch(clearState())
         dispatch(storeFellowKeyUrlsafe(fellowKeyUrlsafe))
       }

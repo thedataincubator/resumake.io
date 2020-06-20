@@ -54,11 +54,6 @@ injectGlobal`
   }
 `
 
-const LoadableHome = Loadable({
-  loader: () => import('./pages/Home'),
-  loading: Loader
-})
-
 const LoadableHomeTdi = Loadable({
   loader: () => import('./pages/HomeTdi'),
   loading: Loader
@@ -84,7 +79,7 @@ function App() {
     <ScrollToTop>
       <Switch>
         <Route exact path="/resumake/" component={LoadableHomeTdi} />
-        <Route exact path="/resumake/admin/:fellowKeyUrlsafe" render={routeProps => (<LoadableHomeTdi adminPath={true} />)} />
+        <Route exact path="/resumake/admin/:fellowKeyUrlsafe" render={routeProps => (<LoadableHomeTdi adminPath />)} />
         <Route path="/resumake/generator" component={LoadableGenerator} />
         <Route path="/resumake/about" component={LoadableAbout} />
         <Route path="*" component={LoadableError404} />

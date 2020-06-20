@@ -8,13 +8,11 @@ import { connect } from 'react-redux'
 import { Switch, Route, Redirect, type Location } from 'react-router-dom'
 import styled from 'styled-components'
 import {
-  Templates,
   Profile,
   Education,
   Work,
   Skills,
   Projects,
-  Awards
 } from '.'
 import Preview from '../../preview/components'
 import { ScrollToTop } from '../../../common/components'

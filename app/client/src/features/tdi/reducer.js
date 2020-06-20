@@ -3,7 +3,6 @@
  */
 
 import { initialState as formInitialState } from '../form/reducer'
-import type { Action } from '../../app/types'
 
 // TODO: not typeizing yet
 
