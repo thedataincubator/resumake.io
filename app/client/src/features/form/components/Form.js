@@ -137,7 +137,7 @@ function mapState(state: State) {
     formValues: state.form.resume.values,
     sections: state.progress.sections,
     progress: state.progress.progress,
-    initialValues: formValuesFromFellowData(state),
+    initialValues: state.tdi.fellowData,
     mayResetFormToFellowData: mayResetFormToFellowData(state)
   }
 }
