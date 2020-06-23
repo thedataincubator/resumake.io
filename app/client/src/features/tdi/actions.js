@@ -6,12 +6,12 @@ import { toast } from 'react-toastify'
 import { hasPrevSession } from '../../app/selectors'
 import { previewMatchesFellowData, hasNoFellowData, sectionOrderFromFellowData } from './selectors'
 import { isEqual } from 'lodash'
-import { reset } from 'redux-form'
 import type { Action, AsyncAction } from '../../app/types'
 import { FormValuesWithSectionOrder } from '../form/types'
 import { clearState } from '../../app/actions'
 import { generateResume } from '../../features/preview/actions'
 import { setSectionOrder } from '../../features/progress/actions'
+import { uploadJSONSuccess } from '../form/actions'
 
 /**
  * NOTE: presentation layer (in this case - react toast) should not seep into
@@ -124,8 +124,10 @@ export function fetchFellowDataAndResetFormToIt(): AsyncAction {
     if (!success) {
       return
     }
-    dispatch(reset('resume'))
     const state = getState()
+    // Reuse the JSON upload machinery to reset the form data.  Note that this
+    // also sets jsonUpload: "success", but that shouldn't hurt anything.
+    dispatch(uploadJSONSuccess(state.tdi.fellowData))
     // NOTE: we can hard code arbitrary section since we ditched the progress bar anyways.
     dispatch(setSectionOrder(sectionOrderFromFellowData(state, 'templates')))
     await dispatch(generateResume(state.tdi.fellowData))
