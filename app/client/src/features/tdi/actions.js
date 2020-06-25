@@ -57,6 +57,17 @@ function storeFellowKeyUrlsafe(fellowKeyUrlsafe: string): Action {
   }
 }
 
+function parseError(error) {
+  if (error.errors != undefined) {
+    try {
+      return error.errors.join('. ')
+    } catch (err) {
+      return error.errors
+    }
+  }
+  return error.message
+}
+
 function fetchFellowData(): AsyncAction {
   return async (dispatch, getState) => {
     const { fellowKeyUrlsafe } = getState().tdi
@@ -68,7 +79,7 @@ function fetchFellowData(): AsyncAction {
       const response = await fetch(fellowDataFetchUrl)
       const responseData = await response.json()
       if (!response.ok) {
-        toast(responseData.errors.join('. '), TOAST_ERROR_OPTS)
+        toast(parseError(responseData), TOAST_ERROR_OPTS)
         return false
       }
       const fellowData = responseData
@@ -101,7 +112,7 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
       const resp = await fetch(updateFellowDataUrl, request)
       if (!resp.ok) {
         const respObj = await resp.json()
-        toast(respObj.errors.join('. '), TOAST_ERROR_OPTS)
+        toast(parseError(respObj), TOAST_ERROR_OPTS)
         return false
       }
       dispatch(updateSavedFellowData(resumeData))
@@ -174,7 +185,7 @@ export function publishPDF(): AsyncAction {
         const response = await fetch(publishPDFUrl, request)
         if (!response.ok) {
           const responseData = await response.json()
-          toast(responseData.errors.join('. '), TOAST_ERROR_OPTS)
+          toast(parseError(responseData), TOAST_ERROR_OPTS)
           return
         }
         toast('Resume published to resume book.', TOAST_INFO_OPTS)
