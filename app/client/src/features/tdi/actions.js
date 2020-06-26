@@ -2,6 +2,7 @@
  * @flow
  */
 
+import React from 'react'
 import { toast } from 'react-toastify'
 import { hasPrevSession } from '../../app/selectors'
 import { previewMatchesFellowData, hasNoFellowData, sectionOrderFromFellowData } from './selectors'
@@ -12,6 +13,7 @@ import { clearState } from '../../app/actions'
 import { generateResume } from '../../features/preview/actions'
 import { setSectionOrder } from '../../features/progress/actions'
 import { uploadJSONSuccess } from '../form/actions'
+import AuthToast from './components/AuthToast'
 
 /**
  * NOTE: presentation layer (in this case - react toast) should not seep into
@@ -31,8 +33,12 @@ const TOAST_ERROR_OPTS = {
   type: 'error',
   position: toast.POSITION.TOP_RIGHT,
   hideProgressBar: true,
-  closeButton: false,
-  autoClose: 5000
+  closeButton: true,
+  autoClose: false
+}
+const TOAST_LOGIN_OPTS = {
+  ...TOAST_ERROR_OPTS,
+  closeOnClick: false,
 }
 
 
@@ -68,6 +74,30 @@ function parseError(error) {
   return error.message
 }
 
+async function handleAuthError(response) {
+  if (response.status === 401) {
+    // Not logged in
+    try {
+      const responseData = await response.json()
+      toast(<AuthToast loginURL={responseData.loginURL} />, TOAST_LOGIN_OPTS)
+    } catch (err) {
+      toast('Could not authenticate you.  Contact TDI staff for assistance.', TOAST_ERROR_OPTS)
+    }
+    return true
+  }
+  if (response.status === 403) {
+    // Are logged in, but we don't like you
+    try {
+      const responseData = await response.json()
+      toast(parseError(responseData), TOAST_ERROR_OPTS)
+    } catch (err) {
+      toast('Could not authenticate you.  Contact TDI staff for assistance.', TOAST_ERROR_OPTS)
+    }
+    return true
+  }
+  return false
+}
+
 function fetchFellowData(): AsyncAction {
   return async (dispatch, getState) => {
     const { fellowKeyUrlsafe } = getState().tdi
@@ -77,6 +107,9 @@ function fetchFellowData(): AsyncAction {
       const fellowDataFetchBaseUrl = '/fellows/fetch_resume_json'
       const fellowDataFetchUrl = fellowKeyUrlsafe ? fellowDataFetchBaseUrl + '/' + fellowKeyUrlsafe : fellowDataFetchBaseUrl
       const response = await fetch(fellowDataFetchUrl)
+      if (handleAuthError(response)) {
+        return false
+      }
       const responseData = await response.json()
       if (!response.ok) {
         toast(parseError(responseData), TOAST_ERROR_OPTS)
@@ -110,6 +143,9 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
     try {
       const updateFellowDataUrl = fellowKeyUrlsafe ? '/fellows/update_resume_json/' + fellowKeyUrlsafe : '/fellows/update_resume_json'
       const resp = await fetch(updateFellowDataUrl, request)
+      if (handleAuthError(response)) {
+        return false
+      }
       if (!resp.ok) {
         const respObj = await resp.json()
         toast(parseError(respObj), TOAST_ERROR_OPTS)
@@ -183,6 +219,9 @@ export function publishPDF(): AsyncAction {
         const publishPDFBaseUrl = '/fellows/update_resume'
         const publishPDFUrl = fellowKeyUrlsafe ? publishPDFBaseUrl + '/' + fellowKeyUrlsafe : publishPDFBaseUrl
         const response = await fetch(publishPDFUrl, request)
+        if (handleAuthError(response)) {
+          return
+        }
         if (!response.ok) {
           const responseData = await response.json()
           toast(parseError(responseData), TOAST_ERROR_OPTS)
