@@ -27,7 +27,7 @@ const ToastDiv = styled.div`
 const AuthToast = ({ loginURL, closeToast }) => {
 
   const handleClick = () =>{
-    window.location.pathname = loginURL
+    window.location = window.location.origin + loginURL
     closeToast()
   }
 

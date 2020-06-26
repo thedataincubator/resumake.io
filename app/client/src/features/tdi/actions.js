@@ -107,7 +107,7 @@ function fetchFellowData(): AsyncAction {
       const fellowDataFetchBaseUrl = '/fellows/fetch_resume_json'
       const fellowDataFetchUrl = fellowKeyUrlsafe ? fellowDataFetchBaseUrl + '/' + fellowKeyUrlsafe : fellowDataFetchBaseUrl
       const response = await fetch(fellowDataFetchUrl)
-      if (handleAuthError(response)) {
+      if (await handleAuthError(response)) {
         return false
       }
       const responseData = await response.json()
@@ -143,7 +143,7 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
     try {
       const updateFellowDataUrl = fellowKeyUrlsafe ? '/fellows/update_resume_json/' + fellowKeyUrlsafe : '/fellows/update_resume_json'
       const resp = await fetch(updateFellowDataUrl, request)
-      if (handleAuthError(response)) {
+      if (await handleAuthError(response)) {
         return false
       }
       if (!resp.ok) {
@@ -219,7 +219,7 @@ export function publishPDF(): AsyncAction {
         const publishPDFBaseUrl = '/fellows/update_resume'
         const publishPDFUrl = fellowKeyUrlsafe ? publishPDFBaseUrl + '/' + fellowKeyUrlsafe : publishPDFBaseUrl
         const response = await fetch(publishPDFUrl, request)
-        if (handleAuthError(response)) {
+        if (await handleAuthError(response)) {
           return
         }
         if (!response.ok) {
