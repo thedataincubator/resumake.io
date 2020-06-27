@@ -250,7 +250,6 @@ function tditemplate(values: SanitizedValues) {
         }
       })
       .join('\n')}
-    ${WHITESPACE}
     \\end{document}
   `
 }
