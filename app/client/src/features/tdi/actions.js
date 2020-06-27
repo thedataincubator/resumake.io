@@ -143,7 +143,7 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
     try {
       const updateFellowDataUrl = fellowKeyUrlsafe ? '/fellows/update_resume_json/' + fellowKeyUrlsafe : '/fellows/update_resume_json'
       const resp = await fetch(updateFellowDataUrl, request)
-      if (await handleAuthError(response)) {
+      if (await handleAuthError(resp)) {
         return false
       }
       if (!resp.ok) {
