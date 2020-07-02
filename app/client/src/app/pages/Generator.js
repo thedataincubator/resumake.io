@@ -7,9 +7,9 @@ import Loadable from 'react-loadable'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import Form from '../../features/form/components'
-import { SideNav, Progress } from '../../features/progress/components'
-import { Logo, Loader, Bars } from '../../common/components'
-import { colors, sizes } from '../../common/theme'
+import { SideNav } from '../../features/progress/components'
+import { Loader, Bars } from '../../common/components'
+import { sizes } from '../../common/theme'
 import type { Location } from 'react-router-dom'
 
 const Layout = styled.div`
@@ -31,31 +31,6 @@ const Content = styled.main`
     margin-left: 0;
     flex-direction: column;
   }
-`
-
-const Header = styled.header`
-  position: fixed;
-  z-index: 1;
-  width: 100vw;
-  height: ${sizes.header};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: ${colors.background};
-  border-bottom: 1px solid ${colors.borders};
-`
-
-const Footer = styled.footer`
-  width: 100%;
-  height: ${sizes.footer};
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  background: ${colors.background};
-  border-top: 1px solid ${colors.borders};
 `
 
 const Working = styled.div`

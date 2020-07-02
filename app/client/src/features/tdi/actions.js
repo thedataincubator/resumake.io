@@ -4,9 +4,7 @@
 
 import React from 'react'
 import { toast } from 'react-toastify'
-import { hasPrevSession } from '../../app/selectors'
-import { previewMatchesFellowData, hasNoFellowData, sectionOrderFromFellowData } from './selectors'
-import { isEqual } from 'lodash'
+import { previewMatchesFellowData, sectionOrderFromFellowData } from './selectors'
 import type { Action, AsyncAction } from '../../app/types'
 import { FormValuesWithSectionOrder } from '../form/types'
 import { clearState } from '../../app/actions'
@@ -64,7 +62,7 @@ function storeFellowKeyUrlsafe(fellowKeyUrlsafe: string): Action {
 }
 
 function parseError(error) {
-  if (error.errors != undefined) {
+  if (error.errors !== undefined) {
     try {
       return error.errors.join('. ')
     } catch (err) {
@@ -166,7 +164,6 @@ export function saveFellowData(resumeData: FormValuesWithSectionOrder): AsyncAct
 export function fetchFellowDataAndResetFormToIt(): AsyncAction {
   // ResetForm_And_Preview, actually.
   return async (dispatch, getState) => {
-    const { fellowKeyUrlsafe } = getState().tdi
     const success = await dispatch(fetchFellowData())
     if (!success) {
       return
@@ -188,7 +185,6 @@ export function publishPDF(): AsyncAction {
     const fellowKeyUrlsafe = state.tdi.fellowKeyUrlsafe
 
     const { resume: { url: blobUrl } } = state.preview
-    const { fellowData: tdiFellowData } = state.tdi
 
     const { confirm } = window
     if (!confirm('The displayed resume will be published on the Resume Book')) {
@@ -202,7 +198,7 @@ export function publishPDF(): AsyncAction {
     }
 
     if (saved) {
-      const { fetch } = window
+      const { fetch, FormData } = window
 
       const blob = await fetch(blobUrl).then(res => res.blob())
 
@@ -245,7 +241,7 @@ export function initializeApplication(fellowKeyUrlsafe: ?string, history: Router
       // a new/different Fellow resume than the previous one.
       const { fellowKeyUrlsafe: prevFellowKey } = getState().tdi
       if (prevFellowKey !== fellowKeyUrlsafe) {
-        alert(`Resetting the application and loading Fellow ${fellowKeyUrlsafe} data.`)
+        window.alert(`Resetting the application and loading Fellow ${fellowKeyUrlsafe} data.`)
         dispatch(clearState())
         dispatch(storeFellowKeyUrlsafe(fellowKeyUrlsafe))
       }

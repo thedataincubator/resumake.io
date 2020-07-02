@@ -4,7 +4,6 @@
 
 import { initialState as formInitialState } from '../form/reducer'
 import { initialState as progressInitialState } from '../progress/reducer'
-import type { Action } from '../../app/types'
 
 // TODO: not typeizing yet
 
