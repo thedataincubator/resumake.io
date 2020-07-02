@@ -45,6 +45,8 @@
   {\itemize[nolistsep,topsep=\sizefive,itemsep=\sizefive,labelsep=0pt,leftmargin=0pt,label={}]}
   {\enditemize}
 
+% Trickery from https://tex.stackexchange.com/a/114077
+\newcommand{\fillorsplit}{\hspace{\fill}\mbox{}\linebreak[0]\hspace*{\fill}}
 
 \newcommand{\chap}[2]{
   \vspace{\sizethree}
@@ -55,7 +57,7 @@
 
 \newcommand{\job}[5]{
   \vspace{\sizefive}
-  \textbf{\MakeUppercase{#1}} \hfill \textbf{#2}
+  \textbf{\MakeUppercase{#1}}\fillorsplit\textbf{#2}
 
   \textbf{#3} \hfill {} % Skip location (#4)
   {#5}
@@ -64,7 +66,7 @@
 
 \newcommand{\project}[4]{
   \vspace{\sizefive} % Skip tools #2
-  \textbf{\MakeUppercase{#1}} \hfill #3
+  \textbf{\MakeUppercase{#1}}\fillorsplit\mbox{#3}
 
   {#4}
   \vspace{\sizefive}
