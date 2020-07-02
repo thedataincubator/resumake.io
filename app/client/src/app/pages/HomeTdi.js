@@ -47,7 +47,7 @@ const LoadWrapper = styled.div`
 `
 
 type Props = {
-  adminPath: ?Boolean,
+  adminPath: ?boolean,
   resumeStatus: string,
   jsonUpload: {
     status?: 'pending' | 'success' | 'failure',
