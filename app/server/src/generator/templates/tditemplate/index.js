@@ -23,7 +23,9 @@ const generator: Generator = {
       \\vspace{-0.74em}
       \\textcolor{tdi}{\\hrule height 1pt}
       \\vspace{0.74em}
-      ${info.join(' | ')}
+      {\\raggedright
+      ${info.map(x => `\\mbox{${x}}`).join('\\discretionary{}{}{\\mbox{ | }}')}\\par
+      }
     `
   },
 
