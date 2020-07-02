@@ -75,7 +75,7 @@ type Props = {
 
 function LabeledInput({ label, name, placeholder, type = 'text', component = 'input' }: Props) {
   return (
-    <div>
+    <div style={{flexGrow: 1}}>
       <Label>{label}</Label>
       <Input
         type={type}
