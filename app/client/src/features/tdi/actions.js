@@ -5,7 +5,7 @@
 import React from 'react'
 import { toast } from 'react-toastify'
 import { previewMatchesFellowData, sectionOrderFromFellowData } from './selectors'
-import type { Action, AsyncAction } from '../../app/types'
+import type { Action, AsyncAction, State } from '../../app/types'
 import { FormValuesWithSectionOrder } from '../form/types'
 import { clearState } from '../../app/actions'
 import { generateResume } from '../../features/preview/actions'
@@ -182,10 +182,14 @@ export function fetchFellowDataAndResetFormToIt(): AsyncAction {
 export function publishPDF(): AsyncAction {
   return async (dispatch, getState) => {
 
-    const state = getState()
+    const state: State = getState()
     const fellowKeyUrlsafe = state.tdi.fellowKeyUrlsafe
 
-    const { resume: { url: blobUrl } } = state.preview
+    const {
+      resume: { url: blobUrl },
+      form: { resume: { values } },
+      progress: { sections }
+    } = state.preview
 
     const { confirm } = window
     if (!confirm('The displayed resume will be published on the Resume Book')) {
@@ -195,7 +199,7 @@ export function publishPDF(): AsyncAction {
     let saved = true
     // Save the resume data that's currently displayed
     if (!previewMatchesFellowData(state)) { //
-      saved = await dispatch(saveFellowData(state.form.resume.values))
+      saved = await dispatch(saveFellowData({ sections, ...values }))
     }
 
     if (saved) {
