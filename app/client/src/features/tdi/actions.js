@@ -41,10 +41,11 @@ const TOAST_LOGIN_OPTS = {
 
 
 function setWorking(working) {
+  const body: any = document.body
   if (working)
-    document.body.classList.add('working')
+    body.classList.add('working')
   else
-    document.body.classList.remove('working')
+    body.classList.remove('working')
 }
 
 function updateSavedFellowData(fellowData): Action {

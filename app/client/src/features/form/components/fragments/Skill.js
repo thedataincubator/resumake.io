@@ -4,7 +4,7 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { SortableElement, SortableContainer} from 'react-sortable-hoc'
+import { SortableElement, SortableContainer } from 'react-sortable-hoc'
 import { MarginlessButton, RoundButton, Icon, Row, Swap } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
 import { DragHandle } from '../../../progress/components/SortableList'
@@ -42,19 +42,19 @@ const SortableSkill = SortableElement(({ keywordIndex, skillIndex, addKeyword, r
           <Icon type="add" />
         </RoundButton>
         <RoundButton
-              inverted
-              type="button"
-              disabled={!canRemove}
-              onClick={() => removeKeyword(skillIndex, keywordIndex)}
-            >
-              <Icon type="remove" />
-            </RoundButton>
+          inverted
+          type="button"
+          disabled={!canRemove}
+          onClick={() => removeKeyword(skillIndex, keywordIndex)}
+        >
+          <Icon type="remove" />
+        </RoundButton>
       </ButtonRow>
     </div>
   )
 })
 
-const SortableSkills = SortableContainer(({items, skillIndex, addKeyword, removeKeyword, canRemove}) => {
+const SortableSkills = SortableContainer(({ items, skillIndex, addKeyword, removeKeyword, canRemove }) => {
   return (
     <div>
       {items.map((value, index) => (
@@ -89,8 +89,8 @@ function Skill({ keywords, index, canRemove, removeSkill, swapSkills, addKeyword
     <div>
       {index > 0
         ? <Swap
-            onClick={() => swapSkills(index)}
-          />
+          onClick={() => swapSkills(index)}
+        />
         : null}
       <Row>
         <LabeledInput
@@ -116,11 +116,15 @@ function Skill({ keywords, index, canRemove, removeSkill, swapSkills, addKeyword
         removeKeyword={removeKeyword}
         skillIndex={index}
         canRemove={keywords.length > 1}
-        onSortStart={() => document.body.classList.toggle('grabbing')}
+        onSortStart={() => {
+          const body: any = document.body
+          body.classList.toggle('grabbing')
+        }}
         onSortEnd={({ oldIndex, newIndex }) => {
-                    reorderSkillKeywords(index, oldIndex, newIndex)
-                    document.body.classList.toggle('grabbing')
-                  }}
+          reorderSkillKeywords(index, oldIndex, newIndex)
+          const body: any = document.body
+          body.classList.toggle('grabbing')
+        }}
       />
     </div>
   )
