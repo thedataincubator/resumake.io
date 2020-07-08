@@ -126,7 +126,7 @@ describe('form reducer', () => {
       }
     }
 
-    const action = removeSchool()
+    const action = removeSchool(1)
 
     const expected: State = {
       ...initialState,
