@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link, withRouter, type RouterHistory } from 'react-router-dom'
+import { Link, withRouter, type RouterHistory, type Match } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import styled from 'styled-components'
 import { Bars } from '../../common/components'
@@ -55,8 +55,9 @@ type Props = {
   },
   clearState: () => void,
   uploadFileAndGenerateResume: (file: File) => Promise<void>,
-  initializeApplication: (history: RouterHistory, fellowKeyUrlsafe: ?string) => Promise<void>,
-  history: RouterHistory
+  initializeApplication: (fellowKeyUrlsafe: ?string, history: RouterHistory) => Promise<void>,
+  history: RouterHistory,
+  match: Match
 }
 
 class Home extends Component<Props> {
