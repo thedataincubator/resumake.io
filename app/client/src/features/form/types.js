@@ -94,22 +94,22 @@ type FormAction =
   | { type: 'UPLOAD_JSON_FAILURE', errMessage: string }
   | { type: 'SELECT_TEMPLATE', templateId: number }
   | { type: 'ADD_SCHOOL' }
-  | { type: 'REMOVE_SCHOOL' }
+  | { type: 'REMOVE_SCHOOL', index: number }
   | { type: 'SWAP_SCHOOLS', index: number }
   | { type: 'ADD_JOB' }
-  | { type: 'REMOVE_JOB' }
-  | { type: 'ADD_JOB_HIGHLIGHT', index: number }
-  | { type: 'REMOVE_JOB_HIGHLIGHT', index: number }
-  | { type: 'REORDER_JOB_HIGHLIGHTS', index: number }
+  | { type: 'REMOVE_JOB', index: number }
+  | { type: 'ADD_JOB_HIGHLIGHT', index: number, i: number }
+  | { type: 'REMOVE_JOB_HIGHLIGHT', index: number, i: number }
+  | { type: 'REORDER_JOB_HIGHLIGHTS', index: number, oldIndex: number, newIndex: number }
   | { type: 'SWAP_JOBS', index: number }
   | { type: 'ADD_SKILL' }
-  | { type: 'REMOVE_SKILL' }
+  | { type: 'REMOVE_SKILL', index: number }
   | { type: 'SWAP_SKILLS', index: number }
-  | { type: 'ADD_SKILL_KEYWORD', index: number }
-  | { type: 'REMOVE_SKILL_KEYWORD', index: number }
-  | { type: 'REORDER_SKILL_KEYWORDS', index: number }
+  | { type: 'ADD_SKILL_KEYWORD', index: number, i: number }
+  | { type: 'REMOVE_SKILL_KEYWORD', index: number, i: number }
+  | { type: 'REORDER_SKILL_KEYWORDS', index: number, oldIndex: number, newIndex: number }
   | { type: 'ADD_PROJECT' }
-  | { type: 'REMOVE_PROJECT' }
+  | { type: 'REMOVE_PROJECT', index: number }
   | { type: 'ADD_PROJECT_KEYWORD', index: number }
   | { type: 'REMOVE_PROJECT_KEYWORD', index: number }
   | { type: 'SWAP_PROJECTS', index: number }

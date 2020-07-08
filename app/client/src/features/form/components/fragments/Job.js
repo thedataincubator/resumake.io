@@ -75,8 +75,8 @@ type Props = {
   canRemove: boolean,
   removeJob: (index: number) => void,
   swapJobs: (index: number) => void,
-  addHighlight: (index: number) => void,
-  removeHighlight: (index: number) => void,
+  addHighlight: (index: number, i: number) => void,
+  removeHighlight: (index: number, i: number) => void,
   reorderJobHighlights: (index: number, oldIndex: number, newIndex: number) => void
 }
 
