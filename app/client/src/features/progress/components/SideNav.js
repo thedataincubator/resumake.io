@@ -16,7 +16,7 @@ import { previewMatchesFormData } from '../../tdi/selectors'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
-import type { FormValuesWithSectionOrder } from '../../../features/form/types'
+import type { FormValuesWithSectionOrder, JsonUpload } from '../../../features/form/types'
 import { Heading } from '../../../features/form/components/sections/Section'
 import { uploadFileAndGenerateResume } from '../../../features/form/actions'
 
@@ -142,9 +142,14 @@ type Props = {
   ) => void,
   setProgress: (newSectionOrder: Array<Section>, currSection: Section) => void,
   formValues: FormValuesWithSectionOrder,
+  jsonURL: ?string,
+  jsonUpload: JsonUpload,
   fetchFellowDataAndResetFormToIt: *,
   saveFellowData: (resumeData: FormValuesWithSectionOrder) => Promise<void>,
-  disablePublish: boolean
+  publishPDF: () => Promise<void>,
+  uploadFileAndGenerateResume: (file: File) => Promise<void>,
+  disablePublish: boolean,
+  previewUpdated: boolean
 }
 
 class SideNav extends Component<Props> {

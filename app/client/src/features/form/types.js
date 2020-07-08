@@ -77,11 +77,13 @@ type FormValuesWithSectionOrder = FormValues & {
   sections: Array<Section>
 }
 
+type JsonUpload = {
+  status?: 'pending' | 'success' | 'failure',
+  errMessage?: string
+}
+
 type FormState = {
-  jsonUpload: {
-    status?: 'pending' | 'success' | 'failure',
-    errMessage?: string
-  },
+  jsonUpload: JsonUpload,
   values: FormValues,
   anyTouched?: boolean,
   registeredFields?: Object,
@@ -116,4 +118,4 @@ type FormAction =
   | { type: 'ADD_AWARD' }
   | { type: 'REMOVE_AWARD' }
 
-export type { FormState, FormAction, FormValues, FormValuesWithSectionOrder }
+export type { JsonUpload, FormState, FormAction, FormValues, FormValuesWithSectionOrder }
