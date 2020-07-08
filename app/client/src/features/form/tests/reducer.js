@@ -175,7 +175,7 @@ describe('form reducer', () => {
       }
     }
 
-    const action = removeJob()
+    const action = removeJob(1)
 
     const expected: State = {
       ...initialState,
@@ -198,7 +198,7 @@ describe('form reducer', () => {
       }
     }
 
-    const action = addJobHighlight(0)
+    const action = addJobHighlight(0, 99) // Should just add another highlight.
 
     const expected: State = {
       ...initialState,
@@ -226,7 +226,7 @@ describe('form reducer', () => {
       }
     }
 
-    const action = removeJobHighlight(0)
+    const action = removeJobHighlight(0, 1)
 
     const expected: State = {
       ...initialState,
@@ -280,7 +280,7 @@ describe('form reducer', () => {
       }
     }
 
-    const action = removeSkill()
+    const action = removeSkill(1)
 
     const expected: State = {
       ...initialState,
@@ -306,7 +306,7 @@ describe('form reducer', () => {
       }
     }
 
-    const action = addSkillKeyword(1)
+    const action = addSkillKeyword(1, 99)
 
     const expected: State = {
       ...initialState,
@@ -335,7 +335,7 @@ describe('form reducer', () => {
       }
     }
 
-    const action = removeSkillKeyword(0)
+    const action = removeSkillKeyword(0, 1)
 
     const expected: State = {
       ...initialState,
@@ -410,7 +410,7 @@ describe('form reducer', () => {
       }
     }
 
-    const action = removeProject()
+    const action = removeProject(1)
 
     const expected: State = {
       ...initialState,
