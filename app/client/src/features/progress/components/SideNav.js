@@ -16,6 +16,7 @@ import { previewMatchesFormData } from '../../tdi/selectors'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
+import type { FormValuesWithSectionOrder } from '../../../features/form/types'
 import { Heading } from '../../../features/form/components/sections/Section'
 import { uploadFileAndGenerateResume } from '../../../features/form/actions'
 
@@ -140,8 +141,9 @@ type Props = {
     currSection: Section
   ) => void,
   setProgress: (newSectionOrder: Array<Section>, currSection: Section) => void,
+  formValues: FormValuesWithSectionOrder,
   fetchFellowDataAndResetFormToIt: *,
-  saveFellowData: *,
+  saveFellowData: (resumeData: FormValuesWithSectionOrder) => Promise<void>,
   disablePublish: boolean
 }
 
