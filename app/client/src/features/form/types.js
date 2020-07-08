@@ -92,6 +92,7 @@ type FormState = {
 
 type TdiAction = // Doesn't justify separate tdi/types.js file yet
   | { type: 'UPDATE_FELLOW_DATA', fellowData: FormValuesWithSectionOrder }
+  | { type: 'STORE_FELLOW_KEY', fellowKeyUrlsafe: string }
 
 type FormAction =
   | { type: 'UPLOAD_JSON_REQUEST' }

@@ -4,8 +4,9 @@
 
 import { initialState as formInitialState } from '../form/reducer'
 import { initialState as progressInitialState } from '../progress/reducer'
+import type { TdiAction } from '../form/types'
 
-// TODO: not typeizing yet
+// TODO: not typeizing state yet - state: any
 
 const initialFormValues = formInitialState.values
 const initialSections = progressInitialState.sections
@@ -18,7 +19,7 @@ export const initialState = {
   fellowKeyUrlsafe: undefined
 }
 
-function tdi(state = initialState, action) {
+function tdi(state: any = initialState, action: TdiAction) {
   switch (action.type) {
     case 'UPDATE_FELLOW_DATA':
       return {

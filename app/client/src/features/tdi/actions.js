@@ -4,6 +4,7 @@
 
 import React from 'react'
 import { toast } from 'react-toastify'
+import type { RouterHistory } from 'react-pdf'
 import { previewMatchesFellowData, sectionOrderFromFellowData } from './selectors'
 import type { Action, AsyncAction, State } from '../../app/types'
 import type { FormValuesWithSectionOrder } from '../form/types'
@@ -174,7 +175,7 @@ export function fetchFellowDataAndResetFormToIt(): AsyncAction {
     // also sets jsonUpload: "success", but that shouldn't hurt anything.
     dispatch(uploadJSONSuccess(state.tdi.fellowData))
     // NOTE: we can hard code arbitrary section since we ditched the progress bar anyways.
-    dispatch(setSectionOrder(sectionOrderFromFellowData(state, 'templates')))
+    dispatch(setSectionOrder(sectionOrderFromFellowData(state), 'templates'))
     await dispatch(generateResume(state.tdi.fellowData))
   }
 }
@@ -186,10 +187,10 @@ export function publishPDF(): AsyncAction {
     const fellowKeyUrlsafe = state.tdi.fellowKeyUrlsafe
 
     const {
-      resume: { url: blobUrl },
+      preview: { resume: { url: blobUrl } },
       form: { resume: { values } },
       progress: { sections }
-    } = state.preview
+    } = state
 
     const { confirm } = window
     if (!confirm('The displayed resume will be published on the Resume Book')) {
