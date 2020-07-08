@@ -4,8 +4,8 @@
 
 import { isEqual } from 'lodash'
 import type { State } from '../../app/types'
-import { FormValues } from '../form/types'
-import { Section } from '../../common/types'
+import type { FormValues } from '../form/types'
+import type { Section } from '../../common/types'
 import { hasPrevSession } from '../../app/selectors'
 import { initialState } from './reducer'
 
