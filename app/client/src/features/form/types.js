@@ -90,6 +90,9 @@ type FormState = {
   fields?: Object
 }
 
+type TdiAction = // Doesn't justify separate tdi/types.js file yet
+  | { type: 'UPDATE_FELLOW_DATA', fellowData: FormValuesWithSectionOrder }
+
 type FormAction =
   | { type: 'UPLOAD_JSON_REQUEST' }
   | { type: 'UPLOAD_JSON_SUCCESS', json: FormValues }
@@ -118,4 +121,4 @@ type FormAction =
   | { type: 'ADD_AWARD' }
   | { type: 'REMOVE_AWARD' }
 
-export type { JsonUpload, FormState, FormAction, FormValues, FormValuesWithSectionOrder }
+export type { JsonUpload, FormState, FormAction, FormValues, FormValuesWithSectionOrder, TdiAction }
