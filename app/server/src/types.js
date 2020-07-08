@@ -86,8 +86,7 @@ type Generator = {
   educationSection: (education?: Array<School>, heading?: string) => string,
   workSection: (work?: Array<Job>, heading?: string) => string,
   skillsSection: (skills?: Array<Skill>, heading?: string) => string,
-  projectsSection: (projects?: Array<Project>, heading?: string) => string,
-  awardsSection: (awards?: Array<Award>, heading?: string) => string
+  projectsSection: (projects?: Array<Project>, heading?: string) => string
 }
 
 type LaTeXOpts = {
