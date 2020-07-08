@@ -45,7 +45,7 @@ const SwapEl = styled.div`
   }
 `
 
-function Swap({onClick}) {
+function Swap({ onClick }: { onClick: () => void }) {
   return (
     <SwapEl
       onClick={onClick}
@@ -55,5 +55,5 @@ function Swap({onClick}) {
   )
 }
 
-export {Divider, Swap}
+export { Divider, Swap }
 export default Divider
