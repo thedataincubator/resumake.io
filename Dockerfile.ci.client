@@ -1,0 +1,11 @@
+FROM node:14.1.0-buster
+
+WORKDIR /resumake-client
+
+COPY ./app/client ./
+
+RUN npm ci
+RUN npm run build
+
+ENTRYPOINT ["npm"]
+CMD ["run", "test"]
