@@ -54,8 +54,39 @@ pipeline {
 
     stage('server') {
 
-      steps {
-        sh 'echo empty'
+      stages {
+
+        stage('build') {
+          steps {
+            sh "docker build --tag ${jenkinsImageTagServer} -f Dockerfile.ci.server ."
+          }
+        }
+
+        stage('tests') {
+
+          parallel {
+            stage('lint') {
+              steps {
+                sh "docker run -i ${jenkinsImageTagServer} run lint"
+              }
+            }
+
+            stage('type-check') {
+              steps {
+                sh "docker run -i ${jenkinsImageTagServer} run flow"
+              }
+            }
+
+            stage('test') {
+              steps {
+                sh "docker run -i ${jenkinsImageTagServer} run jest"
+              }
+            }
+
+          }
+
+        }
+
       }
 
     }
