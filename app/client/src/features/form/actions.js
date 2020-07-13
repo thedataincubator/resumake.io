@@ -8,7 +8,7 @@ import type { AsyncAction } from '../../app/types'
 
 function uploadJSONRequest(): Action {
   return {
-    type: 'OOPS_WRONG_ACTIONS'
+    type: 'OOPS_WRONG_ACTION'
   }
 }
 
