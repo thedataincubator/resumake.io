@@ -23,16 +23,28 @@ pipeline {
       }
     }
 
-    stage('test') {
-      steps {
-        sh "docker run -i ${jenkinsImageTag}"
+    stage('tests') {
+      parallel {
+
+        stage('server') {
+          steps {
+            sh "docker run -i ${jenkinsImageTag} test:server"
+          }
+        }
+
+        stage('client') {
+          steps {
+            sh "docker run -i ${jenkinsImageTag} test:client"
+          }
+        }
+
       }
     }
 
   }
 
   post {
-    always{
+    always {
       // NOTE: removing cleanImages might make sense - complete Dockerfile.ci
       // build takes ~3 minutes, large part of that being xelatex installation.
       cleanImages dockerImageName

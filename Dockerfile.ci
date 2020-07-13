@@ -15,5 +15,5 @@ COPY . ./
 
 RUN npm run ci
 
-ENTRYPOINT ["npm"]
-CMD ["run", "test"]
+ENTRYPOINT ["npm", "run"]
+CMD ["test"]
