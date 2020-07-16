@@ -41,14 +41,18 @@ then
     usage_and_exit_1
 fi
 
+TIMESTAMP=$(date +%s)
+
 case $1 in
     'production')
         echo -e '\033[0;31mDeploying to production!\033[0m'
         check_production_branch
         PROJECT='thedataincubator'
+        TAG="Prod$TIMESTAMP"
         ;;
     'staging')
         PROJECT='thedataincubator-staging'
+        TAG="Staging$TIMESTAMP"
         ;;
     *)
         usage_and_exit_1
@@ -58,3 +62,6 @@ esac
 check_uncommitted
 
 gcloud app deploy --project $PROJECT app.yaml 
+
+git tag -a $TAG -m "Deployed to $PROJECT with $TIMESTAMP timestamp. ($TAG)"
+echo "Don't forget to git push origin $TAG" 1>&2
