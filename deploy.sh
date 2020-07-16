@@ -7,6 +7,14 @@ function usage_and_exit_1 {
     exit 1
 }
 
+function check_uncommitted {
+    if test -n "$(git status --short)"
+    then
+        echo 'There are some uncommitted changes. Please commit or stash them first!' 1>&2
+        exit 1
+    fi
+}
+
 function check_production_branch {
     # 1) Check that we're on "newtemplate" branch.
     local master_branch='newtemplate'
@@ -16,7 +24,9 @@ function check_production_branch {
         echo 'You must be on "'$master_branch'" branch to deploy production!' 1>&2
         exit 1
     fi
-    # 2) Check that "newtemplate" and "origin/newtemplate" don't diverge.
+    # 2) Check that there are no uncommitted changes in the working tree.
+    check_uncommitted
+    # 3) Check that "newtemplate" and "origin/newtemplate" don't diverge.
     local master_branch_hash="$(git rev-parse $master_branch)"
     local master_branch_origin_hash="$(git rev-parse origin/$master_branch)"
     if test $master_branch_hash != $master_branch_origin_hash
@@ -45,10 +55,6 @@ case $1 in
         ;;
 esac
 
-if test -n "$(git status --short)"
-then
-    echo 'There are some uncommitted changes, please commit them first!' 1>&2
-    exit 1
-fi
+check_uncommitted
 
 echo $PROJECT
