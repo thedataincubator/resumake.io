@@ -8,11 +8,20 @@ function usage_and_exit_1 {
 }
 
 function check_production_branch {
+    # 1) Check that we're on "newtemplate" branch.
     local master_branch='newtemplate'
     local git_branch=$(git symbolic-ref --short HEAD)
     if test $master_branch != $git_branch
     then
         echo 'You must be on "'$master_branch'" branch to deploy production!' 1>&2
+        exit 1
+    fi
+    # 2) Check that "newtemplate" and "origin/newtemplate" don't diverge.
+    local master_branch_hash="$(git rev-parse $master_branch)"
+    local master_branch_origin_hash="$(git rev-parse origin/$master_branch)"
+    if test $master_branch_hash != $master_branch_origin_hash
+    then
+        echo 'Branches "'$master_branch'" and "origin/'$master_branch'" diverge. Push your changes first!' 1>&2
         exit 1
     fi
 }
