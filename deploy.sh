@@ -64,4 +64,5 @@ check_uncommitted
 gcloud app deploy --project $PROJECT app.yaml 
 
 git tag -a $TAG -m "Deployed to $PROJECT with $TIMESTAMP timestamp. ($TAG)"
-echo "Don't forget to git push origin $TAG" 1>&2
+echo "Don't forget to: git push origin $TAG" 1>&2
+echo "Also, make sure GAE dispatch rules are deployed: gcloud app deploy --project $PROJECT dispatch.yaml" 1>&2
