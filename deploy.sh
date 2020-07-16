@@ -17,4 +17,10 @@ case $1 in
         ;;
 esac
 
+if test -n "$(git status --short)"
+then
+    echo 'There are some uncommitted changes!' 1>&2
+    exit 1
+fi
+
 echo $PROJECT
