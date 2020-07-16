@@ -2,8 +2,16 @@
 
 set -e
 
-test $# -eq 1
-USAGE="Call $(basename "$0") with \"staging\" or \"production\""
+function usage_and_exit_1 {
+    echo "Call $(basename "$0") with one argument: \"staging\" or \"production\"" 1>&2
+    exit 1
+}
+
+if test $# -ne 1
+then
+    usage_and_exit_1
+fi
+
 case $1 in
     'production')
         PROJECT='thedataincubator'
@@ -12,8 +20,7 @@ case $1 in
         PROJECT='thedataincubator-staging'
         ;;
     *)
-        echo "$USAGE" 1>&2
-        exit 1
+        usage_and_exit_1
         ;;
 esac
 
