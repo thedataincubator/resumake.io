@@ -57,4 +57,4 @@ esac
 
 check_uncommitted
 
-echo $PROJECT
+gcloud app deploy --project $PROJECT app.yaml 
