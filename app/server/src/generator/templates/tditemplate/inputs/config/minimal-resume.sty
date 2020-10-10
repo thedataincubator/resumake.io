@@ -45,8 +45,8 @@
   {\itemize[nolistsep,topsep=\sizefive,itemsep=\sizefive,labelsep=0pt,leftmargin=0pt,label={}]}
   {\enditemize}
 
-% Trickery from https://tex.stackexchange.com/a/114077
-\newcommand{\fillorsplit}{\hspace{\fill}\mbox{}\linebreak[0]\hspace*{\fill}}
+% \hspace* keeps space at end of lines from being gobbled up.
+\newcommand{\fillorsplit}{\hspace*{\fill}\discretionary{}{}{}\hspace*{\fill}}
 
 \newcommand{\chap}[2]{
   \vspace{\sizethree}
