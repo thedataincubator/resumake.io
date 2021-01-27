@@ -52,7 +52,7 @@ To run the client, first install the dependencies with `npm run build:client`.  
 ```
 npm run start:client
 ```
-The client is automatically set up to connect to port 3001 for the server, so everything should just work.
+The client development server is set up to proxy api requests to port 3001 for the server, so everything should just work.
 
 ## Contributing
 Contributions are very welcome, and I am always happy to help out first-timers contributors with any questions you may have. You can check out the [contributing.md](./contributing.md) for an in-depth guide on how to get started on working on the app.
