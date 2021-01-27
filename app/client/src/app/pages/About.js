@@ -220,7 +220,7 @@ function About() {
           The <Link href="https://github.com/saadq/resumake.io">original project</Link> is available under the <Link href="https://github.com/saadq/resumake.io/blob/master/license">MIT license</Link>.
         </p>
         <p>
-          Usage instructions are available on your <Link href="/fellows/dashboard">dashboard page</Link>.
+          Usage instructions are available on your <Link href="https://www.thedataincubator.com/fellows/manage.html#resume1">profile page</Link>.
         </p>
       </Header>
       <SectionDivider />
