@@ -40,4 +40,5 @@ function Section({ heading, children }: Props) {
   )
 }
 
+export { Section, Heading }
 export default Section

@@ -50,7 +50,8 @@ describe('actions', () => {
         website: '',
         location: {
           address: ''
-        }
+        },
+        visa: ''
       },
       education: [
         {

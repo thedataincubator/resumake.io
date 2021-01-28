@@ -88,7 +88,7 @@ const Color = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 75px;
     height: 75px;
     margin: 2px;
@@ -193,7 +193,7 @@ const FormInput = Input.withComponent('input').extend`
   width: 50%;
   margin-bottom: 25px;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 50%;
   }
 `
@@ -203,7 +203,7 @@ const FormDivider = Divider.extend`
   margin: 0;
   padding: 0;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 50%;
   }
 `
@@ -214,136 +214,53 @@ function About() {
       <Header>
         <Logo big />
         <p>
-          Resumake is a tool for automatically generating beautiful resumes.
+          This tool is based on the open-source <Link href="https://resumake.io">resumake.io</Link> project by <Link href="http://saadq.com">Saad Quadri</Link>.
         </p>
         <p>
-          The webapp was made by{' '}
-          <Link href="http://saadq.com">Saad Quadri</Link> and was built with
-          Node.js, Koa, React, Redux, and Flow.
+          The <Link href="https://github.com/saadq/resumake.io">original project</Link> is available under the <Link href="https://github.com/saadq/resumake.io/blob/master/license">MIT license</Link>.
+        </p>
+        <p>
+          Usage instructions are available on your <Link href="https://www.thedataincubator.com/fellows/manage.html#resume1">profile page</Link>.
         </p>
       </Header>
       <SectionDivider />
       <Content>
         <section>
-          <Heading>Help</Heading>
-          <Question>How do I use this website?</Question>
-          <ListAnswer>
-            <li>Choose a template.</li>
-            <li>Fill in as much (or as little) info as you want.</li>
-            <li>
-              Press the <strong>MAKE</strong> button to see your output.
-            </li>
-            <li>
-              Once you're happy, download the resume as a PDF, JSON, or TeX
-              document.
-            </li>
-          </ListAnswer>
-          <Question>
-            How do I report a bug or submit a feature request?
-          </Question>
-          <Answer>
-            Feel free to open an issue{' '}
-            <Link href="https://github.com/saadq/resumake/issues">here</Link>.
-          </Answer>
-          <Question>Are you accepting open-source contributions?</Question>
-          <Answer>
-            Definitely! I'm always happy to help out first-time contributors to
-            the project. You can check out the{' '}
-            <Link href="https://github.com/saadq/resumake/tree/master/contributing.md">
-              <code>contributing.md</code>
-            </Link>{' '}
-            for an in-depth guide on how to get started on working on this
-            project.
-          </Answer>
-          <Question>How can I donate or say thanks?</Question>
-          <Answer>
-            Glad you liked the project! If you want to show your appreciation,{' '}
-            <Link href="https://www.paypal.me/saadquadri">donations</Link> are
-            very much appreciated. Or, if you'd just like to send me a message,
-            you can send me an <Link href="mailto:saad@saadq.com">email</Link>.
-          </Answer>
-        </section>
-        <SectionDivider />
-        <section>
-          <Heading>Credits</Heading>
           <p>
-            A huge thanks to all the original creators of the LaTeX templates:
+            Copyright &copy; 2017&ndash;2019 Saad Quadri.
           </p>
-          <ul>
-            <li>
-              <Link href="https://www.rpi.edu/dept/arc/training/latex/resumes/">
-                Rensselaer Career Development Center
-              </Link>
-            </li>
-            <li>
-              <Link href="https://github.com/posquit0">Byungjin Park</Link>
-            </li>
-            <li>
-              <Link href="https://github.com/sc932">Scott Clark</Link>
-            </li>
-            <li>
-              <Link href="https://github.com/deedy">Debarghya Das</Link>
-            </li>
-            <li>
-              <Link href="https://github.com/xdanaux">Xavier Danaux</Link>
-            </li>
-            <li>
-              <Link href="https://github.com/RatulSaha">Ratul Saha</Link>
-            </li>
-            <li>
-              <Link href="https://github.com/dnl-blkv">Daniil Belyakov</Link>
-            </li>
-            <li>
-              <Link href="https://www.overleaf.com/latex/templates/your-new-cv/xqzhcmqkqrtw">
-                Frits Wenneker
-              </Link>
-            </li>
-          </ul>
+          <p>
+            Permission is hereby granted, free of charge, to any person obtaining a copy
+            of this software and associated documentation files (the "Software"), to deal
+            in the Software without restriction, including without limitation the rights
+            to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+            copies of the Software, and to permit persons to whom the Software is
+            furnished to do so, subject to the following conditions:
+          </p>
+          <p>
+            The above copyright notice and this permission notice shall be included in all
+            copies or substantial portions of the Software.
+          </p>
+          <p>
+            THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+            IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+            FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+            AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+            LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+            OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+            SOFTWARE.
+          </p>
         </section>
         <SectionDivider />
         <section>
-          <Heading>Style Guide</Heading>
-          <h3>Logo</h3>
-          <Box>
-            <Logo />
-          </Box>
-          <h3>Colors</h3>
-          <Box>
-            <Color color={colors.primary} dark>
-              {colors.primary}
-            </Color>
-            <Color color={colors.error}>{colors.error}</Color>
-            <Color color={colors.background}>{colors.background}</Color>
-            <Color color={colors.borders}>{colors.borders}</Color>
-            <Color color={colors.foreground} dark>
-              {colors.foreground}
-            </Color>
-            <Color color="#ffffff" dark>
-              #ffffff
-            </Color>
-          </Box>
-          <h3>Buttons</h3>
-          <Box>
-            <PrimaryButton>Button</PrimaryButton>
-            <UnfilledButton>Button</UnfilledButton>
-            <Button>Button</Button>
-            <RoundedButton>
-              <Icon type="add" />
-            </RoundedButton>
-          </Box>
-          <h3>Form</h3>
-          <VerticalBox>
-            <FormLabel>Form Input</FormLabel>
-            <FormInput placeholder="Text goes here" />
-            <FormLabel>Section Divider</FormLabel>
-            <FormDivider />
-          </VerticalBox>
-          <h3>Loading</h3>
-          <VerticalBox>
-            <Loader />
-            <LoadingBar status="pending" />
-          </VerticalBox>
+          <p>
+            Copyright &copy; 2020 The Data Incubator.
+          </p>
+          <p>
+            All rights reserved.
+          </p>
         </section>
+        <SectionDivider />
       </Content>
     </Wrapper>
   )

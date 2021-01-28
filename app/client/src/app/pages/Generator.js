@@ -4,10 +4,11 @@
 
 import React from 'react'
 import Loadable from 'react-loadable'
+import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import Form from '../../features/form/components'
 import { SideNav, Progress } from '../../features/progress/components'
-import { Logo, Loader } from '../../common/components'
+import { Logo, Loader, Bars } from '../../common/components'
 import { colors, sizes } from '../../common/theme'
 import type { Location } from 'react-router-dom'
 
@@ -23,9 +24,9 @@ const Content = styled.main`
   margin-top: ${sizes.header};
   margin-left: ${sizes.sideNav};
   width: calc(100% - ${sizes.sideNav});
-  height: calc(100% - ${sizes.header} - ${sizes.footer} - 2px);
+  height: calc(100% - ${sizes.header} - 1px);
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 100%;
     margin-left: 0;
     flex-direction: column;
@@ -57,6 +58,22 @@ const Footer = styled.footer`
   border-top: 1px solid ${colors.borders};
 `
 
+const Working = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #444444aa;
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  body.working & {
+    display: flex;
+  }
+`
+
 const LoadablePreview = Loadable({
   loader: () => import('../../features/preview/components'),
   loading: Loader
@@ -69,17 +86,13 @@ type Props = {
 function Generator({ location }: Props) {
   return (
     <Layout>
-      <Header>
-        <Logo />
-      </Header>
+      <ToastContainer />
       <SideNav />
       <Content>
         <Form location={location} />
         <LoadablePreview hideOnMobile />
       </Content>
-      <Footer>
-        <Progress />
-      </Footer>
+      <Working><Bars /></Working>
     </Layout>
   )
 }

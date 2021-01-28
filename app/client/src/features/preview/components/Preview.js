@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   padding-bottom: 25px;
   text-align: center;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     ${props => props.hideOnMobile && 'display: none;'} width: 100%;
     overflow: visible;
     margin-bottom: calc(${sizes.footer} + 25px);

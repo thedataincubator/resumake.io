@@ -1,0 +1,81 @@
+\ProvidesPackage{config/minimal-resume}
+
+% margin
+\usepackage[top=0.5in, bottom=0.5in, left=0.5in, right=0.5in]{geometry}
+
+% minimal custom packages
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\usepackage[babel=true]{microtype}
+\usepackage[fontsize=11pt]{scrextend}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\defaultfontfeatures{Ligatures=TeX}
+
+% font families
+\newfontfamily{\caladeafont}[Path=fonts/,BoldFont=Caladea-Bold]{Caladea-Regular}
+
+% main font for the document
+\setmainfont[Path=fonts/,BoldFont=Caladea-Bold]{Caladea-Regular}
+
+% set teal color
+\definecolor{tdi}{HTML}{2A7B88}
+
+% font sizes
+\newcommand{\sizeone}{1.618em}
+\newcommand{\sizetwo}{1.318em}
+\newcommand{\sizethree}{1em}
+\newcommand{\sizefour}{0.618em}
+\newcommand{\sizefive}{0.382em}
+\newcommand{\sizesix}{0.236em}
+
+\newcommand{\sizemast}{2.297em}  % 2**1.2
+\newcommand{\sizehead}{1.320em}  % 2**0.4
+
+\setlength{\parindent}{0pt}
+
+% line spaces
+\newenvironment{newitemize}
+  {\itemize[nolistsep,topsep=\sizefive,itemsep=\sizefive,labelsep=\sizefour,leftmargin=*]}
+  {\enditemize}
+
+\newenvironment{nobullets}
+  {\itemize[nolistsep,topsep=\sizefive,itemsep=\sizefive,labelsep=0pt,leftmargin=0pt,label={}]}
+  {\enditemize}
+
+% \hspace* keeps space at end of lines from being gobbled up.
+\newcommand{\fillorsplit}{\hspace*{\fill}\discretionary{}{}{}\hspace*{\fill}}
+
+\newcommand{\chap}[2]{
+  \vspace{\sizethree}
+  \textcolor{tdi}{\fontsize{\sizehead}{\sizehead}\selectfont \textbf{#1}}
+  {#2}
+
+}
+
+\newcommand{\job}[5]{
+  \vspace{\sizefive}
+  \textbf{\MakeUppercase{#1}}\fillorsplit\textbf{#2}
+
+  \textbf{#3} \hfill {} % Skip location (#4)
+  {#5}
+  \vspace{\sizefive}
+}
+
+\newcommand{\project}[4]{
+  \vspace{\sizefive} % Skip tools #2
+  \textbf{\MakeUppercase{#1}}\fillorsplit\mbox{#3}
+
+  {#4}
+  \vspace{\sizefive}
+}
+
+\newcommand{\award}[4]{
+  \vspace{\sizefive}
+  {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{CrimsonText-SemiBold} #1} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #2}
+
+  {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #3} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #4}
+  \vspace{\sizefive}
+}

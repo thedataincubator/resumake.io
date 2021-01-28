@@ -13,8 +13,8 @@ const colors = {
 }
 
 const sizes = {
-  header: '10vh',
-  sideNav: '15vw',
+  header: '0vh',
+  sideNav: '225px',
   footer: '65px'
 }
 

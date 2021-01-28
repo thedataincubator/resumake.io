@@ -5,19 +5,17 @@
 import type { ProgressState as State } from './types'
 import type { Action } from '../../app/types'
 
-const initialState = {
+export const initialState = {
   progress: 0,
   prev: 'templates',
   curr: 'templates',
   next: 'profile',
   sections: [
-    'templates',
     'profile',
+    'skills',
     'education',
     'work',
-    'skills',
-    'projects',
-    'awards'
+    'projects'
   ]
 }
 

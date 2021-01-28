@@ -3,6 +3,7 @@
  */
 
 import { reducer } from 'redux-form'
+import { arrayMove } from 'react-sortable-hoc'
 import type { FormState } from './types'
 import type { Action } from '../../app/types'
 
@@ -24,7 +25,8 @@ const initialState = {
       website: '',
       location: {
         address: ''
-      }
+      },
+      visa: ''
     },
     education: [
       {
@@ -137,7 +139,21 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          education: state.values.education.slice(0, -1)
+          education: [...state.values.education.slice(0, action.index),
+                      ...state.values.education.slice(action.index + 1)]
+        }
+      }
+    }
+
+    case 'SWAP_SCHOOLS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          education: [...state.values.education.slice(0, action.index - 1),
+                      state.values.education[action.index],
+                      state.values.education[action.index - 1],
+                      ...state.values.education.slice(action.index + 1)]
         }
       }
     }
@@ -161,7 +177,21 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          work: state.values.work.slice(0, -1)
+          work: [...state.values.work.slice(0, action.index),
+                 ...state.values.work.slice(action.index + 1)]
+        }
+      }
+    }
+
+    case 'SWAP_JOBS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          work: [...state.values.work.slice(0, action.index - 1),
+                 state.values.work[action.index],
+                 state.values.work[action.index - 1],
+                 ...state.values.work.slice(action.index + 1)]
         }
       }
     }
@@ -175,7 +205,9 @@ function form(state: FormState = initialState, action: Action): FormState {
             ...state.values.work.slice(0, action.index),
             {
               ...state.values.work[action.index],
-              highlights: [...state.values.work[action.index].highlights, '']
+              highlights: [...state.values.work[action.index].highlights.slice(0, action.i + 1),
+                           '',
+                           ...state.values.work[action.index].highlights.slice(action.i + 1)]
             },
             ...state.values.work.slice(action.index + 1)
           ]
@@ -200,10 +232,26 @@ function form(state: FormState = initialState, action: Action): FormState {
             ...state.values.work.slice(0, action.index),
             {
               ...state.values.work[action.index],
-              highlights: state.values.work[action.index].highlights.slice(
-                0,
-                -1
-              )
+              highlights: [...state.values.work[action.index].highlights.slice(0, action.i),
+                           ...state.values.work[action.index].highlights.slice(action.i + 1)]
+            },
+            ...state.values.work.slice(action.index + 1)
+          ]
+        }
+      }
+    }
+
+    case 'REORDER_JOB_HIGHLIGHTS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          work: [
+            ...state.values.work.slice(0, action.index),
+            {
+              ...state.values.work[action.index],
+              highlights: arrayMove(state.values.work[action.index].highlights,
+                                  action.oldIndex, action.newIndex)
             },
             ...state.values.work.slice(action.index + 1)
           ]
@@ -235,7 +283,21 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          skills: state.values.skills.slice(0, -1)
+          skills: [...state.values.skills.slice(0, action.index),
+                   ...state.values.skills.slice(action.index + 1)]
+        }
+      }
+    }
+
+    case 'SWAP_SKILLS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          skills: [...state.values.skills.slice(0, action.index - 1),
+                   state.values.skills[action.index],
+                   state.values.skills[action.index - 1],
+                   ...state.values.skills.slice(action.index + 1)]
         }
       }
     }
@@ -249,7 +311,9 @@ function form(state: FormState = initialState, action: Action): FormState {
             ...state.values.skills.slice(0, action.index),
             {
               ...state.values.skills[action.index],
-              keywords: [...state.values.skills[action.index].keywords, '']
+              keywords: [...state.values.skills[action.index].keywords.slice(0, action.i + 1),
+                         '',
+                         ...state.values.skills[action.index].keywords.slice(action.i + 1)]
             },
             ...state.values.skills.slice(action.index + 1)
           ]
@@ -274,7 +338,26 @@ function form(state: FormState = initialState, action: Action): FormState {
             ...state.values.skills.slice(0, action.index),
             {
               ...state.values.skills[action.index],
-              keywords: state.values.skills[action.index].keywords.slice(0, -1)
+              keywords: [...state.values.skills[action.index].keywords.slice(0, action.i),
+                         ...state.values.skills[action.index].keywords.slice(action.i + 1)]
+            },
+            ...state.values.skills.slice(action.index + 1)
+          ]
+        }
+      }
+    }
+
+    case 'REORDER_SKILL_KEYWORDS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          skills: [
+            ...state.values.skills.slice(0, action.index),
+            {
+              ...state.values.skills[action.index],
+              keywords: arrayMove(state.values.skills[action.index].keywords,
+                                  action.oldIndex, action.newIndex)
             },
             ...state.values.skills.slice(action.index + 1)
           ]
@@ -301,7 +384,21 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          projects: state.values.projects.slice(0, -1)
+          projects: [...state.values.projects.slice(0, action.index),
+                     ...state.values.projects.slice(action.index + 1)]
+        }
+      }
+    }
+
+    case 'SWAP_PROJECTS': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          projects: [...state.values.projects.slice(0, action.index - 1),
+                     state.values.projects[action.index],
+                     state.values.projects[action.index - 1],
+                     ...state.values.projects.slice(action.index + 1)]
         }
       }
     }
@@ -376,7 +473,11 @@ function form(state: FormState = initialState, action: Action): FormState {
     }
 
     default:
-      return state
+      // NOTE: jsonUpload is stored next to redux-form state and it gets wiped
+      // out when we reset the form. (redux-form assumes ownership of its state and does
+      // whatever it deems necessary to its state - rightfully so.)
+      // Therefore, I'm manually merging redux-state's offered state to initialState...
+      return {...initialState, ...state}
   }
 }
 

@@ -4,13 +4,11 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { Divider, RoundButton, Icon } from '../../../../common/components'
+import { SortableElement, SortableContainer } from 'react-sortable-hoc'
+import { RoundButton, Icon, Row, Swap, MarginlessButton } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
+import { DragHandle } from '../../../progress/components/SortableList'
 
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
 
 const ButtonRow = styled.div`
   display: inline-flex;
@@ -20,39 +18,92 @@ const ButtonRow = styled.div`
   ${props => props.hidden && 'opacity: 0;'} transition: none;
 `
 
-const MiniInput = Input.extend`
-  width: 65%;
+const SortableHighLight = SortableElement(({ highlightIndex, jobIndex, addHighlight, removeHighlight, canRemove }) => {
+  return (
+    <Row>
+      <DragHandle />
+      <Input
+        type="text"
+        name={`work[${jobIndex}].highlights[${highlightIndex}]`}
+        placeholder="Did cool stuff at company"
+        component="textarea"
+        rows="4"
+      />
+      <ButtonRow>
+        <RoundButton
+          inverted
+          type="button"
+          onClick={() => addHighlight(jobIndex, highlightIndex)}
+        >
+          <Icon type="add" />
+        </RoundButton>
+        <RoundButton
+          inverted
+          disabled={!canRemove}
+          type="button"
+          onClick={() => removeHighlight(jobIndex, highlightIndex)}
+        >
+          <Icon type="remove" />
+        </RoundButton>
+      </ButtonRow>
+    </Row>
+  )
+})
 
-  @media screen and (max-width: 850px) {
-    width: 65%;
-  }
-`
+const SortableHighLights = SortableContainer(({ items, jobIndex, addHighlight, removeHighlight, canRemove}) => {
+  return (
+    <div>
+      {items.map((value, index) => (
+        <SortableHighLight
+          key={`item-${index}`}
+          index={index}
+          highlightIndex={index}
+          value={value}
+          jobIndex={jobIndex}
+          addHighlight={addHighlight}
+          removeHighlight={removeHighlight}
+          canRemove={canRemove}
+        />
+      ))}
+    </div>
+  )
+})
 
 type Props = {
   highlights: Array<?string>,
   index: number,
+  canRemove: boolean,
+  removeJob: (index: number) => void,
+  swapJobs: (index: number) => void,
   addHighlight: (index: number) => void,
-  removeHighlight: (index: number) => void
+  removeHighlight: (index: number) => void,
+  reorderJobHighlights: (index: number, oldIndex: number, newIndex: number) => void
 }
 
-function Job({ highlights, index, addHighlight, removeHighlight }: Props) {
+function Job({ highlights, index, canRemove, removeJob, swapJobs,  addHighlight, removeHighlight, reorderJobHighlights }: Props) {
   return (
     <div>
-      {index > 0 ? <Divider /> : null}
-      <LabeledInput
-        name={`work[${index}].company`}
-        label="Company Name"
-        placeholder="Google"
-      />
+      {index > 0
+        ? <Swap onClick={() => swapJobs(index) } />
+        : null}
+      <Row>
+        <LabeledInput
+          name={`work[${index}].company`}
+          label="Company Name"
+          placeholder="Google"
+        />
+        <MarginlessButton
+          onClick={() => removeJob(index)}
+          disabled={!canRemove}
+          type="button"
+        >
+          Remove Job
+        </MarginlessButton>
+      </Row>
       <LabeledInput
         name={`work[${index}].position`}
         label="Job Title"
         placeholder="Software Engineer"
-      />
-      <LabeledInput
-        name={`work[${index}].location`}
-        label="Job Location"
-        placeholder="Mountain View, CA"
       />
       <LabeledInput
         name={`work[${index}].startDate`}
@@ -62,37 +113,24 @@ function Job({ highlights, index, addHighlight, removeHighlight }: Props) {
       <LabeledInput
         name={`work[${index}].endDate`}
         label="End Date"
-        placeholder="May 2017 / Present / Etc."
+        placeholder="May 2017 / Present"
       />
       <Label>Job Responsibilities</Label>
-      {highlights.map((highlight, i) => (
-        <Row key={i}>
-          <MiniInput
-            type="text"
-            name={`work[${index}].highlights[${i}]`}
-            placeholder="Did cool stuff at company"
-            component="input"
-          />
-          <ButtonRow hidden={i !== highlights.length - 1}>
-            <RoundButton
-              inverted
-              disabled={i !== highlights.length - 1}
-              type="button"
-              onClick={() => addHighlight(index)}
-            >
-              <Icon type="add" />
-            </RoundButton>
-            <RoundButton
-              inverted
-              disabled={highlights.length === 1}
-              type="button"
-              onClick={() => removeHighlight(index)}
-            >
-              <Icon type="remove" />
-            </RoundButton>
-          </ButtonRow>
-        </Row>
-      ))}
+      <SortableHighLights
+        useDragHandle
+        lockToContainerEdges
+        lockAxis="y"
+        items={highlights}
+        addHighlight={addHighlight}
+        removeHighlight={removeHighlight}
+        jobIndex={index}
+        canRemove={highlights.length > 1}
+        onSortStart={() => document.body.classList.toggle('grabbing')}
+        onSortEnd={({ oldIndex, newIndex }) => {
+                    reorderJobHighlights(index, oldIndex, newIndex)
+                    document.body.classList.toggle('grabbing')
+                  }}
+      />
     </div>
   )
 }

@@ -78,9 +78,17 @@ function addSchool(): Action {
   }
 }
 
-function removeSchool(): Action {
+function removeSchool(index: number): Action {
   return {
-    type: 'REMOVE_SCHOOL'
+    type: 'REMOVE_SCHOOL',
+    index
+  }
+}
+
+function swapSchools(index: number): Action {
+  return {
+    type: 'SWAP_SCHOOLS',
+    index
   }
 }
 
@@ -90,23 +98,42 @@ function addJob(): Action {
   }
 }
 
-function removeJob(): Action {
+function removeJob(index: number): Action {
   return {
-    type: 'REMOVE_JOB'
+    type: 'REMOVE_JOB',
+    index
   }
 }
 
-function addJobHighlight(index: number): Action {
+function swapJobs(index: number): Action {
+  return {
+    type: 'SWAP_JOBS',
+    index
+  }
+}
+
+function addJobHighlight(index: number, i: number): Action {
   return {
     type: 'ADD_JOB_HIGHLIGHT',
-    index
+    index,
+    i
   }
 }
 
-function removeJobHighlight(index: number): Action {
+function removeJobHighlight(index: number, i: number): Action {
   return {
     type: 'REMOVE_JOB_HIGHLIGHT',
-    index
+    index,
+    i
+  }
+}
+
+function reorderJobHighlights(index: number, oldIndex: number, newIndex: number): Action {
+  return {
+    type: 'REORDER_JOB_HIGHLIGHTS',
+    index,
+    oldIndex,
+    newIndex
   }
 }
 
@@ -116,23 +143,42 @@ function addSkill(): Action {
   }
 }
 
-function removeSkill(): Action {
+function removeSkill(index: number): Action {
   return {
-    type: 'REMOVE_SKILL'
+    type: 'REMOVE_SKILL',
+    index
   }
 }
 
-function addSkillKeyword(index: number): Action {
+function swapSkills(index: number): Action {
+  return {
+    type: 'SWAP_SKILLS',
+    index
+  }
+}
+
+function addSkillKeyword(index: number, i: number): Action {
   return {
     type: 'ADD_SKILL_KEYWORD',
-    index
+    index,
+    i
   }
 }
 
-function removeSkillKeyword(index: number): Action {
+function removeSkillKeyword(index: number, i: number): Action {
   return {
     type: 'REMOVE_SKILL_KEYWORD',
-    index
+    index,
+    i
+  }
+}
+
+function reorderSkillKeywords(index: number, oldIndex: number, newIndex: number): Action {
+  return {
+    type: 'REORDER_SKILL_KEYWORDS',
+    index,
+    oldIndex,
+    newIndex
   }
 }
 
@@ -142,9 +188,17 @@ function addProject(): Action {
   }
 }
 
-function removeProject(): Action {
+function removeProject(index: number): Action {
   return {
-    type: 'REMOVE_PROJECT'
+    type: 'REMOVE_PROJECT',
+    index
+  }
+}
+
+function swapProjects(index: number): Action {
+  return {
+    type: 'SWAP_PROJECTS',
+    index
   }
 }
 
@@ -182,16 +236,22 @@ export {
   selectTemplate,
   addSchool,
   removeSchool,
+  swapSchools,
   addJob,
   removeJob,
+  swapJobs,
   addJobHighlight,
   removeJobHighlight,
+  reorderJobHighlights,
   addSkill,
   removeSkill,
+  swapSkills,
   addSkillKeyword,
   removeSkillKeyword,
+  reorderSkillKeywords,
   addProject,
   removeProject,
+  swapProjects,
   addProjectKeyword,
   removeProjectKeyword,
   addAward,

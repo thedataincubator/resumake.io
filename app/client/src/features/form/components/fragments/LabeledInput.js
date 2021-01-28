@@ -57,7 +57,7 @@ const Input = styled(Field)`
     }
   }
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     font-size: 16px;
     padding-left: 0;
     padding-right: 0;
@@ -69,18 +69,20 @@ type Props = {
   label: string,
   name: string,
   placeholder: string,
-  type?: string
+  type?: string,
+  component?: string
 }
 
-function LabeledInput({ label, name, placeholder, type = 'text' }: Props) {
+function LabeledInput({ label, name, placeholder, type = 'text', component = 'input' }: Props) {
   return (
-    <div>
+    <div style={{flexGrow: 1}}>
       <Label>{label}</Label>
       <Input
         type={type}
         name={name}
         placeholder={placeholder}
-        component="input"
+        component={component}
+        rows="6"
       />
     </div>
   )

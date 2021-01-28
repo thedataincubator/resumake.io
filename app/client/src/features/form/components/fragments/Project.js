@@ -4,7 +4,7 @@
 
 import React from 'react'
 import styled from 'styled-components'
-import { Divider, RoundButton, Icon } from '../../../../common/components'
+import { Row, Swap, MarginlessButton } from '../../../../common/components'
 import LabeledInput, { Label, Input } from './LabeledInput'
 
 const ButtonRow = styled.div`
@@ -17,7 +17,7 @@ const ButtonRow = styled.div`
 const MiniInput = Input.extend`
   width: 50%;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 60%;
   }
 `
@@ -25,53 +25,44 @@ const MiniInput = Input.extend`
 type Props = {
   keywords: Array<?string>,
   index: number,
+  canRemove: boolean,
+  removeProject: (index: number) => void,
+  swapProjects: (index: number) => void,
   addKeyword: (index: number) => void,
   removeKeyword: (index: number) => void
 }
 
-function Project({ keywords, index, addKeyword, removeKeyword }: Props) {
+function Project({ keywords, index, canRemove, removeProject, swapProjects, addKeyword, removeKeyword }: Props) {
   return (
     <div>
-      {index > 0 ? <Divider /> : null}
+      {index > 0
+        ? <Swap onClick={() => swapProjects(index)} />
+        : null}
+      <Row>
+        <LabeledInput
+          name={`projects[${index}].name`}
+          label="Project Name"
+          placeholder="Piper Chat"
+        />
+        <MarginlessButton
+          onClick={() => removeProject(index)}
+          disabled={!canRemove}
+          type="button"
+        >
+          Remove Project
+        </MarginlessButton>
+      </Row>
       <LabeledInput
-        name={`projects[${index}].name`}
-        label="Project Name"
-        placeholder="Piper Chat"
+        name={`projects[${index}].url`}
+        label="Link to Project"
+        placeholder="piperchat.com"
       />
       <LabeledInput
         name={`projects[${index}].description`}
         label="Project Description"
-        placeholder="A video chat app with great picture quality."
+        placeholder="A video chat app with great picture quality.&#10;.&#10;Two newlines to start new paragraph&#10;- Bulleted list&#10;- with dashes"
+        component="textarea"
       />
-      <LabeledInput
-        name={`projects[${index}].url`}
-        label="Link to Project"
-        placeholder="http://piperchat.com"
-      />
-      <Label>Tools Used</Label>
-      {keywords.map((_, i) => (
-        <div key={i}>
-          <MiniInput
-            name={`projects[${index}].keywords[${i}]`}
-            placeholder="Java"
-            component="input"
-          />
-          {i === keywords.length - 1 && (
-            <ButtonRow>
-              <RoundButton inverted onClick={() => addKeyword(index)}>
-                <Icon type="add" />
-              </RoundButton>
-              <RoundButton
-                inverted
-                disabled={keywords.length === 1}
-                onClick={() => removeKeyword(index)}
-              >
-                <Icon type="remove" />
-              </RoundButton>
-            </ButtonRow>
-          )}
-        </div>
-      ))}
     </div>
   )
 }

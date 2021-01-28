@@ -2,6 +2,10 @@
  * @flow
  */
 
+// NOTE: this is a modified copy of Home.js. It's more convenient to
+// maintain a copy than potentially merge the original file with
+// upstream.
+
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link, withRouter, type RouterHistory } from 'react-router-dom'
@@ -12,8 +16,10 @@ import { Bars, Logo, RoundButton, Icon } from '../../common/components'
 import { uploadFileAndGenerateResume } from '../../features/form/actions'
 import { clearState } from '../actions'
 import { clearPreview } from '../../features/preview/actions'
+import { initializeApplication } from '../../features/tdi/actions'
 import { hasPrevSession } from '../selectors'
 import { colors } from '../../common/theme'
+import { match } from 'react-router-dom'
 import type { State } from '../types'
 
 const Wrapper = styled.div`
@@ -26,6 +32,8 @@ const Wrapper = styled.div`
 const Main = styled.main`
   flex: 1;
   display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media screen and (max-width: 50px) {
     flex-direction: column;
@@ -226,6 +234,7 @@ const ctx = require.context('../../features/form/assets/img', true)
 const images = ctx.keys().map(ctx)
 
 type Props = {
+  adminPath: ?Boolean,
   hasPrevSession: boolean,
   resumeStatus: string,
   jsonUpload: {
@@ -235,10 +244,12 @@ type Props = {
   clearState: () => void,
   clearPreview: () => void,
   uploadFileAndGenerateResume: (file: File) => Promise<void>,
+  initializeApplication: (history: RouterHistory, fellowKeyUrlsafe: ?string) => Promise<void>,
   history: RouterHistory
 }
 
 class Home extends Component<Props> {
+
   toastId: *
 
   onFileUpload = async (e: SyntheticInputEvent<*>) => {
@@ -258,6 +269,20 @@ class Home extends Component<Props> {
   clearState = () => {
     this.props.clearState()
     window.localStorage.clear()
+  }
+
+  componentDidMount = () => {
+    const {
+      adminPath, // Unused, but we could build admin-aware initialization off of this flag
+      match: {
+        params: {
+          fellowKeyUrlsafe
+        }
+      },
+      history,
+      initializeApplication
+    } = this.props
+    initializeApplication(fellowKeyUrlsafe, history)
   }
 
   render() {
@@ -281,55 +306,10 @@ class Home extends Component<Props> {
       <Wrapper>
         <ToastContainer />
         <Main>
-          <LeftSection>
-            <Logo big />
-            <PrimaryButton to="/resumake/generator" onClick={this.clearState}>
-              Make New Resume
-            </PrimaryButton>
-            {hasPrevSession && (
-              <Button to="/resumake/generator" onClick={clearPreview}>
-                Continue Session
-              </Button>
-            )}
-            <ImportRow>
-              <Label htmlFor="import-json">Import JSON</Label>
-              <Input
-                id="import-json"
-                type="file"
-                onChange={this.onFileUpload}
-              />
-              <HelpButton
-                onClick={() => {
-                  if (!toast.isActive(this.toastId)) {
-                    this.toastId = toast.info(
-                      "When you're done working on your resume, you can save it as a JSON which can be imported here to continue progress.",
-                      { position: toast.POSITION.TOP_LEFT }
-                    )
-                  }
-                }}
-              >
-                <Icon size={22} type="help" />
-              </HelpButton>
-            </ImportRow>
-          </LeftSection>
-          <RightSection>
-            <ResumePreview>
-              <Image src={images[0]} />
-              <Image src={images[1]} />
-              <Image src={images[2]} />
-            </ResumePreview>
-          </RightSection>
+          <span>
+            If you are not redirected in a few seconds, please <Link to="/resumake/generator" style={{ color: colors.primary }}>click here</Link>.
+          </span>
         </Main>
-        <Footer>
-          <Copyright>© 2018 Saad Quadri</Copyright>
-          <Links>
-            <Link to="/resumake/about">About</Link>
-            <a href="https://github.com/saadq/resumake">Source</a>
-            <a href="https://github.com/saadq/resumake/issues">Issues</a>
-            <a href="mailto:saad@saadq.com">Contact</a>
-            <a href="https://www.paypal.me/saadquadri">Donate</a>
-          </Links>
-        </Footer>
       </Wrapper>
     )
   }
@@ -346,7 +326,8 @@ function mapState(state: State) {
 const mapActions = {
   clearState,
   clearPreview,
-  uploadFileAndGenerateResume
+  uploadFileAndGenerateResume,
+  initializeApplication
 }
 
 export default withRouter(connect(mapState, mapActions)(Home))

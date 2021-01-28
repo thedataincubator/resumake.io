@@ -20,6 +20,8 @@ import Preview from '../../preview/components'
 import { ScrollToTop } from '../../../common/components'
 import { generateResume } from '../../preview/actions'
 import { setProgress } from '../../progress/actions'
+import { fetchFellowDataAndResetFormToIt } from '../../tdi/actions'
+import { mayResetFormToFellowData, formValuesFromFellowData } from '../../tdi/selectors'
 import { colors } from '../../../common/theme'
 import type { FormValues } from '../types'
 import type { State } from '../../../app/types'
@@ -32,7 +34,7 @@ const StyledForm = styled.form`
   border-right: 1px solid ${colors.borders};
   overflow-y: auto;
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 50px) {
     width: 100%;
     border: none;
   }
@@ -43,7 +45,10 @@ type Props = {
   location: Location,
   handleSubmit: *,
   setProgress: (sections: Array<Section>, curr: Section) => void,
-  generateResume: (payload: FormValues) => Promise<void>
+  generateResume: (payload: FormValues) => Promise<void>,
+  formValues: FormValues,
+  mayResetFormToFellowData: *,
+  fetchFellowDataAndResetFormToIt: *
 }
 
 class Form extends Component<Props> {
@@ -57,6 +62,18 @@ class Form extends Component<Props> {
 
   shouldComponentUpdate(prevProps) {
     return prevProps.location.pathname !== this.props.location.pathname
+  }
+
+  componentDidMount() {
+    const { mayResetFormToFellowData, fetchFellowDataAndResetFormToIt } = this.props
+    if (mayResetFormToFellowData) {
+      // mayResetFormToFellowData implies that "IfNeeded" part is satisfied.
+      fetchFellowDataAndResetFormToIt()
+    } else {
+      // In any case, sync the preview.
+      const { generateResume, formValues, sections } = this.props
+      generateResume({ ...formValues, sections })
+    }
   }
 
   componentDidUpdate() {
@@ -99,15 +116,13 @@ class Form extends Component<Props> {
             <Route
               exact
               path="/resumake/generator"
-              render={() => <Redirect to="/resumake/generator/templates" />}
+              render={() => <Redirect to="/resumake/generator/profile" />}
             />
-            <Route exact path="/resumake/generator/templates" component={Templates} />
             <Route exact path="/resumake/generator/profile" component={Profile} />
             <Route exact path="/resumake/generator/education" component={Education} />
             <Route exact path="/resumake/generator/work" component={Work} />
             <Route exact path="/resumake/generator/skills" component={Skills} />
             <Route exact path="/resumake/generator/projects" component={Projects} />
-            <Route exact path="/resumake/generator/awards" component={Awards} />
             <Route exact path="/resumake/generator/mobile-preview" component={Preview} />
             <Route path="*" render={() => <h1 style={{ margin: 0 }}>404</h1>} />
           </Switch>
@@ -119,19 +134,25 @@ class Form extends Component<Props> {
 
 function mapState(state: State) {
   return {
+    formValues: state.form.resume.values,
     sections: state.progress.sections,
-    progress: state.progress.progress
+    progress: state.progress.progress,
+    mayResetFormToFellowData: mayResetFormToFellowData(state)
   }
 }
 
 const mapActions = {
   generateResume,
-  setProgress
+  setProgress,
+  fetchFellowDataAndResetFormToIt
 }
 
-const ConnectedForm = connect(mapState, mapActions)(Form)
-
-export default reduxForm({
+const ReduxForm = reduxForm({
   form: 'resume',
-  destroyOnUnmount: false
-})(ConnectedForm)
+  destroyOnUnmount: false,
+  enableReinitialize: true
+})(Form)
+
+const ConnectedForm = connect(mapState, mapActions)(ReduxForm)
+
+export default (ConnectedForm)

@@ -31,7 +31,7 @@ const Button = styled.button`
     color: ${colors.background};
     cursor: pointer;
 
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 50px) {
       background: transparent;
       color: ${colors.primary};
     }
@@ -62,4 +62,10 @@ const Button = styled.button`
   }
 `
 
+const MarginlessButton = Button.extend`
+  margin-top: 0;
+  margin-right: 0;
+`
+
+export { Button, MarginlessButton }
 export default Button

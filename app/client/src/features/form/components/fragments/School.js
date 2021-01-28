@@ -3,27 +3,36 @@
  */
 
 import React from 'react'
-import { Divider } from '../../../../common/components'
+import { Swap, MarginlessButton, Row } from '../../../../common/components'
 import LabeledInput from './LabeledInput'
 
 type Props = {
-  index: number
+  index: number,
+  canRemove: boolean,
+  removeSchool: (index: number) => void,
+  swapSchools: (index: number) => void
 }
 
-function School({ index }: Props) {
+function School({ index, canRemove, removeSchool, swapSchools }: Props) {
   return (
     <div>
-      {index > 0 ? <Divider /> : null}
-      <LabeledInput
-        name={`education[${index}].institution`}
-        label="School Name"
-        placeholder="Stanford University"
-      />
-      <LabeledInput
-        name={`education[${index}].location`}
-        label="School Location"
-        placeholder="Stanford, CA"
-      />
+      {index > 0
+        ? <Swap onClick={() => swapSchools(index)} />
+        : null}
+      <Row>
+        <LabeledInput
+          name={`education[${index}].institution`}
+          label="School Name"
+          placeholder="Stanford University"
+        />
+        <MarginlessButton
+          onClick={() => removeSchool(index)}
+          disabled={!canRemove}
+          type="button"
+        >
+          Remove School
+        </MarginlessButton>
+      </Row>
       <LabeledInput
         name={`education[${index}].studyType`}
         label="Degree"
@@ -35,18 +44,8 @@ function School({ index }: Props) {
         placeholder="Computer Science"
       />
       <LabeledInput
-        name={`education[${index}].gpa`}
-        label="GPA"
-        placeholder="3.6"
-      />
-      <LabeledInput
-        name={`education[${index}].startDate`}
-        label="Start Date"
-        placeholder="Sep 2015"
-      />
-      <LabeledInput
         name={`education[${index}].endDate`}
-        label="End Date"
+        label="Completion Date"
         placeholder="Jun 2019"
       />
     </div>

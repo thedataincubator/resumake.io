@@ -9,7 +9,8 @@ import type { ProgressState, ProgressAction } from '../features/progress/types'
 type State = {
   form: { resume: FormState },
   progress: ProgressState,
-  preview: PreviewState
+  preview: PreviewState,
+  tdi: * // TODO: we should typeize our state once it's stable
 }
 
 type AppAction = { type: 'CLEAR_STATE' }
