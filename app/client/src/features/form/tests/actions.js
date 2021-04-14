@@ -127,8 +127,8 @@ describe('actions', () => {
   })
 
   it('can remove a school', () => {
-    const expected: Action = { type: 'REMOVE_SCHOOL' }
-    const actual: Action = removeSchool()
+    const expected: Action = { type: 'REMOVE_SCHOOL', index: 5 }
+    const actual: Action = removeSchool(5)
     expect(actual).toEqual(expected)
   })
 
@@ -139,20 +139,20 @@ describe('actions', () => {
   })
 
   it('can remove a job', () => {
-    const expected: Action = { type: 'REMOVE_JOB' }
-    const actual: Action = removeJob()
+    const expected: Action = { type: 'REMOVE_JOB', index: 99 }
+    const actual: Action = removeJob(99)
     expect(actual).toEqual(expected)
   })
 
   it('can add a job highlight for a specified job', () => {
-    const expected: Action = { type: 'ADD_JOB_HIGHLIGHT', index: 1 }
-    const actual: Action = addJobHighlight(1)
+    const expected: Action = { type: 'ADD_JOB_HIGHLIGHT', index: 1, i: 99 }
+    const actual: Action = addJobHighlight(1, 99)
     expect(actual).toEqual(expected)
   })
 
   it('can remove a job highlight for a specified job', () => {
-    const expected: Action = { type: 'REMOVE_JOB_HIGHLIGHT', index: 1 }
-    const actual: Action = removeJobHighlight(1)
+    const expected: Action = { type: 'REMOVE_JOB_HIGHLIGHT', index: 1, i: 99 }
+    const actual: Action = removeJobHighlight(1, 99)
     expect(actual).toEqual(expected)
   })
 
@@ -163,20 +163,20 @@ describe('actions', () => {
   })
 
   it('can remove a skill', () => {
-    const expected: Action = { type: 'REMOVE_SKILL' }
-    const actual: Action = removeSkill()
+    const expected: Action = { type: 'REMOVE_SKILL', index: 99 }
+    const actual: Action = removeSkill(99)
     expect(actual).toEqual(expected)
   })
 
   it('can add a skill keyword for a specified skill', () => {
-    const expected: Action = { type: 'ADD_SKILL_KEYWORD', index: 1 }
-    const actual: Action = addSkillKeyword(1)
+    const expected: Action = { type: 'ADD_SKILL_KEYWORD', index: 1, i: 99 }
+    const actual: Action = addSkillKeyword(1, 99)
     expect(actual).toEqual(expected)
   })
 
   it('can remove a skill keyword for a specified skill', () => {
-    const expected: Action = { type: 'REMOVE_SKILL_KEYWORD', index: 1 }
-    const actual: Action = removeSkillKeyword(1)
+    const expected: Action = { type: 'REMOVE_SKILL_KEYWORD', index: 1, i: 99 }
+    const actual: Action = removeSkillKeyword(1, 99)
     expect(actual).toEqual(expected)
   })
 
@@ -187,8 +187,8 @@ describe('actions', () => {
   })
 
   it('can remove a project', () => {
-    const expected: Action = { type: 'REMOVE_PROJECT' }
-    const actual: Action = removeProject()
+    const expected: Action = { type: 'REMOVE_PROJECT', index: 99 }
+    const actual: Action = removeProject(99)
     expect(actual).toEqual(expected)
   })
 

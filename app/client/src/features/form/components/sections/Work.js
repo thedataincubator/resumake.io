@@ -27,7 +27,8 @@ type Props = {
   removeJob: (index: number) => void,
   swapJobs: (index: number) => void,
   addJobHighlight: (index: number, i: number) => void,
-  removeJobHighlight: (index: number, i: number) => void
+  removeJobHighlight: (index: number, i: number) => void,
+  reorderJobHighlights: (index: number, oldIndex: number, newIndex: number) => void
 }
 
 function Work({

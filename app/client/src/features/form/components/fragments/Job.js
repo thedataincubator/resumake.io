@@ -50,7 +50,7 @@ const SortableHighLight = SortableElement(({ highlightIndex, jobIndex, addHighli
   )
 })
 
-const SortableHighLights = SortableContainer(({ items, jobIndex, addHighlight, removeHighlight, canRemove}) => {
+const SortableHighLights = SortableContainer(({ items, jobIndex, addHighlight, removeHighlight, canRemove }) => {
   return (
     <div>
       {items.map((value, index) => (
@@ -75,16 +75,16 @@ type Props = {
   canRemove: boolean,
   removeJob: (index: number) => void,
   swapJobs: (index: number) => void,
-  addHighlight: (index: number) => void,
-  removeHighlight: (index: number) => void,
+  addHighlight: (index: number, i: number) => void,
+  removeHighlight: (index: number, i: number) => void,
   reorderJobHighlights: (index: number, oldIndex: number, newIndex: number) => void
 }
 
-function Job({ highlights, index, canRemove, removeJob, swapJobs,  addHighlight, removeHighlight, reorderJobHighlights }: Props) {
+function Job({ highlights, index, canRemove, removeJob, swapJobs, addHighlight, removeHighlight, reorderJobHighlights }: Props) {
   return (
     <div>
       {index > 0
-        ? <Swap onClick={() => swapJobs(index) } />
+        ? <Swap onClick={() => swapJobs(index)} />
         : null}
       <Row>
         <LabeledInput
@@ -125,11 +125,18 @@ function Job({ highlights, index, canRemove, removeJob, swapJobs,  addHighlight,
         removeHighlight={removeHighlight}
         jobIndex={index}
         canRemove={highlights.length > 1}
-        onSortStart={() => document.body.classList.toggle('grabbing')}
+        onSortStart={() => {
+          // Body is nullable. We can disable type checking for simplicity.
+          // Note that this is not ideal, since properties of body lose
+          // type information as well!
+          const body: any = document.body
+          body.classList.toggle('grabbing')
+        }}
         onSortEnd={({ oldIndex, newIndex }) => {
-                    reorderJobHighlights(index, oldIndex, newIndex)
-                    document.body.classList.toggle('grabbing')
-                  }}
+          reorderJobHighlights(index, oldIndex, newIndex)
+          const body: any = document.body
+          body.classList.toggle('grabbing')
+        }}
       />
     </div>
   )

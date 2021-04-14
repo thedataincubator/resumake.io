@@ -3,24 +3,8 @@
  */
 
 import React from 'react'
-import styled from 'styled-components'
 import { Row, Swap, MarginlessButton } from '../../../../common/components'
-import LabeledInput, { Label, Input } from './LabeledInput'
-
-const ButtonRow = styled.div`
-  margin-left: 15px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const MiniInput = Input.extend`
-  width: 50%;
-
-  @media screen and (max-width: 50px) {
-    width: 60%;
-  }
-`
+import LabeledInput from './LabeledInput'
 
 type Props = {
   keywords: Array<?string>,

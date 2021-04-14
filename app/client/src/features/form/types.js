@@ -77,16 +77,22 @@ type FormValuesWithSectionOrder = FormValues & {
   sections: Array<Section>
 }
 
+type JsonUpload = {
+  status?: 'pending' | 'success' | 'failure',
+  errMessage?: string
+}
+
 type FormState = {
-  jsonUpload: {
-    status?: 'pending' | 'success' | 'failure',
-    errMessage?: string
-  },
+  jsonUpload: JsonUpload,
   values: FormValues,
   anyTouched?: boolean,
   registeredFields?: Object,
   fields?: Object
 }
+
+type TdiAction = // Doesn't justify separate tdi/types.js file yet
+  | { type: 'UPDATE_FELLOW_DATA', fellowData: FormValuesWithSectionOrder }
+  | { type: 'STORE_FELLOW_KEY', fellowKeyUrlsafe: string }
 
 type FormAction =
   | { type: 'UPLOAD_JSON_REQUEST' }
@@ -94,20 +100,26 @@ type FormAction =
   | { type: 'UPLOAD_JSON_FAILURE', errMessage: string }
   | { type: 'SELECT_TEMPLATE', templateId: number }
   | { type: 'ADD_SCHOOL' }
-  | { type: 'REMOVE_SCHOOL' }
+  | { type: 'REMOVE_SCHOOL', index: number }
+  | { type: 'SWAP_SCHOOLS', index: number }
   | { type: 'ADD_JOB' }
-  | { type: 'REMOVE_JOB' }
-  | { type: 'ADD_JOB_HIGHLIGHT', index: number }
-  | { type: 'REMOVE_JOB_HIGHLIGHT', index: number }
+  | { type: 'REMOVE_JOB', index: number }
+  | { type: 'ADD_JOB_HIGHLIGHT', index: number, i: number }
+  | { type: 'REMOVE_JOB_HIGHLIGHT', index: number, i: number }
+  | { type: 'REORDER_JOB_HIGHLIGHTS', index: number, oldIndex: number, newIndex: number }
+  | { type: 'SWAP_JOBS', index: number }
   | { type: 'ADD_SKILL' }
-  | { type: 'REMOVE_SKILL' }
-  | { type: 'ADD_SKILL_KEYWORD', index: number }
-  | { type: 'REMOVE_SKILL_KEYWORD', index: number }
+  | { type: 'REMOVE_SKILL', index: number }
+  | { type: 'SWAP_SKILLS', index: number }
+  | { type: 'ADD_SKILL_KEYWORD', index: number, i: number }
+  | { type: 'REMOVE_SKILL_KEYWORD', index: number, i: number }
+  | { type: 'REORDER_SKILL_KEYWORDS', index: number, oldIndex: number, newIndex: number }
   | { type: 'ADD_PROJECT' }
-  | { type: 'REMOVE_PROJECT' }
+  | { type: 'REMOVE_PROJECT', index: number }
   | { type: 'ADD_PROJECT_KEYWORD', index: number }
   | { type: 'REMOVE_PROJECT_KEYWORD', index: number }
+  | { type: 'SWAP_PROJECTS', index: number }
   | { type: 'ADD_AWARD' }
   | { type: 'REMOVE_AWARD' }
 
-export type { FormState, FormAction, FormValues, FormValuesWithSectionOrder }
+export type { JsonUpload, FormState, FormAction, FormValues, FormValuesWithSectionOrder, TdiAction }

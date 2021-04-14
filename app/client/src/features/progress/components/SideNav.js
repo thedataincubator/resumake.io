@@ -10,13 +10,13 @@ import { connect } from 'react-redux'
 import { arrayMove } from 'react-sortable-hoc'
 import styled from 'styled-components'
 import SortableList from './SortableList'
-import { PrimaryButton } from '../../../common/components'
 import { setSectionOrder, setProgress } from '../actions'
 import { fetchFellowDataAndResetFormToIt, saveFellowData, publishPDF } from '../../tdi/actions'
 import { previewMatchesFormData } from '../../tdi/selectors'
 import { sizes, colors } from '../../../common/theme'
 import type { Section } from '../../../common/types'
 import type { State } from '../../../app/types'
+import type { FormValuesWithSectionOrder, JsonUpload } from '../../../features/form/types'
 import { Heading } from '../../../features/form/components/sections/Section'
 import { uploadFileAndGenerateResume } from '../../../features/form/actions'
 
@@ -141,9 +141,15 @@ type Props = {
     currSection: Section
   ) => void,
   setProgress: (newSectionOrder: Array<Section>, currSection: Section) => void,
+  formValues: FormValuesWithSectionOrder,
+  jsonURL: ?string,
+  jsonUpload: JsonUpload,
   fetchFellowDataAndResetFormToIt: *,
-  saveFellowData: *,
-  disablePublish: boolean
+  saveFellowData: (resumeData: FormValuesWithSectionOrder) => Promise<void>,
+  publishPDF: () => Promise<void>,
+  uploadFileAndGenerateResume: (file: File) => Promise<void>,
+  disablePublish: boolean,
+  previewUpdated: boolean
 }
 
 class SideNav extends Component<Props> {

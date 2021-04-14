@@ -8,20 +8,18 @@ import { connect } from 'react-redux'
 import { Switch, Route, Redirect, type Location } from 'react-router-dom'
 import styled from 'styled-components'
 import {
-  Templates,
   Profile,
   Education,
   Work,
   Skills,
-  Projects,
-  Awards
+  Projects
 } from '.'
 import Preview from '../../preview/components'
 import { ScrollToTop } from '../../../common/components'
 import { generateResume } from '../../preview/actions'
 import { setProgress } from '../../progress/actions'
 import { fetchFellowDataAndResetFormToIt } from '../../tdi/actions'
-import { mayResetFormToFellowData, formValuesFromFellowData } from '../../tdi/selectors'
+import { mayResetFormToFellowData } from '../../tdi/selectors'
 import { colors } from '../../../common/theme'
 import type { FormValues } from '../types'
 import type { State } from '../../../app/types'

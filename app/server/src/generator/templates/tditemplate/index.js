@@ -3,7 +3,6 @@
  */
 
 import { stripIndent, source } from 'common-tags'
-import { WHITESPACE } from '../constants'
 import type { SanitizedValues, Generator } from '../../../types'
 
 const generator: Generator = {
@@ -44,10 +43,8 @@ const generator: Generator = {
       ${education.map(school => {
         const {
           institution = '',
-          location = '',
           area = '',
           studyType = '',
-          gpa = '',
           startDate = '',
           endDate = ''
         } = school

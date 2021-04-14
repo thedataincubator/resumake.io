@@ -21,11 +21,11 @@ describe('sanitizer', () => {
 
     const expected = {
       basics: {
-        name: 'Saad Quadri',
+        name: 'Saad        Quadri',
         email: 'saad@saadq.com',
         phone: '555',
         location: {
-          address: 'Metuchen, NJ'
+          address: 'Metuchen,    NJ'
         },
         website: 'github.com/saadq',
         visa: 'F1'
